@@ -6,6 +6,7 @@ const Task: FC<TaskType> = ({id, title, isDone}) => {
         <li key={id}>
             <input type="checkbox" checked={isDone}/>
             <span>{title}</span>
+            {/*<button onClick={() => {removeTask(id)}}>Х</button>*/}
         </li>
     )
 }
