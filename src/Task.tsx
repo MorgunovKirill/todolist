@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {TaskType} from "./App";
+import {TaskType} from "./TodoList";
 
 const Task: FC<TaskType> = ({id, title, isDone}) => {
     return (
