@@ -1,12 +1,17 @@
 import {FC} from "react";
 import {TaskType} from "./TodoList";
 
-const Task: FC<TaskType> = ({id, title, isDone}) => {
+type TaskComponentPropsType = {
+    task: TaskType,
+    removeTask: (id: string) => void
+}
+
+const Task: FC<TaskComponentPropsType> = ({task, removeTask}) => {
     return (
-        <li key={id}>
-            <input type="checkbox" checked={isDone}/>
-            <span>{title}</span>
-            {/*<button onClick={() => {removeTask(id)}}>Х</button>*/}
+        <li key={task.id}>
+            <input type="checkbox" checked={task.isDone}/>
+            <span>{task.title}</span>
+            <button onClick={() => {removeTask(task.id)}}>Х</button>
         </li>
     )
 }

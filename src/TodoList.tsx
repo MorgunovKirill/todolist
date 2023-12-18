@@ -18,16 +18,18 @@ type PropsType = {
 }
 
 const TodoList: FC<PropsType> = ({title, tasks, addTask, removeTask, changeFilter}) => {
-    const [newTaskTitle, setNewTaskTitle] = useState("asdds");
+    const [newTaskTitle, setNewTaskTitle] = useState('');
     const addTaskHandler = () => {
-        addTask(newTaskTitle);
-        setNewTaskTitle('')
+        if (newTaskTitle) {
+            addTask(newTaskTitle);
+            setNewTaskTitle('')
+        }
     }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTaskTitle(e.currentTarget.value)
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.charCode === 13) {
+        if (e.key === 'Enter') {
             addTaskHandler()
         }
     }
@@ -40,43 +42,36 @@ const TodoList: FC<PropsType> = ({title, tasks, addTask, removeTask, changeFilte
                     <input
                         value={newTaskTitle}
                         onChange={onChangeHandler}
-                        onKeyPress={onKeyPressHandler}
+                        onKeyDown={onKeyPressHandler}
                     />
-                    <button
-                        onClick={addTaskHandler}
-                    >+
-                    </button>
+                    <Button title="+" callBack={addTaskHandler} isDisabled={!newTaskTitle}/>
                 </div>
                 <ul>
-                    {/*{tasks.map((task) => {*/}
-                    {/*    return <Task key={task.id} id={task.id} title={task.title} isDone={task.isDone} removeTask={task.removeTask}  />*/}
-                    {/*})}*/}
                     {tasks.map((task) => {
-                        const removeTaskHandler = () => {
-                            removeTask(task.id)
-                        }
-                        return <li key={task.id}>
-                            <input type="checkbox" checked={task.isDone}/>
-                            <span>{task.title}</span>
-                            <button onClick={removeTaskHandler}>Х
-                            </button>
-                        </li>
-                    })
-                    }
+                        return <Task task={task} removeTask={removeTask} />
+                    })}
+                    {/*{tasks.map((task) => {*/}
+                    {/*    const removeTaskHandler = () => {*/}
+                    {/*        removeTask(task.id)*/}
+                    {/*    }*/}
+                    {/*    return <li key={task.id}>*/}
+                    {/*        <input type="checkbox" checked={task.isDone}/>*/}
+                    {/*        <span>{task.title}</span>*/}
+                    {/*        <Button title='X' callBack={removeTaskHandler}/>*/}
+                    {/*    </li>*/}
+                    {/*})*/}
+                    {/*}*/}
                 </ul>
                 <div>
-                    <button onClick={() => {
+                    <Button title='All' callBack={() => {
                         changeFilter('all')
-                    }}>All
-                    </button>
-                    <button onClick={() => {
+                    }}/>
+                    <Button title='Active' callBack={() => {
                         changeFilter('active')
-                    }}>Active
-                    </button>
-                    <button onClick={() => {
+                    }}/>
+                    <Button title='Completed' callBack={() => {
                         changeFilter('completed')
-                    }}>Completed
-                    </button>
+                    }}/>
                 </div>
             </div>
         </div>
