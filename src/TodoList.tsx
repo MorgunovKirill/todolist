@@ -11,24 +11,40 @@ export type TaskType = {
 
 type PropsType = {
     title: string,
+    activeFilter: FilterValuesType,
     tasks: TaskType[]
     addTask: (newTitle: string) => void
     removeTask: (id: string) => void
     changeFilter: (value: FilterValuesType) => void
+    changeStatus: (taskId: string, isDone: boolean) => void
 }
 
-const TodoList: FC<PropsType> = ({title, tasks, addTask, removeTask, changeFilter}) => {
-    const [newTaskTitle, setNewTaskTitle] = useState('');
+const TodoList: FC<PropsType> = (
+    {
+        title,
+        activeFilter,
+        tasks,
+        addTask,
+        removeTask,
+        changeFilter,
+        changeStatus
+    }) => {
+    const [newTaskTitle, setNewTaskTitle] = useState<string>('');
+    const [newTaskTitleError, setNewTaskTitleError] = useState<string | null>(null);
     const addTaskHandler = () => {
-        if (newTaskTitle) {
+        if (newTaskTitle.trim() !== '') {
+            setNewTaskTitleError('')
             addTask(newTaskTitle);
             setNewTaskTitle('')
+        } else {
+            setNewTaskTitleError('Field required')
         }
     }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTaskTitle(e.currentTarget.value)
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        setNewTaskTitleError(null);
         if (e.key === 'Enter') {
             addTaskHandler()
         }
@@ -43,35 +59,35 @@ const TodoList: FC<PropsType> = ({title, tasks, addTask, removeTask, changeFilte
                         value={newTaskTitle}
                         onChange={onChangeHandler}
                         onKeyDown={onKeyPressHandler}
+                        className={newTaskTitleError ? 'error' : ''}
                     />
-                    <Button title="+" callBack={addTaskHandler} isDisabled={!newTaskTitle}/>
+                    <Button title="+" callBack={addTaskHandler}/>
+                    {newTaskTitleError && <div className='error-message'>{newTaskTitleError}</div>}
                 </div>
                 <ul>
                     {tasks.map((task) => {
-                        return <Task task={task} removeTask={removeTask} />
+                        return <Task key={task.id} task={task} removeTask={removeTask} changeStatus={changeStatus}/>
                     })}
-                    {/*{tasks.map((task) => {*/}
-                    {/*    const removeTaskHandler = () => {*/}
-                    {/*        removeTask(task.id)*/}
-                    {/*    }*/}
-                    {/*    return <li key={task.id}>*/}
-                    {/*        <input type="checkbox" checked={task.isDone}/>*/}
-                    {/*        <span>{task.title}</span>*/}
-                    {/*        <Button title='X' callBack={removeTaskHandler}/>*/}
-                    {/*    </li>*/}
-                    {/*})*/}
-                    {/*}*/}
                 </ul>
                 <div>
-                    <Button title='All' callBack={() => {
-                        changeFilter('all')
-                    }}/>
-                    <Button title='Active' callBack={() => {
-                        changeFilter('active')
-                    }}/>
-                    <Button title='Completed' callBack={() => {
-                        changeFilter('completed')
-                    }}/>
+                    <Button
+                        className={activeFilter === 'all' ? 'active-filter' : ''}
+                        title='All'
+                        callBack={() => {
+                            changeFilter('all')
+                        }}/>
+                    <Button
+                        className={activeFilter === 'active' ? 'active-filter' : ''}
+                        title='Active'
+                        callBack={() => {
+                            changeFilter('active')
+                        }}/>
+                    <Button
+                        className={activeFilter === 'completed' ? 'active-filter' : ''}
+                        title='Completed'
+                        callBack={() => {
+                            changeFilter('completed')
+                        }}/>
                 </div>
             </div>
         </div>

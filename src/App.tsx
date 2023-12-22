@@ -39,7 +39,7 @@ function App() {
     }
 
     function addTask(newTitle: string) {
-        const newTask: TaskType = { id: v1(), title: newTitle, isDone: false}
+        const newTask: TaskType = {id: v1(), title: newTitle, isDone: false}
         const newTasks: TaskType[] = [newTask, ...tasks_1];
         setTasks_1(newTasks);
     }
@@ -48,12 +48,20 @@ function App() {
         setFilter(value)
     }
 
+    function changeStatus(taskId: string, isDone: boolean) {
+        const task = tasks_1.find(t => t.id === taskId);
+        if (task) {
+            task.isDone = isDone;
+        }
+        setTasks_1([...tasks_1]);
+    }
+
     function getFilteredTasks(tasks: Array<TaskType>, filter: FilterValuesType): Array<TaskType> {
         let filteredTasks = tasks;
-        if(filter === 'completed') {
+        if (filter === 'completed') {
             filteredTasks = tasks_1.filter(task => task.isDone)
         }
-        if(filter === 'active') {
+        if (filter === 'active') {
             filteredTasks = tasks_1.filter(task => !task.isDone)
         }
         return filteredTasks;
@@ -68,10 +76,12 @@ function App() {
         <div className="App">
             <TodoList
                 title={todoListTitle_1}
+                activeFilter={filter}
                 tasks={tasksForTodoList}
                 addTask={addTask}
                 removeTask={removeTask}
                 changeFilter={changeFilter}
+                changeStatus={changeStatus}
             />
             {/*<TodoList title={todoListTitle_2} tasks={tasks_2} removeTask={removeTask} />*/}
             {/*<TodoList title={todoListTitle_3} tasks={tasks_3} removeTask={removeTask} />*/}
