@@ -10,20 +10,20 @@ export type TaskType = {
 }
 
 type PropsType = {
-    id: string
+    todolistId: string
     title: string,
     activeFilter: FilterValuesType,
     tasks: TaskType[]
-    addTask: (newTitle: string, todoListId: string) => void
-    removeTask: (taskId: string, todoListId: string) => void
-    changeFilter: (value: FilterValuesType, todoListId: string) => void
-    changeStatus: (taskId: string, isDone: boolean, todoListId: string) => void
+    addTask: (todoListId: string, newTitle: string) => void
+    removeTask: (todoListId: string, taskId: string) => void
+    changeFilter: (todoListId: string, value: FilterValuesType) => void
+    changeStatus: (todoListId: string, taskId: string, isDone: boolean) => void
     removeTodolistById: (todoListId: string) => void
 }
 
 const TodoList: FC<PropsType> = (
     {
-        id,
+        todolistId,
         title,
         activeFilter,
         tasks,
@@ -38,7 +38,7 @@ const TodoList: FC<PropsType> = (
     const addTaskHandler = () => {
         if (newTaskTitle.trim() !== '') {
             setNewTaskTitleError('')
-            addTask(newTaskTitle, id);
+            addTask(todolistId, newTaskTitle);
             setNewTaskTitle('')
         } else {
             setNewTaskTitleError('Field required')
@@ -61,7 +61,7 @@ const TodoList: FC<PropsType> = (
     return (
         <div className='todolist'>
             <div className='todolist'>
-                <h3>{title} <Button title={'X'} callBack={() => removeTodolist(id)}/> </h3>
+                <h3>{title} <Button title={'X'} callBack={() => removeTodolist(todolistId)}/> </h3>
                 <div>
                     <input
                         value={newTaskTitle}
@@ -74,22 +74,28 @@ const TodoList: FC<PropsType> = (
                 </div>
                 <ul>
                     {tasks.map((task) => {
-                        return <Task todoListId={id} key={task.id} task={task} removeTask={removeTask} changeStatus={changeStatus}/>
+                        return <Task
+                            key={task.id}
+                            todoListId={todolistId}
+                            task={task}
+                            removeTask={removeTask}
+                            changeStatus={changeStatus}
+                        />
                     })}
                 </ul>
                 <div>
                     <Button
                         className={activeFilter === 'all' ? 'active-filter' : ''}
                         title='All'
-                        callBack={() => changeFilter('all', id)}/>
+                        callBack={() => changeFilter(todolistId,'all')}/>
                     <Button
                         className={activeFilter === 'active' ? 'active-filter' : ''}
                         title='Active'
-                        callBack={() => changeFilter('active', id)}/>
+                        callBack={() => changeFilter(todolistId, 'active')}/>
                     <Button
                         className={activeFilter === 'completed' ? 'active-filter' : ''}
                         title='Completed'
-                        callBack={() => changeFilter('completed', id)}/>
+                        callBack={() => changeFilter(todolistId,'completed')}/>
                 </div>
             </div>
         </div>
