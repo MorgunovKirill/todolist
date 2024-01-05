@@ -35,6 +35,19 @@ const TodoList: FC<PropsType> = (
     }) => {
     const [newTaskTitle, setNewTaskTitle] = useState<string>('');
     const [newTaskTitleError, setNewTaskTitleError] = useState<string | null>(null);
+    const filteredTasksForTodoList = getFilteredTasks(tasks, activeFilter);
+
+    function getFilteredTasks(tasks: Array<TaskType>, filter: FilterValuesType): Array<TaskType> {
+        let filteredTasks = tasks;
+        if (filter === 'completed') {
+            filteredTasks = tasks.filter(task => task.isDone)
+        }
+        if (filter === 'active') {
+            filteredTasks = tasks.filter(task => !task.isDone)
+        }
+        return filteredTasks;
+    }
+
     const addTaskHandler = () => {
         if (newTaskTitle.trim() !== '') {
             setNewTaskTitleError('')
@@ -44,9 +57,11 @@ const TodoList: FC<PropsType> = (
             setNewTaskTitleError('Field required')
         }
     }
+
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTaskTitle(e.currentTarget.value)
     }
+
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         setNewTaskTitleError(null);
         if (e.key === 'Enter') {
@@ -73,7 +88,7 @@ const TodoList: FC<PropsType> = (
                     {newTaskTitleError && <div className='error-message'>{newTaskTitleError}</div>}
                 </div>
                 <ul>
-                    {tasks.map((task) => {
+                    {filteredTasksForTodoList.map((task) => {
                         return <Task
                             key={task.id}
                             todoListId={todolistId}
