@@ -1,8 +1,10 @@
 import {FC} from "react";
-import {Button} from "./Button";
 import {FilterValuesType, TaskType} from "./App";
 import Task from "./Task";
 import {AddItemForm} from "./AddItemForm";
+import {Delete} from "@mui/icons-material";
+import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 
 
 type PropsType = {
@@ -56,8 +58,15 @@ const TodoList: FC<PropsType> = (
     return (
         <div className='todolist'>
             <div className='todolist'>
-                <h3>{title} <Button title={'X'} callBack={() => removeTodolist(todolistId)}/> </h3>
-                <AddItemForm addItem={addTaskHandler} />
+                <h3>
+                    {title}
+                    <IconButton aria-label="delete" onClick={() => {
+                        removeTodolist(todolistId)
+                    }}>
+                        <Delete/>
+                    </IconButton>
+                </h3>
+                <AddItemForm addItem={addTaskHandler}/>
                 <ul>
                     {filteredTasksForTodoList.map((task) => {
                         return <Task
@@ -72,17 +81,17 @@ const TodoList: FC<PropsType> = (
                 </ul>
                 <div>
                     <Button
-                        className={activeFilter === 'all' ? 'active-filter' : ''}
-                        title='All'
-                        callBack={() => changeFilter(todolistId,'all')}/>
+                        variant={activeFilter === 'all' ? "outlined" : "contained"}
+                        onClick={() => changeFilter(todolistId, 'all')}
+                        color='success'>All</Button>
                     <Button
-                        className={activeFilter === 'active' ? 'active-filter' : ''}
-                        title='Active'
-                        callBack={() => changeFilter(todolistId, 'active')}/>
+                        variant={activeFilter === 'active' ? "outlined" : "contained"}
+                        onClick={() => changeFilter(todolistId, 'active')}
+                        color='error'>Active</Button>
                     <Button
-                        className={activeFilter === 'completed' ? 'active-filter' : ''}
-                        title='Completed'
-                        callBack={() => changeFilter(todolistId,'completed')}/>
+                        variant={activeFilter === 'completed' ? "outlined" : "contained"}
+                        onClick={() => changeFilter(todolistId, 'completed')}
+                        color='primary'>Completed</Button>
                 </div>
             </div>
         </div>
