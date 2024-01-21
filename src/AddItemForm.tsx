@@ -41,6 +41,7 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({addItem}) => {
     return <div>
         <TextField
             error={!!titleError}
+            helperText={titleError}
             value={title}
             onChange={onChangeHandler}
             onKeyDown={onKeyPressHandler}

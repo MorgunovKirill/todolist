@@ -3,6 +3,7 @@ import {TaskType} from "./App";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import {Delete} from "@mui/icons-material";
+import Checkbox from "@mui/material/Checkbox";
 
 type TaskComponentPropsType = {
     todoListId: string
@@ -21,12 +22,12 @@ const Task: FC<TaskComponentPropsType> = ({task, todoListId, removeTask, changeS
     }
     return (
         <li className={task.isDone ? 'is-done' : ''} key={task.id}>
-            <input type="checkbox" checked={task.isDone} onChange={statusChangeHandler}/>
-            <EditableSpan oldTitle={task.title} callback={titleChangeHandler} />
+            <Checkbox checked={task.isDone} onChange={statusChangeHandler}/>
+            <EditableSpan oldTitle={task.title} callback={titleChangeHandler}/>
             <IconButton aria-label="delete" onClick={() => {
                 removeTask(todoListId, task.id)
             }}>
-                <Delete />
+                <Delete/>
             </IconButton>
         </li>
     )
