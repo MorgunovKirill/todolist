@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import './App.css';
 import TodoList from "./TodoList";
 import {v1} from "uuid";
@@ -7,7 +7,7 @@ import ButtonAppBar from "./ButtonAppBar";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-
+import {addTaskAC, changeStatusAC, removeTaskAC, tasksReducer} from "./reducer/tasksReducer";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
@@ -23,7 +23,7 @@ type TodolistType = {
     filter: FilterValuesType
 }
 
-type TasksStateType = {
+export type TasksStateType = {
     [key: string]: TaskType[]
 }
 
@@ -32,7 +32,27 @@ function App() {
     const todoListId2 = v1()
     const todoListId3 = v1()
 
-    const [tasksObj, setTasksObj] = useState<TasksStateType>({
+    // const [tasksObj, setTasksObj] = useState<TasksStateType>({
+    //     [todoListId1]: [
+    //         {id: v1(), title: 'HTML', isDone: true},
+    //         {id: v1(), title: 'CSS', isDone: true},
+    //         {id: v1(), title: 'JS', isDone: false},
+    //     ],
+    //     [todoListId2]: [
+    //         {id: v1(), title: 'beer', isDone: true},
+    //         {id: v1(), title: 'fish', isDone: true},
+    //         {id: v1(), title: 'bread', isDone: false},
+    //         {id: v1(), title: 'cheeps', isDone: false},
+    //         {id: v1(), title: 'cheese', isDone: false},
+    //     ],
+    //     [todoListId3]: [
+    //         {id: v1(), title: 'bar', isDone: true},
+    //         {id: v1(), title: 'chess', isDone: true},
+    //         {id: v1(), title: 'books', isDone: false},
+    //     ]
+    // });
+
+    const [tasksObj, dispatchTasksObj] = useReducer(tasksReducer, {
         [todoListId1]: [
             {id: v1(), title: 'HTML', isDone: true},
             {id: v1(), title: 'CSS', isDone: true},
@@ -59,38 +79,38 @@ function App() {
     ])
 
     function removeTask(todoListId: string, taskId: string) {
-        setTasksObj({...tasksObj, [todoListId]: tasksObj[todoListId].filter(task => task.id !== taskId)});
+        dispatchTasksObj(removeTaskAC(todoListId, taskId))
     }
 
     function addTask(todoListId: string, newTitle: string) {
         const newTask: TaskType = {id: v1(), title: newTitle, isDone: false}
-        setTasksObj({...tasksObj, [todoListId]: [newTask, ...tasksObj[todoListId]]});
+        dispatchTasksObj(addTaskAC(todoListId, newTask))
     }
 
     function changeFilter(todoListId: string, value: FilterValuesType) {
-        const newTodolists = todoLists.map((tl) => tl.id === todoListId ? {...tl, filter: value} : tl);
-        setTodoLists(newTodolists);
+        const newTodolists = todoLists.map((tl) => tl.id === todoListId ? {...tl, filter: value} : tl)
+        setTodoLists(newTodolists)
     }
 
     function changeStatus(todoListId: string, taskId: string, isDone: boolean) {
-        setTasksObj({...tasksObj, [todoListId]: tasksObj[todoListId].map(t => t.id === taskId ? {...t, isDone} : t)});
+        dispatchTasksObj(changeStatusAC(todoListId, taskId, isDone))
     }
 
     function changeTaskTitle(todoListId: string, taskId: string, title: string) {
-        setTasksObj({...tasksObj, [todoListId]: tasksObj[todoListId].map(t => t.id === taskId ? {...t, title} : t)});
+        // setTasksObj({...tasksObj, [todoListId]: tasksObj[todoListId].map(t => t.id === taskId ? {...t, title} : t)});
     }
 
     function removeTodolistById(todoListId: string) {
         const filteredTodolist = todoLists.filter(t => t.id !== todoListId);
         setTodoLists(filteredTodolist)
         delete tasksObj[todoListId]
-        setTasksObj({...tasksObj})
+        // setTasksObj({...tasksObj})
     }
 
     function addTodolistHandler(title: string) {
         const newTodolistId = v1()
         const newTodolist: TodolistType = {id: newTodolistId, title, filter: 'all'}
-        setTasksObj({...tasksObj, [newTodolistId]: []})
+        // setTasksObj({...tasksObj, [newTodolistId]: []})
         setTodoLists([newTodolist, ...todoLists])
     }
 
