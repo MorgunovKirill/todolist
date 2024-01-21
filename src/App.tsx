@@ -7,7 +7,14 @@ import ButtonAppBar from "./ButtonAppBar";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import {addTaskAC, changeStatusAC, removeTaskAC, tasksReducer} from "./reducer/tasksReducer";
+import {
+    addTaskAC,
+    changeStatusAC,
+    changeTaskTitleAC,
+    removeTaskAC,
+    removeTodolistAC,
+    tasksReducer
+} from "./reducer/tasksReducer";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
@@ -97,14 +104,13 @@ function App() {
     }
 
     function changeTaskTitle(todoListId: string, taskId: string, title: string) {
-        // setTasksObj({...tasksObj, [todoListId]: tasksObj[todoListId].map(t => t.id === taskId ? {...t, title} : t)});
+        dispatchTasksObj(changeTaskTitleAC(todoListId, taskId, title))
     }
 
     function removeTodolistById(todoListId: string) {
         const filteredTodolist = todoLists.filter(t => t.id !== todoListId);
         setTodoLists(filteredTodolist)
-        delete tasksObj[todoListId]
-        // setTasksObj({...tasksObj})
+        dispatchTasksObj(removeTodolistAC(todoListId))
     }
 
     function addTodolistHandler(title: string) {
