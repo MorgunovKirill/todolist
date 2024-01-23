@@ -1,10 +1,10 @@
 import {TasksStateType, TaskType} from "../App";
 
-const ADD_TASK_ACTION = 'ADD-TASK';
-const CHANGE_STATUS_ACTION = 'CHANGE-STATUS';
-const CHANGE_TASK_TITLE_ACTION = 'CHANGE_TASK_TITLE';
-const REMOVE_TASK_ACTION = 'REMOVE-TASK';
-const REMOVE_TODOLIST_ACTION = 'REMOVE-TODOLIST';
+export const ADD_TASK_ACTION = 'ADD-TASK';
+export const CHANGE_STATUS_ACTION = 'CHANGE-STATUS';
+export const CHANGE_TASK_TITLE_ACTION = 'CHANGE_TASK_TITLE';
+export const REMOVE_TASK_ACTION = 'REMOVE-TASK';
+export const REMOVE_TODOLIST_ACTION = 'REMOVE-TODOLIST';
 
 type tasksReducerActionType = AddTaskACType | ChangeStatusACType | RemoveTaskACType | ChangeTaskTitleType | RemoveTodolistACType
 

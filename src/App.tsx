@@ -14,7 +14,7 @@ import {
     removeTaskAC,
     removeTodolistAC,
     tasksReducer
-} from "./reducer/tasksReducer";
+} from "./state/tasks-reducer";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
@@ -24,7 +24,7 @@ export type TaskType = {
     isDone: boolean,
 }
 
-type TodolistType = {
+export type TodolistType = {
     id: string
     title: string
     filter: FilterValuesType
