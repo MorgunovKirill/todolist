@@ -5,8 +5,9 @@ export const CHANGE_STATUS_ACTION = 'CHANGE-STATUS';
 export const CHANGE_TASK_TITLE_ACTION = 'CHANGE_TASK_TITLE';
 export const REMOVE_TASK_ACTION = 'REMOVE-TASK';
 export const REMOVE_TODOLIST_ACTION = 'REMOVE-TODOLIST';
+export const ADD_TODOLIST_ACTION = 'ADD-TODOLIST-IN-TASK-OBJ';
 
-type tasksReducerActionType = AddTaskACType | ChangeStatusACType | RemoveTaskACType | ChangeTaskTitleType | RemoveTodolistACType
+type tasksReducerActionType = AddTaskACType | ChangeStatusACType | RemoveTaskACType | ChangeTaskTitleType | RemoveTodolistACType | AddTodolistInTasksObjACACType
 
 export const tasksReducer = (state: TasksStateType, {type, payload}: tasksReducerActionType): TasksStateType => {
     switch (type) {
@@ -41,10 +42,14 @@ export const tasksReducer = (state: TasksStateType, {type, payload}: tasksReduce
                 })
             }
         case REMOVE_TODOLIST_ACTION:
-            debugger
             delete state[payload.todoListId]
             return {
                 ...state,
+            }
+        case ADD_TODOLIST_ACTION:
+            return {
+                [payload.newTodoListId]: [],
+                ...state
             }
         default:
             return state
@@ -56,6 +61,7 @@ type ChangeStatusACType = ReturnType<typeof changeStatusAC>
 type RemoveTaskACType = ReturnType<typeof removeTaskAC>
 type ChangeTaskTitleType = ReturnType<typeof changeTaskTitleAC>
 type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>
+type AddTodolistInTasksObjACACType = ReturnType<typeof addTodolistInTasksObjAC>
 
 export const addTaskAC = (todoListId: string, newTask: TaskType) => {
     return {
@@ -104,6 +110,15 @@ export const removeTodolistAC = (todoListId: string) => {
         type: REMOVE_TODOLIST_ACTION,
         payload: {
             todoListId
+        }
+    } as const
+}
+
+export const addTodolistInTasksObjAC = (newTodoListId: string) => {
+    return {
+        type: ADD_TODOLIST_ACTION,
+        payload: {
+            newTodoListId
         }
     } as const
 }
