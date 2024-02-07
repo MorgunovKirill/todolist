@@ -77,5 +77,6 @@ test('Second Task of 2 todolist title should be changed to false"', () => {
 
     //expectation
 
+    expect(newState[todoListId1].find((el) => el.id === taskIdToChange)?.isDone).toBeTruthy()
     expect(newState[todoListId2].find((el) => el.id === taskIdToChange)?.isDone).toBeFalsy()
 })
