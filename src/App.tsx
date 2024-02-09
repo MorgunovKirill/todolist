@@ -86,14 +86,15 @@ function App() {
     }
 
     function removeTodolistById(todoListId: string) {
-        dispatchTodoLists(removeTodolistAC(todoListId))
-        dispatchTasksObj(removeTodolistAC(todoListId))
+        const action = removeTodolistAC(todoListId)
+        dispatchTodoLists(action)
+        dispatchTasksObj(action)
     }
 
     function addTodolistHandler(title: string) {
-        const newTodolistId = v1()
-        dispatchTodoLists(addTodolistAC(newTodolistId, title))
-        dispatchTasksObj(addTodolistAC(newTodolistId))
+        const action = addTodolistAC(title);
+        dispatchTodoLists(action)
+        dispatchTasksObj(action)
     }
 
     return (
