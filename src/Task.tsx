@@ -1,4 +1,4 @@
-import {ChangeEvent, FC} from "react";
+import {FC} from "react";
 import {TaskType} from "./App";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from "@mui/material/IconButton";

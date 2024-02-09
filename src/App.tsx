@@ -8,14 +8,13 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import {
-    addTaskAC, addTodolistInTasksObjAC,
+    addTaskAC,
     changeStatusAC,
     changeTaskTitleAC,
     removeTaskAC,
-    removeTodolistAC,
     tasksReducer
 } from "./state/tasks-reducer";
-import {addTodolistAC, changeTodolistFilterAC, removeTodolistByIdAC, todolistsReducer} from "./state/todolist-reducer";
+import {addTodolistAC, removeTodolistAC, changeTodolistFilterAC, todolistsReducer} from "./state/todolist-reducer";
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
@@ -87,14 +86,14 @@ function App() {
     }
 
     function removeTodolistById(todoListId: string) {
-        dispatchTodoLists(removeTodolistByIdAC(todoListId))
+        dispatchTodoLists(removeTodolistAC(todoListId))
         dispatchTasksObj(removeTodolistAC(todoListId))
     }
 
     function addTodolistHandler(title: string) {
         const newTodolistId = v1()
         dispatchTodoLists(addTodolistAC(newTodolistId, title))
-        dispatchTasksObj(addTodolistInTasksObjAC(newTodolistId))
+        dispatchTasksObj(addTodolistAC(newTodolistId))
     }
 
     return (
