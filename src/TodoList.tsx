@@ -1,10 +1,10 @@
 import {FC} from "react";
-import {FilterValuesType, TaskType} from "./App";
 import Task from "./Task";
 import {AddItemForm} from "./AddItemForm";
 import {Delete} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
+import {FilterValuesType, TaskType} from "./types";
 
 
 type PropsType = {

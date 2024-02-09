@@ -1,9 +1,9 @@
 import {FC} from "react";
-import {TaskType} from "./App";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import {Delete} from "@mui/icons-material";
 import {Checkbox} from "./components/Checkbox";
+import {TaskType} from "./types";
 
 
 type TaskComponentPropsType = {
