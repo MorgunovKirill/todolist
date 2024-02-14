@@ -11,8 +11,6 @@ const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
 
-type AppRootState = ReturnType<typeof rootReducer>
-
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
 const rootReducer = combineReducers({

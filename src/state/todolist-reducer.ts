@@ -53,7 +53,6 @@ export const removeTodolistAC = (todoListId: string) => {
         type: REMOVE_TODOLIST_ACTION,
         payload: {todoListId}
     } as const
-
 }
 
 export type AddTodolistACType = ReturnType<typeof addTodolistAC>
