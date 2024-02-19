@@ -1,10 +1,9 @@
-import {FC} from "react";
+import React, {FC, useCallback} from "react";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import {Delete} from "@mui/icons-material";
 import {Checkbox} from "./components/Checkbox";
 import {TaskType} from "./types";
-
 
 type TaskComponentPropsType = {
     todoListId: string
@@ -14,13 +13,15 @@ type TaskComponentPropsType = {
     changeTaskTitle: (todoListId: string, taskId: string, newTaskTitle: string) => void
 }
 
-const Task: FC<TaskComponentPropsType> = ({task, todoListId, removeTask, changeStatus, changeTaskTitle}) => {
-    const statusChangeHandler = (checked: boolean) => {
+const Task: FC<TaskComponentPropsType> = React.memo(({task, todoListId, removeTask, changeStatus, changeTaskTitle}) => {
+    const statusChangeHandler = useCallback((checked: boolean) => {
         changeStatus(todoListId, task.id, checked);
-    }
-    const titleChangeHandler = (newTitle: string) => {
+    }, [changeStatus, todoListId, task.id])
+
+    const titleChangeHandler = useCallback((newTitle: string) => {
         changeTaskTitle(todoListId, task.id, newTitle)
-    }
+    }, [changeTaskTitle, todoListId, task.id])
+
     return (
         <li className={task.isDone ? 'is-done' : ''} key={task.id}>
             <Checkbox checked={task.isDone} callback={statusChangeHandler} />
@@ -32,6 +33,6 @@ const Task: FC<TaskComponentPropsType> = ({task, todoListId, removeTask, changeS
             </IconButton>
         </li>
     )
-}
+})
 
 export default Task;

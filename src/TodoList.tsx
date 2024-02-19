@@ -1,4 +1,4 @@
-import {FC} from "react";
+import React, {FC, useCallback} from "react";
 import Task from "./Task";
 import {AddItemForm} from "./AddItemForm";
 import {Delete} from "@mui/icons-material";
@@ -33,7 +33,7 @@ const TodoList: FC<PropsType> = (
         changeTaskTitle,
         removeTodolistById
     }) => {
-
+    console.log('Todolist is called')
     const filteredTasksForTodoList = getFilteredTasks(tasks, activeFilter);
 
     function getFilteredTasks(tasks: Array<TaskType>, filter: FilterValuesType): Array<TaskType> {
@@ -47,22 +47,33 @@ const TodoList: FC<PropsType> = (
         return filteredTasks;
     }
 
-    const removeTodolist = (todolistId: string) => {
+    const removeTodolist = useCallback(() => {
         removeTodolistById(todolistId);
-    }
+    }, [removeTodolistById, todolistId])
 
-    const addTaskHandler = (title: string) => {
+    const addTaskHandler = useCallback((title: string) => {
         addTask(todolistId, title)
-    }
+    }, [addTask, todolistId])
+
+    const onAllClickHandler = useCallback(() => {
+        changeFilter(todolistId, 'all')
+    }, [changeFilter, todolistId])
+
+    const onActiveClickHandler = useCallback(() => {
+        changeFilter(todolistId, 'active')
+    }, [changeFilter, todolistId])
+
+    const onCompletedClickHandler = useCallback(() => {
+        changeFilter(todolistId, 'completed')
+    }, [changeFilter, todolistId])
+
 
     return (
         <div className='todolist'>
             <div className='todolist'>
                 <h3>
                     {title}
-                    <IconButton aria-label="delete" onClick={() => {
-                        removeTodolist(todolistId)
-                    }}>
+                    <IconButton aria-label="delete" onClick={removeTodolist}>
                         <Delete/>
                     </IconButton>
                 </h3>
@@ -82,15 +93,15 @@ const TodoList: FC<PropsType> = (
                 <div>
                     <Button
                         variant={activeFilter === 'all' ? "outlined" : "contained"}
-                        onClick={() => changeFilter(todolistId, 'all')}
+                        onClick={onAllClickHandler}
                         color='success'>All</Button>
                     <Button
                         variant={activeFilter === 'active' ? "outlined" : "contained"}
-                        onClick={() => changeFilter(todolistId, 'active')}
+                        onClick={onActiveClickHandler}
                         color='error'>Active</Button>
                     <Button
                         variant={activeFilter === 'completed' ? "outlined" : "contained"}
-                        onClick={() => changeFilter(todolistId, 'completed')}
+                        onClick={onCompletedClickHandler}
                         color='primary'>Completed</Button>
                 </div>
             </div>
@@ -98,4 +109,4 @@ const TodoList: FC<PropsType> = (
     )
 }
 
-export default TodoList;
+export default React.memo(TodoList);

@@ -1,13 +1,13 @@
-import {ChangeEvent, FC, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, FC, KeyboardEvent, useState} from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-// import {Button} from "./Button";
 
 type AddItemFormPropsType = {
     addItem: (newTitle: string) => void
 }
 
-export const AddItemForm: FC<AddItemFormPropsType> = ({addItem}) => {
+export const AddItemForm: FC<AddItemFormPropsType> = React.memo(({addItem}) => {
+    console.log('AdditemForm is called')
     const [title, setTitle] = useState<string>('');
     const [titleError, setTitleError] = useState<string | null>(null);
 
@@ -16,7 +16,7 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({addItem}) => {
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setTitleError(null);
+        if(titleError) setTitleError(null);
         if (e.key === 'Enter') {
             addTaskHandler()
         }
@@ -53,4 +53,4 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({addItem}) => {
         />
         <Button style={style} variant={"contained"} onClick={addTaskHandler}>+</Button>
     </div>
-}
+})
