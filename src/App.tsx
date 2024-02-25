@@ -12,13 +12,12 @@ import {
     changeTaskTitleAC,
     removeTaskAC,
 } from "./state/tasks-reducer";
-import {addTodolistAC, removeTodolistAC, changeTodolistFilterAC, todolistsReducer} from "./state/todolist-reducer";
+import {addTodolistAC, removeTodolistAC, changeTodolistFilterAC} from "./state/todolist-reducer";
 import {FilterValuesType, TasksStateType, TodolistType} from "./types";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./index";
+import {AppRootStateType} from "./state/store";
 
 function App() {
-    console.log('App is called')
     const dispatch = useDispatch();
     const todoLists = useSelector<AppRootStateType, TodolistType[]>( state => state.todolists)
     const tasksObj = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
