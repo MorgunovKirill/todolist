@@ -12,20 +12,6 @@ const meta: Meta<typeof Task> = {
     // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
     tags: ['autodocs'],
     // More on argTypes: https://storybook.js.org/docs/api/argtypes
-    argTypes: {
-        removeTask: {
-            description: 'Task trash icon click to remove task',
-            action: 'Task was removed'
-        },
-        changeStatus: {
-            description: 'Checkbox click to change task status',
-            action: 'Checkbox clicked to change task status'
-        },
-        changeTaskTitle: {
-            description: 'Input change task title',
-            action: 'Input double clicked and blured to change task title'
-        },
-    },
 };
 
 export default meta;

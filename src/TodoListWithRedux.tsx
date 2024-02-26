@@ -1,39 +1,32 @@
-import React, {FC, useCallback} from "react";
+import React, {FC, useCallback, useMemo} from "react";
 import Task from "./Task";
 import {AddItemForm} from "./AddItemForm";
 import {Delete} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import {FilterValuesType, TaskType} from "./types";
+import {useDispatch, useSelector} from "react-redux";
+import {tasksSelector} from "./state/selectors";
+import {changeTodolistFilterAC, removeTodolistAC} from "./state/todolist-reducer";
+import {addTaskAC, changeStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
 
 
 type PropsType = {
     todolistId: string
     title: string,
     activeFilter: FilterValuesType,
-    tasks: TaskType[]
-    addTask: (todoListId: string, newTitle: string) => void
-    removeTask: (todoListId: string, taskId: string) => void
-    changeFilter: (todoListId: string, value: FilterValuesType) => void
-    changeStatus: (todoListId: string, taskId: string, isDone: boolean) => void
-    changeTaskTitle: (todoListId: string, taskId: string, title: string) => void
-    removeTodolistById: (todoListId: string) => void
 }
 
-const TodoList: FC<PropsType> = (
+const TodoListWithRedux: FC<PropsType> = (
     {
         todolistId,
         title,
         activeFilter,
-        tasks,
-        addTask,
-        removeTask,
-        changeFilter,
-        changeStatus,
-        changeTaskTitle,
-        removeTodolistById
     }) => {
-    const filteredTasksForTodoList = getFilteredTasks(tasks, activeFilter);
+    const tasks = useSelector(tasksSelector)[todolistId];
+    const dispatch = useDispatch();
+
+    const filteredTasksForTodoList = useMemo(() => getFilteredTasks(tasks, activeFilter), [tasks, activeFilter]);
 
     function getFilteredTasks(tasks: Array<TaskType>, filter: FilterValuesType): Array<TaskType> {
         let filteredTasks = tasks;
@@ -47,24 +40,24 @@ const TodoList: FC<PropsType> = (
     }
 
     const removeTodolist = useCallback(() => {
-        removeTodolistById(todolistId);
-    }, [removeTodolistById, todolistId])
+        dispatch(removeTodolistAC(todolistId))
+    }, [dispatch, todolistId])
 
     const addTaskHandler = useCallback((title: string) => {
-        addTask(todolistId, title)
-    }, [addTask, todolistId])
+        dispatch(addTaskAC(todolistId, title))
+    }, [dispatch, todolistId])
 
     const onAllClickHandler = useCallback(() => {
-        changeFilter(todolistId, 'all')
-    }, [changeFilter, todolistId])
+        dispatch(changeTodolistFilterAC(todolistId, 'all'))
+    }, [dispatch, todolistId])
 
     const onActiveClickHandler = useCallback(() => {
-        changeFilter(todolistId, 'active')
-    }, [changeFilter, todolistId])
+        dispatch(changeTodolistFilterAC(todolistId, 'active'))
+    }, [dispatch, todolistId])
 
     const onCompletedClickHandler = useCallback(() => {
-        changeFilter(todolistId, 'completed')
-    }, [changeFilter, todolistId])
+        dispatch(changeTodolistFilterAC(todolistId, 'completed'))
+    }, [dispatch, todolistId])
 
 
     return (
@@ -83,9 +76,6 @@ const TodoList: FC<PropsType> = (
                             key={task.id}
                             todoListId={todolistId}
                             task={task}
-                            removeTask={removeTask}
-                            changeStatus={changeStatus}
-                            changeTaskTitle={changeTaskTitle}
                         />
                     })}
                 </ul>
@@ -108,4 +98,4 @@ const TodoList: FC<PropsType> = (
     )
 }
 
-export default React.memo(TodoList);
+export default React.memo(TodoListWithRedux);

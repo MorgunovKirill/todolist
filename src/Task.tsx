@@ -4,31 +4,34 @@ import IconButton from "@mui/material/IconButton";
 import {Delete} from "@mui/icons-material";
 import {Checkbox} from "./components/Checkbox";
 import {TaskType} from "./types";
+import {changeStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
+import {useDispatch} from "react-redux";
 
 type TaskComponentPropsType = {
     todoListId: string
     task: TaskType
-    removeTask: (taskId: string, todoListId: string) => void
-    changeStatus: (todoListId: string, taskId: string, isDone: boolean) => void
-    changeTaskTitle: (todoListId: string, taskId: string, newTaskTitle: string) => void
 }
 
-const Task: FC<TaskComponentPropsType> = React.memo(({task, todoListId, removeTask, changeStatus, changeTaskTitle}) => {
+const Task: FC<TaskComponentPropsType> = React.memo(({task, todoListId}) => {
+    const dispatch = useDispatch();
+
+    const removeTaskHandler = useCallback(() => {
+        dispatch(removeTaskAC(todoListId, task.id))
+    }, [dispatch, todoListId, task.id])
+
     const statusChangeHandler = useCallback((checked: boolean) => {
-        changeStatus(todoListId, task.id, checked);
-    }, [changeStatus, todoListId, task.id])
+        dispatch(changeStatusAC(todoListId, task.id, checked))
+    }, [dispatch, todoListId, task.id])
 
     const titleChangeHandler = useCallback((newTitle: string) => {
-        changeTaskTitle(todoListId, task.id, newTitle)
-    }, [changeTaskTitle, todoListId, task.id])
+        dispatch(changeTaskTitleAC(todoListId, task.id, newTitle))
+    }, [dispatch, todoListId, task.id])
 
     return (
         <li className={task.isDone ? 'is-done' : ''} key={task.id}>
             <Checkbox checked={task.isDone} callback={statusChangeHandler} />
             <EditableSpan oldTitle={task.title} callback={titleChangeHandler}/>
-            <IconButton aria-label="delete" onClick={() => {
-                removeTask(todoListId, task.id)
-            }}>
+            <IconButton aria-label="delete" onClick={removeTaskHandler}>
                 <Delete/>
             </IconButton>
         </li>
