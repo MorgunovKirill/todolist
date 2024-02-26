@@ -33,7 +33,6 @@ const TodoList: FC<PropsType> = (
         changeTaskTitle,
         removeTodolistById
     }) => {
-    console.log('Todolist is called')
     const filteredTasksForTodoList = getFilteredTasks(tasks, activeFilter);
 
     function getFilteredTasks(tasks: Array<TaskType>, filter: FilterValuesType): Array<TaskType> {

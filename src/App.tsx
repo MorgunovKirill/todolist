@@ -13,14 +13,14 @@ import {
     removeTaskAC,
 } from "./state/tasks-reducer";
 import {addTodolistAC, removeTodolistAC, changeTodolistFilterAC} from "./state/todolist-reducer";
-import {FilterValuesType, TasksStateType, TodolistType} from "./types";
+import {FilterValuesType} from "./types";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./state/store";
+import {tasksSelector, todolistSelector} from "./state/selectors";
 
 function App() {
     const dispatch = useDispatch();
-    const todoLists = useSelector<AppRootStateType, TodolistType[]>( state => state.todolists)
-    const tasksObj = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const todoLists = useSelector(todolistSelector)
+    const tasksObj = useSelector(tasksSelector)
 
     const removeTask = useCallback((todoListId: string, taskId: string) => {
         dispatch(removeTaskAC(todoListId, taskId))
