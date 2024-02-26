@@ -8,7 +8,7 @@ import {FilterValuesType, TaskType} from "./types";
 import {useDispatch, useSelector} from "react-redux";
 import {tasksSelector} from "./state/selectors";
 import {changeTodolistFilterAC, removeTodolistAC} from "./state/todolist-reducer";
-import {addTaskAC, changeStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
+import {addTaskAC} from "./state/tasks-reducer";
 
 
 type PropsType = {
@@ -17,7 +17,7 @@ type PropsType = {
     activeFilter: FilterValuesType,
 }
 
-const TodoListWithRedux: FC<PropsType> = (
+const TodoList: FC<PropsType> = (
     {
         todolistId,
         title,
@@ -98,4 +98,4 @@ const TodoListWithRedux: FC<PropsType> = (
     )
 }
 
-export default React.memo(TodoListWithRedux);
+export default React.memo(TodoList);

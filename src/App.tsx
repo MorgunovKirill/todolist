@@ -8,10 +8,9 @@ import Paper from "@mui/material/Paper";
 import {addTodolistAC} from "./state/todolist-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {todolistSelector} from "./state/selectors";
-import TodoListWithRedux from "./TodoListWithRedux";
+import TodoList from "./TodoList";
 
 const App = React.memo(() => {
-    console.log('App rendered')
     const dispatch = useDispatch();
     const todoLists = useSelector(todolistSelector)
 
@@ -31,7 +30,7 @@ const App = React.memo(() => {
                     {todoLists.map((tl) => {
                         return <Grid item key={tl.id}>
                             <Paper elevation={5} style={{padding: '15px'}}>
-                                <TodoListWithRedux
+                                <TodoList
                                     todolistId={tl.id}
                                     title={tl.title}
                                     activeFilter={tl.filter}

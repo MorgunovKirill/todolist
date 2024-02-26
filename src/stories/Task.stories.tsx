@@ -1,5 +1,11 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import Task from "../Task";
+import {ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../state/store";
+import {TaskType} from "../types";
+import {todoListId1} from "../state/todolist-reducer";
+import {v1} from "uuid";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta: Meta<typeof Task> = {
@@ -12,22 +18,21 @@ const meta: Meta<typeof Task> = {
     // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
     tags: ['autodocs'],
     // More on argTypes: https://storybook.js.org/docs/api/argtypes
+    decorators: [ReduxStoreProviderDecorator]
 };
 
 export default meta;
 type Story = StoryObj<typeof Task>;
 
-// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const TaskIsDoneStory: Story = {
-    args: {
-        todoListId: '1',
-        task: {id: '1', title: 'Some title', isDone: true,},
-    }
-};
+const TaskForStory = () => {
+    let task = useSelector<AppRootStateType, TaskType>(state => state.tasks[todoListId1][0])
 
-export const TaskIsNotDoneStory: Story = {
-  args: {
-    todoListId: '1',
-    task: {id: '2', title: 'Some title 2', isDone: false,},
-  }
-};
+    if(!task) task = {id: v1(), title: 'Default task', isDone: false}
+
+    return <Task task={task} todoListId={todoListId1}/>;
+}
+
+
+export const TaskWithReduxStory: Story = {
+    render: () => <TaskForStory />
+}
