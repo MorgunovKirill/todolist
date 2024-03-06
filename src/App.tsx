@@ -1,23 +1,15 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import './App.css';
 import {AddItemForm} from "./AddItemForm";
 import ButtonAppBar from "./ButtonAppBar";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import {addTodolistAC} from "./state/todolist-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {todolistSelector} from "./state/selectors";
 import TodoList from "./TodoList";
+import {useApp} from "./hooks/useApp";
 
 const App = React.memo(() => {
-    const dispatch = useDispatch();
-    const todoLists = useSelector(todolistSelector)
-
-    const addTodolistHandler = useCallback((title: string) => {
-        const action = addTodolistAC(title);
-        dispatch(action)
-    }, [dispatch])
+    const {todoLists, addTodolistHandler} = useApp();
 
     return (
         <div className="App">
@@ -41,8 +33,7 @@ const App = React.memo(() => {
                 </Grid>
             </Container>
         </div>
-    )
-        ;
+    );
 })
 
 
