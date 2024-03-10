@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 import {addTaskAC, changeStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
-import {TasksStateType, TaskType} from "../types";
+import {TaskPriorities, TasksStateType, TaskStatuses} from "../types";
 
 let state: TasksStateType;
 let todoListId1: string;
@@ -13,21 +13,119 @@ beforeEach(() => {
         todoListId3 = v1()
         state = {
             [todoListId1]: [
-                {id: '1', title: 'HTML', isDone: true},
-                {id: '2', title: 'CSS', isDone: true},
-                {id: '3', title: 'JS', isDone: false},
+                {
+                    id: '1',
+                    title: 'HTML',
+                    description: '',
+                    status: TaskStatuses.Completed,
+                    todoListId: todoListId1,
+                    startDate: '',
+                    deadline: '',
+                    addedDate: '',
+                    order:
+                        0,
+                    priority: TaskPriorities.Low
+                },
+                {
+                    id: '2',
+                    title: 'CSS',
+                    description: '',
+                    status: TaskStatuses.Completed,
+                    todoListId: todoListId1,
+                    startDate: '',
+                    deadline: '',
+                    addedDate: '',
+                    order: 0,
+                    priority: TaskPriorities.Low
+                },
+                {
+                    id: '3',
+                    title: 'JS',
+                    description: '',
+                    status: TaskStatuses.New,
+                    todoListId: todoListId1,
+                    startDate: '',
+                    deadline: '',
+                    addedDate: '',
+                    order: 0,
+                    priority: TaskPriorities.Low
+                },
             ],
             [todoListId2]: [
-                {id: '1', title: 'beer', isDone: true},
-                {id: '2', title: 'fish', isDone: true},
-                {id: '3', title: 'bread', isDone: false},
-                {id: '4', title: 'cheeps', isDone: false},
-                {id: '5', title: 'cheese', isDone: false},
+                {
+                    id: '1',
+                    title: 'beer',
+                    description: '',
+                    status: TaskStatuses.Completed,
+                    todoListId: todoListId2,
+                    startDate: '',
+                    deadline: '',
+                    addedDate: '',
+                    order: 0,
+                    priority: TaskPriorities.Low
+                },
+                {
+                    id: '2',
+                    title: 'fish',
+                    description: '',
+                    status: TaskStatuses.Completed,
+                    todoListId: todoListId2,
+                    startDate: '',
+                    deadline: '',
+                    addedDate: '',
+                    order: 0,
+                    priority: TaskPriorities.Low
+                },
+                {
+                    id: '3',
+                    title: 'bread',
+                    description: '',
+                    status: TaskStatuses.New,
+                    todoListId: todoListId2,
+                    startDate: '',
+                    deadline: '',
+                    addedDate: '',
+                    order: 0,
+                    priority: TaskPriorities.Low
+                },
             ],
             [todoListId3]: [
-                {id: '1', title: 'bar', isDone: false},
-                {id: '2', title: 'chess', isDone: true},
-                {id: '3', title: 'books', isDone: false},
+                {
+                    id: '1',
+                    title: 'bar',
+                    description: '',
+                    status: TaskStatuses.Completed,
+                    todoListId: todoListId3,
+                    startDate: '',
+                    deadline: '',
+                    addedDate: '',
+                    order: 0,
+                    priority: TaskPriorities.Low
+                },
+                {
+                    id: '2',
+                    title: 'chess',
+                    description: '',
+                    status: TaskStatuses.Completed,
+                    todoListId: todoListId3,
+                    startDate: '',
+                    deadline: '',
+                    addedDate: '',
+                    order: 0,
+                    priority: TaskPriorities.Low
+                },
+                {
+                    id: '3',
+                    title: 'books',
+                    description: '',
+                    status: TaskStatuses.New,
+                    todoListId: todoListId3,
+                    startDate: '',
+                    deadline: '',
+                    addedDate: '',
+                    order: 0,
+                    priority: TaskPriorities.Low
+                },
             ]
         }
     }
@@ -39,7 +137,7 @@ test('2 todolist should be incremented by 1 new Task', () => {
 
     //expectation
 
-    expect(newState[todoListId2].length).toBe(6)
+    expect(newState[todoListId2].length).toBe(4)
 
 })
 
@@ -73,10 +171,10 @@ test('Second Task of 2 todolist title should be changed to false"', () => {
     const taskIdToChange = '2'
 
     //action
-    const newState = tasksReducer(state, changeStatusAC(todoListId2, taskIdToChange, false))
+    const newState = tasksReducer(state, changeStatusAC(todoListId2, taskIdToChange, TaskStatuses.New))
 
     //expectation
 
-    expect(newState[todoListId1].find((el) => el.id === taskIdToChange)?.isDone).toBeTruthy()
-    expect(newState[todoListId2].find((el) => el.id === taskIdToChange)?.isDone).toBeFalsy()
+    expect(newState[todoListId1].find((el) => el.id === taskIdToChange)?.status).toBe(2)
+    expect(newState[todoListId2].find((el) => el.id === taskIdToChange)?.status).toBe(0)
 })

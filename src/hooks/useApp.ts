@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from "react-redux";
 import {tasksSelector, todolistSelector} from "../state/selectors";
 import {useCallback, useMemo} from "react";
-import {FilterValuesType, TaskType} from "../types";
+import {FilterValuesType, TaskStatuses, TaskType} from "../types";
 import {addTodolistAC, changeTodolistFilterAC, removeTodolistAC} from "../state/todolist-reducer";
 import {addTaskAC} from "../state/tasks-reducer";
 
@@ -18,10 +18,10 @@ export const useApp = (todolistId: string = '', activeFilter: FilterValuesType =
     const getFilteredTasks = (tasks: Array<TaskType>, filter: FilterValuesType): Array<TaskType> => {
         let filteredTasks = tasks;
         if (filter === 'completed') {
-            filteredTasks = tasks.filter(task => task.isDone)
+            filteredTasks = tasks.filter(task => task.status === TaskStatuses.Completed)
         }
         if (filter === 'active') {
-            filteredTasks = tasks.filter(task => !task.isDone)
+            filteredTasks = tasks.filter(task => task.status === TaskStatuses.New)
         }
         return filteredTasks;
     }

@@ -8,13 +8,13 @@ import {FilterValuesType} from "./types";
 import {useApp} from "./hooks/useApp";
 
 
-type PropsType = {
+type TodolistPropsType = {
     todolistId: string
     title: string,
     activeFilter: FilterValuesType,
 }
 
-const TodoList: FC<PropsType> = (
+const TodoList: FC<TodolistPropsType> = (
     {
         todolistId,
         title,

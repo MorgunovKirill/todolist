@@ -3,7 +3,7 @@ import Task from "../Task";
 import {ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "../state/store";
-import {TaskType} from "../types";
+import {TaskPriorities, TaskStatuses, TaskType} from "../types";
 import {todoListId1} from "../state/todolist-reducer";
 import {v1} from "uuid";
 
@@ -27,7 +27,18 @@ type Story = StoryObj<typeof Task>;
 const TaskForStory = () => {
     let task = useSelector<AppRootStateType, TaskType>(state => state.tasks[todoListId1][0])
 
-    if(!task) task = {id: v1(), title: 'Default task', isDone: false}
+    if(!task) task =   {
+        id: v1(),
+        title: 'Default task',
+        description: '',
+        status: TaskStatuses.New,
+        todoListId:  v1(),
+        startDate: '',
+        deadline: '',
+        addedDate: '',
+        order: 0,
+        priority: TaskPriorities.Low
+    }
 
     return <Task task={task} todoListId={todoListId1}/>;
 }
