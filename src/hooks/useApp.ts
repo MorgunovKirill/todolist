@@ -1,12 +1,13 @@
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {tasksSelector, todolistSelector} from "../state/selectors";
-import {useCallback, useMemo} from "react";
+import {useCallback, useEffect, useMemo} from "react";
 import {FilterValuesType, TaskStatuses, TaskType} from "../types";
-import {addTodolistAC, changeTodolistFilterAC, removeTodolistAC} from "../state/todolist-reducer";
+import {addTodolistAC, changeTodolistFilterAC, getTodosTC, removeTodolistAC} from "../state/todolist-reducer";
 import {addTaskAC} from "../state/tasks-reducer";
+import {useAppDispatch} from "../state/store";
 
 export const useApp = (todolistId: string = '', activeFilter: FilterValuesType = 'all') => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const todoLists = useSelector(todolistSelector)
     const tasks = useSelector(tasksSelector)[todolistId];
     const addTodolistHandler = useCallback((title: string) => {
@@ -14,6 +15,9 @@ export const useApp = (todolistId: string = '', activeFilter: FilterValuesType =
         dispatch(action)
     }, [dispatch])
 
+    useEffect(() => {
+        dispatch(getTodosTC());
+    }, [])
 
     const getFilteredTasks = (tasks: Array<TaskType>, filter: FilterValuesType): Array<TaskType> => {
         let filteredTasks = tasks;

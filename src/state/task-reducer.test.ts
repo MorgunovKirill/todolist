@@ -1,6 +1,7 @@
 import {v1} from "uuid";
 import {addTaskAC, changeStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
 import {TaskPriorities, TasksStateType, TaskStatuses} from "../types";
+import {setTodolistsAC} from "./todolist-reducer";
 
 let state: TasksStateType;
 let todoListId1: string;
@@ -178,3 +179,19 @@ test('Second Task of 2 todolist title should be changed to false"', () => {
     expect(newState[todoListId1].find((el) => el.id === taskIdToChange)?.status).toBe(2)
     expect(newState[todoListId2].find((el) => el.id === taskIdToChange)?.status).toBe(0)
 })
+
+
+test('empty arrays should be added when we set todolists', () => {
+    const action = setTodolistsAC([
+        {id: todoListId1, title: 'What to learn', addedDate: '', order: 0},
+        {id: todoListId2, title: 'What to buy', addedDate: '', order: 0},
+    ])
+
+    const endState = tasksReducer({}, action);
+
+    const keys = Object.keys(endState)
+
+    expect(keys.length).toBe(2);
+    expect(endState[todoListId1]).toStrictEqual([]);
+    expect(endState[todoListId2]).toStrictEqual([]);
+});

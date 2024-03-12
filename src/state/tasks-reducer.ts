@@ -1,7 +1,15 @@
 import {v1} from "uuid";
-import {AddTodolistACType, RemoveTodolistACType, todoListId1, todoListId2, todoListId3} from "./todolist-reducer";
+import {
+    AddTodolistACType,
+    RemoveTodolistACType,
+    SetTodoListsACType,
+    todoListId1,
+    todoListId2,
+    todoListId3
+} from "./todolist-reducer";
 import {TaskPriorities, TasksStateType, TaskStatuses, TaskType} from "../types";
 
+const SET_TODOLISTS_ACTION = 'SET-TODOLISTS';
 const ADD_TASK_ACTION = 'ADD-TASK';
 const CHANGE_STATUS_ACTION = 'CHANGE-STATUS';
 const CHANGE_TASK_TITLE_ACTION = 'CHANGE_TASK_TITLE';
@@ -16,130 +24,141 @@ type tasksReducerActionType =
     | ChangeTaskTitleType
     | RemoveTodolistACType
     | AddTodolistACType
+    | SetTodoListsACType
 
-const initialState: TasksStateType = {
-    [todoListId1]: [
-        {
-            id: v1(),
-            title: 'HTML',
-            description: '',
-            status: TaskStatuses.Completed,
-            todoListId: todoListId1,
-            startDate: '',
-            deadline: '',
-            addedDate: '',
-            order:
-                0,
-            priority: TaskPriorities.Low
-        },
-        {
-            id: v1(),
-            title: 'CSS',
-            description: '',
-            status: TaskStatuses.Completed,
-            todoListId: todoListId1,
-            startDate: '',
-            deadline: '',
-            addedDate: '',
-            order: 0,
-            priority: TaskPriorities.Low
-        },
-        {
-            id: v1(),
-            title: 'JS',
-            description: '',
-            status: TaskStatuses.New,
-            todoListId: todoListId1,
-            startDate: '',
-            deadline: '',
-            addedDate: '',
-            order: 0,
-            priority: TaskPriorities.Low
-        },
-    ],
-    [todoListId2]: [
-        {
-            id: v1(),
-            title: 'beer',
-            description: '',
-            status: TaskStatuses.Completed,
-            todoListId: todoListId2,
-            startDate: '',
-            deadline: '',
-            addedDate: '',
-            order: 0,
-            priority: TaskPriorities.Low
-        },
-        {
-            id: v1(),
-            title: 'fish',
-            description: '',
-            status: TaskStatuses.Completed,
-            todoListId: todoListId2,
-            startDate: '',
-            deadline: '',
-            addedDate: '',
-            order: 0,
-            priority: TaskPriorities.Low
-        },
-        {
-            id: v1(),
-            title: 'bread',
-            description: '',
-            status: TaskStatuses.New,
-            todoListId: todoListId2,
-            startDate: '',
-            deadline: '',
-            addedDate: '',
-            order: 0,
-            priority: TaskPriorities.Low
-        },
-    ],
-    [todoListId3]: [
-        {
-            id: v1(),
-            title: 'bar',
-            description: '',
-            status: TaskStatuses.Completed,
-            todoListId: todoListId3,
-            startDate: '',
-            deadline: '',
-            addedDate: '',
-            order: 0,
-            priority: TaskPriorities.Low
-        },
-        {
-            id: v1(), title: 'chess',
-            description: '',
-            status: TaskStatuses.Completed,
-            todoListId: todoListId3,
-            startDate: '',
-            deadline: '',
-            addedDate: '',
-            order: 0,
-            priority: TaskPriorities.Low
-        },
-        {
-            id: v1(),
-            title: 'books',
-            description: '',
-            status: TaskStatuses.New,
-            todoListId: todoListId3,
-            startDate: '',
-            deadline: '',
-            addedDate: '',
-            order: 0,
-            priority: TaskPriorities.Low
-        },
-    ]
-}
+// const initialState: TasksStateType = {
+//     [todoListId1]: [
+//         {
+//             id: v1(),
+//             title: 'HTML',
+//             description: '',
+//             status: TaskStatuses.Completed,
+//             todoListId: todoListId1,
+//             startDate: '',
+//             deadline: '',
+//             addedDate: '',
+//             order:
+//                 0,
+//             priority: TaskPriorities.Low
+//         },
+//         {
+//             id: v1(),
+//             title: 'CSS',
+//             description: '',
+//             status: TaskStatuses.Completed,
+//             todoListId: todoListId1,
+//             startDate: '',
+//             deadline: '',
+//             addedDate: '',
+//             order: 0,
+//             priority: TaskPriorities.Low
+//         },
+//         {
+//             id: v1(),
+//             title: 'JS',
+//             description: '',
+//             status: TaskStatuses.New,
+//             todoListId: todoListId1,
+//             startDate: '',
+//             deadline: '',
+//             addedDate: '',
+//             order: 0,
+//             priority: TaskPriorities.Low
+//         },
+//     ],
+//     [todoListId2]: [
+//         {
+//             id: v1(),
+//             title: 'beer',
+//             description: '',
+//             status: TaskStatuses.Completed,
+//             todoListId: todoListId2,
+//             startDate: '',
+//             deadline: '',
+//             addedDate: '',
+//             order: 0,
+//             priority: TaskPriorities.Low
+//         },
+//         {
+//             id: v1(),
+//             title: 'fish',
+//             description: '',
+//             status: TaskStatuses.Completed,
+//             todoListId: todoListId2,
+//             startDate: '',
+//             deadline: '',
+//             addedDate: '',
+//             order: 0,
+//             priority: TaskPriorities.Low
+//         },
+//         {
+//             id: v1(),
+//             title: 'bread',
+//             description: '',
+//             status: TaskStatuses.New,
+//             todoListId: todoListId2,
+//             startDate: '',
+//             deadline: '',
+//             addedDate: '',
+//             order: 0,
+//             priority: TaskPriorities.Low
+//         },
+//     ],
+//     [todoListId3]: [
+//         {
+//             id: v1(),
+//             title: 'bar',
+//             description: '',
+//             status: TaskStatuses.Completed,
+//             todoListId: todoListId3,
+//             startDate: '',
+//             deadline: '',
+//             addedDate: '',
+//             order: 0,
+//             priority: TaskPriorities.Low
+//         },
+//         {
+//             id: v1(), title: 'chess',
+//             description: '',
+//             status: TaskStatuses.Completed,
+//             todoListId: todoListId3,
+//             startDate: '',
+//             deadline: '',
+//             addedDate: '',
+//             order: 0,
+//             priority: TaskPriorities.Low
+//         },
+//         {
+//             id: v1(),
+//             title: 'books',
+//             description: '',
+//             status: TaskStatuses.New,
+//             todoListId: todoListId3,
+//             startDate: '',
+//             deadline: '',
+//             addedDate: '',
+//             order: 0,
+//             priority: TaskPriorities.Low
+//         },
+//     ]
+// }
 
+const initialState = {}
 
 export const tasksReducer = (state: TasksStateType = initialState, {
     type,
     payload
 }: tasksReducerActionType): TasksStateType => {
     switch (type) {
+        case SET_TODOLISTS_ACTION: {
+            const copyState = {...state}
+
+            payload.todolists.forEach((tl) => {
+                copyState[tl.id] = [];
+            })
+
+            return copyState;
+        }
         case ADD_TASK_ACTION:
             const newTask: TaskType = {
                 id: v1(),
