@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {addTaskAC, changeStatusAC, changeTaskTitleAC, removeTaskAC, setTasksAC, tasksReducer} from "./tasks-reducer";
+import {removeTaskAC, setTaskAC, setTasksAC, tasksReducer, updateTaskAC} from "./tasks-reducer";
 import {TaskPriorities, TasksStateType, TaskStatuses} from "../types";
 import {setTodolistsAC} from "./todolist-reducer";
 
@@ -132,9 +132,28 @@ beforeEach(() => {
     }
 )
 
+// test('new array should be added when new todolist is added', () => {
+//     const newState = tasksReducer(state, addTodolistAC()
+//
+//
+// })
+
 test('2 todolist should be incremented by 1 new Task', () => {
+    const newTask =  {
+            id: '3',
+            title: 'books',
+            description: '',
+            status: TaskStatuses.New,
+            todoListId: todoListId2,
+            startDate: '',
+            deadline: '',
+            addedDate: '',
+            order: 0,
+            priority: TaskPriorities.Low
+        };
+
     //action
-    const newState = tasksReducer(state, addTaskAC(todoListId2, 'New title'))
+    const newState = tasksReducer(state, setTaskAC(newTask));
 
     //expectation
 
@@ -160,7 +179,7 @@ test('First Task of 3 todolist title should be changed to "Bar"', () => {
     const taskIdToChange = '1'
 
     //action
-    const newState = tasksReducer(state, changeTaskTitleAC(todoListId3, taskIdToChange, 'Bar'))
+    const newState = tasksReducer(state, updateTaskAC(todoListId3, taskIdToChange, {title: 'Bar'}))
 
     //expectation
 
@@ -172,7 +191,7 @@ test('Second Task of 2 todolist title should be changed to false"', () => {
     const taskIdToChange = '2'
 
     //action
-    const newState = tasksReducer(state, changeStatusAC(todoListId2, taskIdToChange, TaskStatuses.New))
+    const newState = tasksReducer(state, updateTaskAC(todoListId2, taskIdToChange, {status: TaskStatuses.New}))
 
     //expectation
 

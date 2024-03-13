@@ -2,7 +2,7 @@ import {tasksSelector, todolistSelector} from "../state/selectors";
 import {useCallback, useMemo} from "react";
 import {FilterValuesType, TaskStatuses, TaskType} from "../types";
 import {addTodolistAC, changeTodolistFilterAC, removeTodolistAC} from "../state/todolist-reducer";
-import {addTaskAC} from "../state/tasks-reducer";
+import {createTaskTC} from "../state/tasks-reducer";
 import {useAppDispatch, useAppSelector} from "../state/store";
 
 export const useApp = (todolistId: string = '', activeFilter: FilterValuesType = 'all') => {
@@ -32,7 +32,7 @@ export const useApp = (todolistId: string = '', activeFilter: FilterValuesType =
     }, [dispatch, todolistId])
 
     const addTaskHandler = useCallback((title: string) => {
-        dispatch(addTaskAC(todolistId, title))
+        dispatch(createTaskTC(todolistId, title))
     }, [dispatch, todolistId])
 
     const onAllClickHandler = useCallback(() => {
@@ -46,6 +46,7 @@ export const useApp = (todolistId: string = '', activeFilter: FilterValuesType =
     const onCompletedClickHandler = useCallback(() => {
         dispatch(changeTodolistFilterAC(todolistId, 'completed'))
     }, [dispatch, todolistId])
+
 
     return useMemo(() => ({
         todoLists,
