@@ -3,11 +3,10 @@ import {
     AddTodolistACType,
     RemoveTodolistACType,
     SetTodoListsACType,
-    todoListId1,
-    todoListId2,
-    todoListId3
 } from "./todolist-reducer";
 import {TaskPriorities, TasksStateType, TaskStatuses, TaskType} from "../types";
+import {api} from "../api/api";
+import {Dispatch} from "redux";
 
 const SET_TODOLISTS_ACTION = 'SET-TODOLISTS';
 const ADD_TASK_ACTION = 'ADD-TASK';
@@ -16,6 +15,8 @@ const CHANGE_TASK_TITLE_ACTION = 'CHANGE_TASK_TITLE';
 const REMOVE_TASK_ACTION = 'REMOVE-TASK';
 const REMOVE_TODOLIST_ACTION = 'REMOVE-TODOLIST';
 const ADD_TODOLIST_ACTION = 'ADD-TODOLIST';
+const SET_TASK_ACTION = 'SET-TASK';
+const SET_TASKS_ACTION = 'SET-TASKS';
 
 type tasksReducerActionType =
     AddTaskACType
@@ -25,123 +26,8 @@ type tasksReducerActionType =
     | RemoveTodolistACType
     | AddTodolistACType
     | SetTodoListsACType
-
-// const initialState: TasksStateType = {
-//     [todoListId1]: [
-//         {
-//             id: v1(),
-//             title: 'HTML',
-//             description: '',
-//             status: TaskStatuses.Completed,
-//             todoListId: todoListId1,
-//             startDate: '',
-//             deadline: '',
-//             addedDate: '',
-//             order:
-//                 0,
-//             priority: TaskPriorities.Low
-//         },
-//         {
-//             id: v1(),
-//             title: 'CSS',
-//             description: '',
-//             status: TaskStatuses.Completed,
-//             todoListId: todoListId1,
-//             startDate: '',
-//             deadline: '',
-//             addedDate: '',
-//             order: 0,
-//             priority: TaskPriorities.Low
-//         },
-//         {
-//             id: v1(),
-//             title: 'JS',
-//             description: '',
-//             status: TaskStatuses.New,
-//             todoListId: todoListId1,
-//             startDate: '',
-//             deadline: '',
-//             addedDate: '',
-//             order: 0,
-//             priority: TaskPriorities.Low
-//         },
-//     ],
-//     [todoListId2]: [
-//         {
-//             id: v1(),
-//             title: 'beer',
-//             description: '',
-//             status: TaskStatuses.Completed,
-//             todoListId: todoListId2,
-//             startDate: '',
-//             deadline: '',
-//             addedDate: '',
-//             order: 0,
-//             priority: TaskPriorities.Low
-//         },
-//         {
-//             id: v1(),
-//             title: 'fish',
-//             description: '',
-//             status: TaskStatuses.Completed,
-//             todoListId: todoListId2,
-//             startDate: '',
-//             deadline: '',
-//             addedDate: '',
-//             order: 0,
-//             priority: TaskPriorities.Low
-//         },
-//         {
-//             id: v1(),
-//             title: 'bread',
-//             description: '',
-//             status: TaskStatuses.New,
-//             todoListId: todoListId2,
-//             startDate: '',
-//             deadline: '',
-//             addedDate: '',
-//             order: 0,
-//             priority: TaskPriorities.Low
-//         },
-//     ],
-//     [todoListId3]: [
-//         {
-//             id: v1(),
-//             title: 'bar',
-//             description: '',
-//             status: TaskStatuses.Completed,
-//             todoListId: todoListId3,
-//             startDate: '',
-//             deadline: '',
-//             addedDate: '',
-//             order: 0,
-//             priority: TaskPriorities.Low
-//         },
-//         {
-//             id: v1(), title: 'chess',
-//             description: '',
-//             status: TaskStatuses.Completed,
-//             todoListId: todoListId3,
-//             startDate: '',
-//             deadline: '',
-//             addedDate: '',
-//             order: 0,
-//             priority: TaskPriorities.Low
-//         },
-//         {
-//             id: v1(),
-//             title: 'books',
-//             description: '',
-//             status: TaskStatuses.New,
-//             todoListId: todoListId3,
-//             startDate: '',
-//             deadline: '',
-//             addedDate: '',
-//             order: 0,
-//             priority: TaskPriorities.Low
-//         },
-//     ]
-// }
+    | SetTasksType
+    | SetTaskType
 
 const initialState = {}
 
@@ -150,6 +36,18 @@ export const tasksReducer = (state: TasksStateType = initialState, {
     payload
 }: tasksReducerActionType): TasksStateType => {
     switch (type) {
+        case SET_TASK_ACTION: {
+            return {
+                ...state,
+                [payload.task.todoListId]: [payload.task, ...state[payload.task.todoListId]]
+            };
+        }
+        case SET_TASKS_ACTION: {
+            return {
+                ...state,
+                [payload.todolistId]: payload.tasks
+            };
+        }
         case SET_TODOLISTS_ACTION: {
             const copyState = {...state}
 
@@ -220,6 +118,8 @@ type AddTaskACType = ReturnType<typeof addTaskAC>
 type ChangeStatusACType = ReturnType<typeof changeStatusAC>
 type RemoveTaskACType = ReturnType<typeof removeTaskAC>
 type ChangeTaskTitleType = ReturnType<typeof changeTaskTitleAC>
+type SetTasksType = ReturnType<typeof setTasksAC>
+type SetTaskType = ReturnType<typeof setTaskAC>
 
 export const addTaskAC = (todoListId: string, newTitle: string) => {
     return {
@@ -261,4 +161,21 @@ export const changeTaskTitleAC = (todoListId: string, taskId: string, title: str
             title
         }
     } as const
+}
+
+export const setTasksAC = (todolistId: string, tasks: TaskType[]) => {
+    return {type: SET_TASKS_ACTION, payload: {todolistId, tasks} } as const
+}
+
+export const setTaskAC = (task: TaskType) => {
+    return {type: SET_TASK_ACTION, payload: {task} } as const
+}
+
+export const getTasksTC = (todolistId: string) => {
+    return (dispatch: Dispatch) => {
+        api.getTasks(todolistId).then((res) => {
+            console.log(todolistId, res.data.items)
+            dispatch(setTasksAC(todolistId, res.data.items))
+        })
+    }
 }

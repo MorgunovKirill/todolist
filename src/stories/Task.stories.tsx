@@ -1,9 +1,8 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import Task from "../Task";
 import {ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator";
-import {useSelector} from "react-redux";
-import {AppRootStateType} from "../state/store";
-import {TaskPriorities, TaskStatuses, TaskType} from "../types";
+import {useAppSelector} from "../state/store";
+import {TaskPriorities, TaskStatuses} from "../types";
 import {todoListId1} from "../state/todolist-reducer";
 import {v1} from "uuid";
 
@@ -25,7 +24,7 @@ export default meta;
 type Story = StoryObj<typeof Task>;
 
 const TaskForStory = () => {
-    let task = useSelector<AppRootStateType, TaskType>(state => state.tasks[todoListId1][0])
+    let task = useAppSelector(state => state.tasks[todoListId1][0])
 
     if(!task) task =   {
         id: v1(),

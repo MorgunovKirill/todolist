@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {FC, useEffect} from "react";
 import Task from "./Task";
 import {AddItemForm} from "./AddItemForm";
 import {Delete} from "@mui/icons-material";
@@ -6,6 +6,8 @@ import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import {FilterValuesType} from "./types";
 import {useApp} from "./hooks/useApp";
+import {getTasksTC} from "./state/tasks-reducer";
+import {useAppDispatch} from "./state/store";
 
 
 type TodolistPropsType = {
@@ -14,13 +16,13 @@ type TodolistPropsType = {
     activeFilter: FilterValuesType,
 }
 
-const TodoList: FC<TodolistPropsType> = (
+const TodoList: FC<TodolistPropsType> = React.memo((
     {
         todolistId,
         title,
         activeFilter,
     }) => {
-
+    const dispatch = useAppDispatch();
     const {
         filteredTasksForTodoList,
         addTaskHandler,
@@ -29,6 +31,10 @@ const TodoList: FC<TodolistPropsType> = (
         onCompletedClickHandler,
         removeTodolist
     } = useApp(todolistId, activeFilter);
+
+    useEffect(() => {
+        dispatch(getTasksTC(todolistId));
+    }, [todolistId, dispatch])
 
     return (
         <div className='todolist'>
@@ -66,6 +72,6 @@ const TodoList: FC<TodolistPropsType> = (
             </div>
         </div>
     )
-}
+})
 
 export default React.memo(TodoList);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {AddItemForm} from "./AddItemForm";
 import ButtonAppBar from "./ButtonAppBar";
@@ -7,9 +7,16 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import TodoList from "./TodoList";
 import {useApp} from "./hooks/useApp";
+import {getTodosTC} from "./state/todolist-reducer";
+import {useAppDispatch} from "./state/store";
 
 const App = React.memo(() => {
     const {todoLists, addTodolistHandler} = useApp();
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(getTodosTC());
+    }, [dispatch])
 
     return (
         <div className="App">

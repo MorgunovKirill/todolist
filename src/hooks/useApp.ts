@@ -1,23 +1,18 @@
-import {useSelector} from "react-redux";
 import {tasksSelector, todolistSelector} from "../state/selectors";
-import {useCallback, useEffect, useMemo} from "react";
+import {useCallback, useMemo} from "react";
 import {FilterValuesType, TaskStatuses, TaskType} from "../types";
-import {addTodolistAC, changeTodolistFilterAC, getTodosTC, removeTodolistAC} from "../state/todolist-reducer";
+import {addTodolistAC, changeTodolistFilterAC, removeTodolistAC} from "../state/todolist-reducer";
 import {addTaskAC} from "../state/tasks-reducer";
-import {useAppDispatch} from "../state/store";
+import {useAppDispatch, useAppSelector} from "../state/store";
 
 export const useApp = (todolistId: string = '', activeFilter: FilterValuesType = 'all') => {
     const dispatch = useAppDispatch();
-    const todoLists = useSelector(todolistSelector)
-    const tasks = useSelector(tasksSelector)[todolistId];
+    const todoLists = useAppSelector(todolistSelector)
+    const tasks = useAppSelector(tasksSelector)[todolistId];
     const addTodolistHandler = useCallback((title: string) => {
         const action = addTodolistAC(title);
         dispatch(action)
     }, [dispatch])
-
-    useEffect(() => {
-        dispatch(getTodosTC());
-    }, [])
 
     const getFilteredTasks = (tasks: Array<TaskType>, filter: FilterValuesType): Array<TaskType> => {
         let filteredTasks = tasks;
@@ -52,7 +47,7 @@ export const useApp = (todolistId: string = '', activeFilter: FilterValuesType =
         dispatch(changeTodolistFilterAC(todolistId, 'completed'))
     }, [dispatch, todolistId])
 
-    return {
+    return useMemo(() => ({
         todoLists,
         addTodolistHandler,
         filteredTasksForTodoList,
@@ -61,5 +56,13 @@ export const useApp = (todolistId: string = '', activeFilter: FilterValuesType =
         onActiveClickHandler,
         onCompletedClickHandler,
         removeTodolist
-    }
+    }), [
+        todoLists,
+        addTodolistHandler,
+        filteredTasksForTodoList,
+        addTaskHandler,
+        onAllClickHandler,
+        onActiveClickHandler,
+        onCompletedClickHandler,
+        removeTodolist])
 }
