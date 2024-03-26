@@ -5,9 +5,10 @@ import {Delete} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import {FilterValuesType} from "./types";
-import {useApp} from "./hooks/useApp";
 import {getTasksTC} from "./state/tasks-reducer";
 import {useAppDispatch} from "./state/store";
+import {useTodolist} from "./hooks/useTodolist";
+import {useTasks} from "./hooks/useTasks";
 
 
 type TodolistPropsType = {
@@ -24,13 +25,16 @@ const TodoList: FC<TodolistPropsType> = React.memo((
     }) => {
     const dispatch = useAppDispatch();
     const {
-        filteredTasksForTodoList,
-        addTaskHandler,
         onAllClickHandler,
         onActiveClickHandler,
         onCompletedClickHandler,
         removeTodolist
-    } = useApp(todolistId, activeFilter);
+    } = useTodolist(todolistId);
+
+    const {
+        filteredTasksForTodoList,
+        addTaskHandler,
+    } = useTasks(todolistId, activeFilter)
 
     useEffect(() => {
         dispatch(getTasksTC(todolistId));

@@ -113,3 +113,21 @@ export const getTodosTC = () => {
         })
     }
 }
+
+export const createTodolistTC = (title: string) => {
+    return (dispatch: Dispatch) => {
+        api.createTodolist(title).then(() => {
+            dispatch(addTodolistAC(title))
+        })
+    }
+}
+
+export const deleteTodolistTC = (todolistId: string) => {
+    return (dispatch: Dispatch) => {
+        api.deleteTodolist(todolistId).then(() => {
+            dispatch(removeTodolistAC(todolistId))
+        })
+    }
+}
+
+
