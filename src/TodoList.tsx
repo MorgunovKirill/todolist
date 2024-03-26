@@ -9,6 +9,7 @@ import {getTasksTC} from "./state/tasks-reducer";
 import {useAppDispatch} from "./state/store";
 import {useTodolist} from "./hooks/useTodolist";
 import {useTasks} from "./hooks/useTasks";
+import {EditableSpan} from "./EditableSpan";
 
 
 type TodolistPropsType = {
@@ -28,7 +29,8 @@ const TodoList: FC<TodolistPropsType> = React.memo((
         onAllClickHandler,
         onActiveClickHandler,
         onCompletedClickHandler,
-        removeTodolist
+        removeTodolist,
+        todolistTitleChangeHandler
     } = useTodolist(todolistId);
 
     const {
@@ -44,7 +46,7 @@ const TodoList: FC<TodolistPropsType> = React.memo((
         <div className='todolist'>
             <div className='todolist'>
                 <h3>
-                    {title}
+                    <EditableSpan oldTitle={title} callback={todolistTitleChangeHandler}/>
                     <IconButton aria-label="delete" onClick={removeTodolist}>
                         <Delete/>
                     </IconButton>

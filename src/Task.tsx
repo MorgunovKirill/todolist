@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import {Delete} from "@mui/icons-material";
 import {Checkbox} from "./components/Checkbox";
 import {TaskStatuses, TaskType} from "./types";
-import {removeTaskTC, updateTaskStatusTC} from "./state/tasks-reducer";
+import {removeTaskTC, updateTaskTC} from "./state/tasks-reducer";
 import {useAppDispatch} from "./state/store";
 
 type TaskComponentPropsType = {
@@ -20,11 +20,11 @@ const Task: FC<TaskComponentPropsType> = React.memo(({task, todoListId}) => {
     }, [dispatch, todoListId, task.id])
 
     const statusChangeHandler = useCallback((checked: boolean) => {
-        dispatch(updateTaskStatusTC(todoListId, task.id, {status: checked ? TaskStatuses.Completed : TaskStatuses.New }))
+        dispatch(updateTaskTC(todoListId, task.id, {status: checked ? TaskStatuses.Completed : TaskStatuses.New }))
     }, [dispatch, todoListId, task.id])
 
     const titleChangeHandler = useCallback((newTitle: string) => {
-        dispatch(updateTaskStatusTC(todoListId, task.id, {title: newTitle }))
+        dispatch(updateTaskTC(todoListId, task.id, {title: newTitle }))
     }, [dispatch, todoListId, task.id])
 
     return (

@@ -1,5 +1,5 @@
 import {useCallback, useMemo} from "react";
-import {changeTodolistFilterAC, deleteTodolistTC} from "../state/todolist-reducer";
+import {changeTodolistFilterAC, deleteTodolistTC, updateTodolistTitleTC} from "../state/todolist-reducer";
 import {useAppDispatch} from "../state/store";
 
 export const useTodolist = (todolistId: string) => {
@@ -21,15 +21,21 @@ export const useTodolist = (todolistId: string) => {
         dispatch(changeTodolistFilterAC(todolistId, 'completed'))
     }, [dispatch, todolistId])
 
+    const todolistTitleChangeHandler = useCallback((newTitle: string) => {
+        dispatch(updateTodolistTitleTC(todolistId, newTitle));
+    }, [dispatch])
 
     return useMemo(() => ({
         onAllClickHandler,
         onActiveClickHandler,
         onCompletedClickHandler,
-        removeTodolist
+        removeTodolist,
+        todolistTitleChangeHandler
     }), [
         onAllClickHandler,
         onActiveClickHandler,
         onCompletedClickHandler,
-        removeTodolist])
+        removeTodolist,
+        todolistTitleChangeHandler
+    ])
 }

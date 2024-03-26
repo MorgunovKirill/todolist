@@ -1,7 +1,15 @@
 import {v1} from "uuid";
-import {FilterValuesType, TodolistDomainType, TodolistType} from "../types";
+import {
+    FilterValuesType, TaskPriorities,
+    TodolistDomainType,
+    TodolistType,
+    UpdateDomainTaskModelType,
+    UpdateTaskModelType
+} from "../types";
 import {Dispatch} from "redux";
 import {api} from "../api/api";
+import {AppRootStateType} from "./store";
+import {updateTaskAC} from "./tasks-reducer";
 
 const SET_TODOLISTS_ACTION = 'SET-TODOLISTS';
 const REMOVE_TODOLIST_ACTION = 'REMOVE-TODOLIST';
@@ -126,6 +134,14 @@ export const deleteTodolistTC = (todolistId: string) => {
     return (dispatch: Dispatch) => {
         api.deleteTodolist(todolistId).then(() => {
             dispatch(removeTodolistAC(todolistId))
+        })
+    }
+}
+
+export const updateTodolistTitleTC = (todolistId: string, title: string) => {
+    return (dispatch: Dispatch) => {
+        api.updateTodolist(todolistId, title).then((res) => {
+            dispatch(changeTodolistTitleAC(todolistId, title))
         })
     }
 }
