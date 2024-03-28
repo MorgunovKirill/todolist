@@ -1,31 +1,13 @@
 import {v1} from "uuid";
-import {
-    FilterValuesType, TaskPriorities,
-    TodolistDomainType,
-    TodolistType,
-    UpdateDomainTaskModelType,
-    UpdateTaskModelType
-} from "../types";
+import {FilterValuesType, TodolistDomainType, TodolistType} from "../types";
 import {Dispatch} from "redux";
 import {api} from "../api/api";
-import {AppRootStateType} from "./store";
-import {updateTaskAC} from "./tasks-reducer";
 
 const SET_TODOLISTS_ACTION = 'SET-TODOLISTS';
 const REMOVE_TODOLIST_ACTION = 'REMOVE-TODOLIST';
 const ADD_TODOLIST_ACTION = 'ADD-TODOLIST';
 const CHANGE_TODOLIST_TITLE_ACTION = 'CHANGE-TODOLIST-TITLE';
 const CHANGE_TODOLIST_FILTER_ACTION = 'CHANGE-TODOLIST-FILTER';
-
-export const todoListId1 = v1()
-export const todoListId2 = v1()
-export const todoListId3 = v1()
-
-// const initialState: TodolistDomainType[] = [
-//     {id: todoListId1, title: 'What to learn', filter: 'all', addedDate: '', order: 0},
-//     {id: todoListId2, title: 'What to buy', filter: 'all', addedDate: '', order: 0},
-//     {id: todoListId3, title: 'What to play', filter: 'all', addedDate: '', order: 0},
-// ]
 
 const initialState: TodolistDomainType[] = []
 
@@ -41,7 +23,7 @@ export const todolistsReducer = (state: TodolistDomainType[] = initialState, {
             return state.filter(el => el.id !== payload.todoListId)
         }
         case ADD_TODOLIST_ACTION: {
-            let newTodolist: TodolistDomainType = {
+            const newTodolist: TodolistDomainType = {
                 id: payload.newTodolistId,
                 title: payload.title,
                 filter: 'all',
