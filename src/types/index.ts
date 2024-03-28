@@ -1,3 +1,5 @@
+import {RequestStatusType} from "../state/app-reducer";
+
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
 // export type TaskType = {
@@ -20,7 +22,8 @@ export type TodolistType = {
 }
 
 export type TodolistDomainType = TodolistType & {
-    filter: FilterValuesType
+    filter: FilterValuesType,
+    entityStatus: RequestStatusType
 }
 
 export enum TaskStatuses {
@@ -71,24 +74,4 @@ export type UpdateDomainTaskModelType = {
 
 export type TasksStateType = {
     [key: string]: TaskType[]
-}
-
-// API types
-
-export type FieldErrorType = {
-    error: string
-    field: string
-}
-
-export type ResponseType<T = {}> = {
-    resultCode: number
-    messages: string[]
-    fieldsErrors: FieldErrorType[]
-    data: T
-}
-
-export type GetTaskResponse = {
-    error: string
-    totalCount: number
-    items: TaskType[]
 }

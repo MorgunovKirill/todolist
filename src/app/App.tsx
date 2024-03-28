@@ -3,6 +3,7 @@ import './App.css';
 import ButtonAppBar from "../components/ButtonAppBar";
 import Container from "@mui/material/Container";
 import {TodolistsList} from "../features/TodoListsList/TodoLists";
+import CustomizedSnackbars from "../components/SnackBar/ErrorSnackbar";
 
 const App = React.memo(() => {
     return (
@@ -11,6 +12,7 @@ const App = React.memo(() => {
             <Container fixed>
                 <TodolistsList />
             </Container>
+            <CustomizedSnackbars/>
         </div>
     );
 })
