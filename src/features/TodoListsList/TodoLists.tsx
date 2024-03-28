@@ -1,5 +1,5 @@
 import {useAppDispatch} from "../../state/store";
-import React, {useEffect} from "react";
+import React, {FC, useEffect} from "react";
 import {getTodosTC} from "../../state/todolist-reducer";
 import {useApp} from "../../hooks/useApp";
 import Grid from "@mui/material/Grid";
@@ -7,9 +7,14 @@ import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import Paper from "@mui/material/Paper";
 import TodoList from "./TodoList/TodoList";
 
-export const TodolistsList = () => {
+type TodolistsListPropsType = {
+    demo?: boolean
+}
+
+export const TodolistsList:FC<TodolistsListPropsType> = ({demo= false}) => {
     const dispatch = useAppDispatch();
     useEffect(() => {
+        if (demo) return
         dispatch(getTodosTC());
     }, [dispatch])
 
@@ -24,6 +29,7 @@ export const TodolistsList = () => {
                 return <Grid item key={tl.id}>
                     <Paper elevation={5} style={{padding: '15px'}}>
                         <TodoList
+                            demo={demo}
                             todolistId={tl.id}
                             title={tl.title}
                             activeFilter={tl.filter}

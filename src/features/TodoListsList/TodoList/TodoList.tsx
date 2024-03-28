@@ -11,11 +11,11 @@ import {useTodolist} from "../../../hooks/useTodolist";
 import {useTasks} from "../../../hooks/useTasks";
 import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
 
-
 type TodolistPropsType = {
     todolistId: string
     title: string,
     activeFilter: FilterValuesType,
+    demo?: boolean
 }
 
 const TodoList: FC<TodolistPropsType> = React.memo((
@@ -23,6 +23,7 @@ const TodoList: FC<TodolistPropsType> = React.memo((
         todolistId,
         title,
         activeFilter,
+        demo = false
     }) => {
     const dispatch = useAppDispatch();
     const {
@@ -39,6 +40,7 @@ const TodoList: FC<TodolistPropsType> = React.memo((
     } = useTasks(todolistId, activeFilter)
 
     useEffect(() => {
+        if (demo) return
         dispatch(getTasksTC(todolistId));
     }, [todolistId, dispatch])
 
