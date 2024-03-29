@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import {AddItemForm} from "./AddItemForm";
+import { action } from '@storybook/addon-actions';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta: Meta<typeof AddItemForm> = {
@@ -28,4 +29,10 @@ export const AddItemFormBaseExampleStory: Story = {
 };
 
 export const AddItemFormStoryWithError: Story = {
+};
+
+export const AddItemFormDisabledExample = () => {
+  return (<AddItemForm
+      addItem={action('Button inside form clicked')}
+      disabled={true} />)
 };

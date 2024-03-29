@@ -3,11 +3,11 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
 type AddItemFormPropsType = {
-    addItem: (newTitle: string) => void
+    addItem: (newTitle: string) => void,
+    disabled?: boolean
 }
 
-export const AddItemForm: FC<AddItemFormPropsType> = React.memo(({addItem}) => {
-    console.log('AdditemForm is called')
+export const AddItemForm: FC<AddItemFormPropsType> = React.memo(({addItem, disabled = false}) => {
     const [title, setTitle] = useState<string>('');
     const [titleError, setTitleError] = useState<string | null>(null);
 
@@ -50,7 +50,12 @@ export const AddItemForm: FC<AddItemFormPropsType> = React.memo(({addItem}) => {
             label={titleError ? titleError : 'Type something'}
             variant="outlined"
             size="small"
+            disabled={disabled}
         />
-        <Button style={style} variant={"contained"} onClick={addTaskHandler}>+</Button>
+        <Button
+            disabled={disabled}
+            style={style}
+            variant={"contained"}
+            onClick={addTaskHandler}>+</Button>
     </div>
 })

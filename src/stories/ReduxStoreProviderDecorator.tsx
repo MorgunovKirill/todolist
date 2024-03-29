@@ -21,7 +21,7 @@ const rootReducer = combineReducers({
 const initialGlobalState: AppRootStateType = {
     todolists: [
         {id: todoListId1, title: 'What to learn', filter: 'all', order: 0, addedDate: '', entityStatus: 'idle'},
-        {id: todoListId2, title: 'Products to buy', filter: 'all', order: 0, addedDate: '', entityStatus: 'idle'},
+        {id: todoListId2, title: 'Products to buy', filter: 'all', order: 0, addedDate: '', entityStatus: 'loading'},
     ],
     tasks: {
         [todoListId1]: [

@@ -4,7 +4,7 @@ import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
 import {Delete} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
-import {FilterValuesType} from "../../../types";
+import {TodolistDomainType} from "../../../types";
 import {getTasksTC} from "../../../state/tasks-reducer";
 import {useAppDispatch} from "../../../state/store";
 import {useTodolist} from "../../../hooks/useTodolist";
@@ -12,17 +12,13 @@ import {useTasks} from "../../../hooks/useTasks";
 import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
 
 type TodolistPropsType = {
-    todolistId: string
-    title: string,
-    activeFilter: FilterValuesType,
+    todolist: TodolistDomainType
     demo?: boolean
 }
 
 const TodoList: FC<TodolistPropsType> = React.memo((
     {
-        todolistId,
-        title,
-        activeFilter,
+        todolist,
         demo = false
     }) => {
     const dispatch = useAppDispatch();
@@ -32,48 +28,54 @@ const TodoList: FC<TodolistPropsType> = React.memo((
         onCompletedClickHandler,
         removeTodolist,
         todolistTitleChangeHandler
-    } = useTodolist(todolistId);
+    } = useTodolist(todolist.id);
 
     const {
         filteredTasksForTodoList,
         addTaskHandler,
-    } = useTasks(todolistId, activeFilter)
+    } = useTasks(todolist.id, todolist.filter)
 
     useEffect(() => {
         if (demo) return
-        dispatch(getTasksTC(todolistId));
-    }, [todolistId, dispatch])
+        dispatch(getTasksTC(todolist.id));
+    }, [todolist.id, dispatch])
+
+    const isDisabled = todolist.entityStatus === 'loading';
 
     return (
         <div className='todolist'>
             <div className='todolist'>
                 <h3>
-                    <EditableSpan oldTitle={title} callback={todolistTitleChangeHandler}/>
-                    <IconButton aria-label="delete" onClick={removeTodolist}>
+                    <EditableSpan oldTitle={todolist.title} callback={todolistTitleChangeHandler}/>
+                    <IconButton
+                        aria-label="delete"
+                        onClick={removeTodolist}
+                        disabled={isDisabled}
+                    >
                         <Delete/>
                     </IconButton>
                 </h3>
-                <AddItemForm addItem={addTaskHandler}/>
+                <AddItemForm addItem={addTaskHandler} disabled={isDisabled}/>
                 <ul>
                     {filteredTasksForTodoList.map((task) => {
                         return <Task
                             key={task.id}
-                            todoListId={todolistId}
+                            todoListId={todolist.id}
                             task={task}
                         />
                     })}
                 </ul>
                 <div>
                     <Button
-                        variant={activeFilter === 'all' ? "outlined" : "contained"}
+                        variant={todolist.filter === 'all' ? "outlined" : "contained"}
                         onClick={onAllClickHandler}
                         color='success'>All</Button>
                     <Button
-                        variant={activeFilter === 'active' ? "outlined" : "contained"}
+                        variant={todolist.filter === 'active' ? "outlined" : "contained"}
                         onClick={onActiveClickHandler}
                         color='error'>Active</Button>
                     <Button
-                        variant={activeFilter === 'completed' ? "outlined" : "contained"}
+                        variant={todolist.filter === 'completed' ? "outlined" : "contained"}
                         onClick={onCompletedClickHandler}
                         color='primary'>Completed</Button>
                 </div>

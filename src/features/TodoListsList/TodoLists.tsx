@@ -30,9 +30,7 @@ export const TodolistsList:FC<TodolistsListPropsType> = ({demo= false}) => {
                     <Paper elevation={5} style={{padding: '15px'}}>
                         <TodoList
                             demo={demo}
-                            todolistId={tl.id}
-                            title={tl.title}
-                            activeFilter={tl.filter}
+                            todolist={tl}
                         />
                     </Paper>
                 </Grid>
