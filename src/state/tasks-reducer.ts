@@ -1,6 +1,6 @@
 import {AddTodolistACType, RemoveTodolistACType, SetTodoListsACType,} from "./todolist-reducer";
 import {TaskPriorities, TasksStateType, TaskType, UpdateDomainTaskModelType, UpdateTaskModelType} from "../types";
-import {api} from "../api/api";
+import {todolistAPI} from "../api/api";
 import {AppRootStateType, AppThunk} from "./store";
 import {setAppStatusAC} from "./app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/handleErrorUtils";
@@ -102,7 +102,7 @@ export const setTaskAC = (task: TaskType) => {
 export const getTasksTC = (todolistId: string):AppThunk => {
     return (dispatch) => {
         dispatch(setAppStatusAC('loading'));
-        api.getTasks(todolistId).then((res) => {
+        todolistAPI.getTasks(todolistId).then((res) => {
             dispatch(setTasksAC(todolistId, res.data.items))
             dispatch(setAppStatusAC('succeeded'));
         }).catch((e) => {
@@ -114,7 +114,7 @@ export const getTasksTC = (todolistId: string):AppThunk => {
 export const createTaskTC = (todolistId: string, title: string):AppThunk => {
     return (dispatch) => {
         dispatch(setAppStatusAC('loading'));
-        api.createTask(todolistId, title).then((res) => {
+        todolistAPI.createTask(todolistId, title).then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(setTaskAC(res.data.data.item))
                 dispatch(setAppStatusAC('succeeded'));
@@ -130,7 +130,7 @@ export const createTaskTC = (todolistId: string, title: string):AppThunk => {
 export const removeTaskTC = (todolistId: string, taskId: string):AppThunk => {
     return (dispatch) => {
         dispatch(setAppStatusAC('loading'));
-        api.deleteTask(todolistId, taskId).then((res) => {
+        todolistAPI.deleteTask(todolistId, taskId).then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(removeTaskAC(todolistId, taskId))
                 dispatch(setAppStatusAC('succeeded'));
@@ -164,7 +164,7 @@ export const updateTaskTC = (todolistId: string, taskId: string, domainModel: Up
         }
 
         dispatch(setAppStatusAC('loading'));
-        api.updateTask(todolistId, taskId, apiModel).then((res) => {
+        todolistAPI.updateTask(todolistId, taskId, apiModel).then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(updateTaskAC(todolistId, taskId, domainModel))
                 dispatch(setAppStatusAC('succeeded'));

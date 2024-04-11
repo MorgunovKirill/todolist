@@ -4,9 +4,10 @@ import {appReducer, InitialStateType, setAppErrorAC, setAppStatusAC} from "./app
 let startState: InitialStateType;
 
 beforeEach(() => {
-    startState = {
+        startState = {
             status: 'idle',
             error: null,
+            isInitialized: false,
         }
     }
 )
