@@ -24,7 +24,9 @@ export const authAPI = {
 
 export const todolistAPI = {
     getTodolists() {
-        return instance.get<TodolistType[]>('todo-lists');
+        return instance.get<TodolistType[]>('todo-lists').then((res) => {
+            return res.data
+        });
     },
     createTodolist(title: string) {
         return instance.post<ResponseType<{ item: TodolistType }>>('todo-lists', {title});

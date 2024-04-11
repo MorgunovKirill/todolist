@@ -16,6 +16,7 @@ type TodolistsListPropsType = {
 export const TodolistsList:FC<TodolistsListPropsType> = ({demo= false}) => {
     const dispatch = useAppDispatch();
     const isLoggedIn = useAppSelector(isLoggedSelector)
+
     useEffect(() => {
         if (!isLoggedIn || demo) return
         dispatch(getTodosTC());

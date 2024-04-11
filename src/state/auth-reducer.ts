@@ -9,6 +9,7 @@ import {
 import {LoginType} from "../features/Login/Login";
 import {authAPI} from "../api/api";
 import {handleServerAppError, handleServerNetworkError} from "../utils/handleErrorUtils";
+import {clearDataAC, ClearDataACType} from "./todolist-reducer";
 
 
 const initialState = {
@@ -68,6 +69,7 @@ export const logoutTC = () => async (dispatch: Dispatch<ActionsType>) => {
         const res = await authAPI.logout()
         if (res.data.resultCode === 0) {
             dispatch(setIsLoggedInAC(false))
+            dispatch(clearDataAC())
             dispatch(setAppStatusAC('succeeded'))
         } else {
             handleServerAppError(res.data, dispatch)
@@ -83,3 +85,4 @@ type ActionsType =
     | SetAppStatusACType
     | SetAppErrorACType
     | SetIsInitializedACType
+    | ClearDataACType

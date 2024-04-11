@@ -35,11 +35,6 @@ const TodoList: FC<TodolistPropsType> = React.memo((
         addTaskHandler,
     } = useTasks(todolist.id, todolist.filter)
 
-    useEffect(() => {
-        if (demo) return
-        dispatch(getTasksTC(todolist.id));
-    }, [todolist.id, dispatch])
-
     const isDisabled = todolist.entityStatus === 'loading';
 
     return (
