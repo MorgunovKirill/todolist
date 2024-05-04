@@ -1,36 +1,36 @@
-// объединяя reducer-ы с помощью combineReducers,
-// мы задаём структуру нашего единственного объекта-состояния
-import {AnyAction, applyMiddleware, combineReducers, legacy_createStore} from "redux";
-import {tasksReducer, TasksReducerActionType} from "./tasks-reducer";
-import {todolistsReducer, TodolistsReducerActionsType} from "./todolist-reducer";
-import {thunk, ThunkAction, ThunkDispatch} from "redux-thunk";
-import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
-import {appReducer, AppReducerActionsType} from "./app-reducer";
-import {authReducer} from "./auth-reducer";
+import { combineReducers } from "redux"
+import { tasksReducer } from "./tasks-reducer"
+import { todolistsReducer } from "./todolist-reducer"
+import { ThunkAction, ThunkDispatch } from "redux-thunk"
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux"
+import { appReducer } from "./app-reducer"
+import { authReducer } from "./auth-reducer"
+import { configureStore, UnknownAction } from "@reduxjs/toolkit"
 
 const rootReducer = combineReducers({
-    app: appReducer,
-    tasks: tasksReducer,
-    todolists: todolistsReducer,
-    auth: authReducer
+  app: appReducer,
+  tasks: tasksReducer,
+  todolists: todolistsReducer,
+  auth: authReducer,
 })
-// непосредственно создаём store
-export const store = legacy_createStore(rootReducer, applyMiddleware(thunk));
 
-// определить автоматически тип всего объекта состояния
-export type AppRootStateType = ReturnType<typeof rootReducer>
+export const store = configureStore({
+  reducer: rootReducer,
+})
 
-// Типизированный dispatch , учитывающий thunks
-type AppDispatchType = ThunkDispatch<AppRootStateType, unknown, AnyAction>
+export type AppRootStateType = ReturnType<typeof store.getState>
 
-// Все типы action для dispatch
-export type AppActionsType = AppReducerActionsType | TodolistsReducerActionsType | TasksReducerActionType
+export type AppDispatchType = ThunkDispatch<AppRootStateType, unknown, UnknownAction>
 
-// Тип для Thunks
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AppActionsType>
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  AppRootStateType,
+  unknown,
+  UnknownAction
+>
 
-export const useAppDispatch = useDispatch<AppDispatchType>;
-export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector;
+export const useAppDispatch = useDispatch<AppDispatchType>
+export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 
 // @ts-ignore
 window.store = store

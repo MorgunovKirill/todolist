@@ -1,88 +1,53 @@
-import {Dispatch} from 'redux'
-import {
-    SetAppErrorACType,
-    SetAppStatusACType,
-    setAppStatusAC,
-    setIsInitializedAC,
-    SetIsInitializedACType
-} from "./app-reducer";
-import {LoginType} from "../features/Login/Login";
-import {authAPI} from "../api/api";
-import {handleServerAppError, handleServerNetworkError} from "../utils/handleErrorUtils";
-import {clearDataAC, ClearDataACType} from "./todolist-reducer";
+import { Dispatch } from "redux"
+import { setAppStatusAC } from "./app-reducer"
+import { LoginType } from "features/Login/Login"
+import { authAPI } from "api/api"
+import { handleServerAppError, handleServerNetworkError } from "utils/handleErrorUtils"
+import { clearDataAC } from "./todolist-reducer"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
-
-const initialState = {
+const slice = createSlice({
+  name: "auth",
+  initialState: {
     isLoggedIn: false,
-}
-type InitialStateType = typeof initialState
+  },
+  reducers: {
+    setIsLoggedInAC: (state, action: PayloadAction<{ isLoggedIn: boolean }>) => {
+      state.isLoggedIn = action.payload.isLoggedIn
+    },
+  },
+})
 
-export const authReducer = (
-    state: InitialStateType = initialState,
-    action: ActionsType
-): InitialStateType => {
-    switch (action.type) {
-        case 'login/SET-IS-LOGGED-IN':
-            return {...state, isLoggedIn: action.value}
-        default:
-            return state
+export const loginTC = (data: LoginType) => async (dispatch: Dispatch) => {
+  dispatch(setAppStatusAC({ status: "loading" }))
+  try {
+    const res = await authAPI.login(data)
+    if (res.data.resultCode === 0) {
+      dispatch(setIsLoggedInAC({ isLoggedIn: true }))
+      dispatch(setAppStatusAC({ status: "succeeded" }))
+    } else {
+      handleServerAppError(res.data, dispatch)
     }
-}
-// actions
-export const setIsLoggedInAC = (value: boolean) => ({type: 'login/SET-IS-LOGGED-IN', value}) as const
-
-// thunks
-export const meTC = () => async (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setAppStatusAC('loading'))
-    try {
-        const res = await authAPI.me()
-        if (res.data.resultCode === 0) {
-            dispatch(setIsLoggedInAC(true))
-            dispatch(setAppStatusAC('succeeded'))
-        } else {
-            dispatch(setAppStatusAC('failed'));
-        }
-    } catch (e) {
-        handleServerNetworkError((e as Error), dispatch)
-    } finally {
-        dispatch(setIsInitializedAC(true))
-    }
-}
-export const loginTC = (data: LoginType) => async (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setAppStatusAC('loading'))
-    try {
-        const res = await authAPI.login(data)
-        if (res.data.resultCode === 0) {
-            dispatch(setIsLoggedInAC(true))
-            dispatch(setAppStatusAC('succeeded'))
-        } else {
-            handleServerAppError(res.data, dispatch)
-        }
-    } catch (e) {
-        handleServerNetworkError((e as Error), dispatch)
-    }
+  } catch (e) {
+    handleServerNetworkError(e as Error, dispatch)
+  }
 }
 
-export const logoutTC = () => async (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setAppStatusAC('loading'))
-    try {
-        const res = await authAPI.logout()
-        if (res.data.resultCode === 0) {
-            dispatch(setIsLoggedInAC(false))
-            dispatch(clearDataAC())
-            dispatch(setAppStatusAC('succeeded'))
-        } else {
-            handleServerAppError(res.data, dispatch)
-        }
-    } catch (e) {
-        handleServerNetworkError((e as Error), dispatch)
+export const logoutTC = () => async (dispatch: Dispatch) => {
+  dispatch(setAppStatusAC({ status: "loading" }))
+  try {
+    const res = await authAPI.logout()
+    if (res.data.resultCode === 0) {
+      dispatch(setIsLoggedInAC({ isLoggedIn: false }))
+      dispatch(clearDataAC())
+      dispatch(setAppStatusAC({ status: "succeeded" }))
+    } else {
+      handleServerAppError(res.data, dispatch)
     }
+  } catch (e) {
+    handleServerNetworkError(e as Error, dispatch)
+  }
 }
 
-// types
-type ActionsType =
-    | ReturnType<typeof setIsLoggedInAC>
-    | SetAppStatusACType
-    | SetAppErrorACType
-    | SetIsInitializedACType
-    | ClearDataACType
+export const authReducer = slice.reducer
+export const { setIsLoggedInAC } = slice.actions

@@ -1,3 +1,4 @@
-import {AppRootStateType} from "../store";
+import { AppRootStateType } from "../store"
 
-export const isInitializedSelector = (state: AppRootStateType):boolean => state.app.isInitialized
+export const isInitializedSelector = (state: AppRootStateType): boolean =>
+  state.app.isInitialized
