@@ -1,4 +1,4 @@
-import { RequestStatusType } from "../state/app-reducer"
+import { RequestStatusType } from "state/app-reducer"
 
 export type FilterValuesType = "all" | "active" | "completed"
 

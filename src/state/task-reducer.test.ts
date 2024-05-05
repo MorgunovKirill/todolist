@@ -1,7 +1,7 @@
 import { v1 } from "uuid"
 import {
   removeTaskAC,
-  setTaskAC,
+  createTaskAC,
   setTasksAC,
   tasksReducer,
   updateTaskAC,
@@ -157,7 +157,7 @@ test("2 todolist should be incremented by 1 new Task", () => {
   }
 
   //action
-  const newState = tasksReducer(state, setTaskAC(newTask))
+  const newState = tasksReducer(state, createTaskAC({ task: newTask }))
 
   //expectation
 
@@ -168,7 +168,10 @@ test("1 todolist 1 task should be removed", () => {
   const taskIdToChange = "1"
 
   //action
-  const newState = tasksReducer(state, removeTaskAC(todoListId1, taskIdToChange))
+  const newState = tasksReducer(
+    state,
+    removeTaskAC({ todolistId: todoListId1, taskId: taskIdToChange }),
+  )
 
   //expectation
 
@@ -182,7 +185,11 @@ test('First Task of 3 todolist title should be changed to "Bar"', () => {
   //action
   const newState = tasksReducer(
     state,
-    updateTaskAC(todoListId3, taskIdToChange, { title: "Bar" }),
+    updateTaskAC({
+      todolistId: todoListId3,
+      taskId: taskIdToChange,
+      model: { title: "Bar" },
+    }),
   )
 
   //expectation
@@ -196,7 +203,11 @@ test('Second Task of 2 todolist title should be changed to false"', () => {
   //action
   const newState = tasksReducer(
     state,
-    updateTaskAC(todoListId2, taskIdToChange, { status: TaskStatuses.New }),
+    updateTaskAC({
+      todolistId: todoListId2,
+      taskId: taskIdToChange,
+      model: { status: TaskStatuses.New },
+    }),
   )
 
   //expectation
@@ -223,7 +234,7 @@ test("empty arrays should be added when we set todolists", () => {
 })
 
 test("tasks should be for todolist", () => {
-  const action = setTasksAC(todoListId1, state[todoListId1])
+  const action = setTasksAC({ todolistId: todoListId1, tasks: state[todoListId1] })
 
   const endState = tasksReducer(
     {

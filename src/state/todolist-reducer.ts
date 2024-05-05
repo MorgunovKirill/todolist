@@ -17,7 +17,7 @@ const slice = createSlice({
       }
     },
     addTodolistAC: (state, action: PayloadAction<{ todolist: TodolistType }>) => {
-      state.push({ ...action.payload.todolist, filter: "all", entityStatus: "idle" })
+      state.unshift({ ...action.payload.todolist, filter: "all", entityStatus: "idle" })
     },
     changeTodolistTitleAC: (
       state,
@@ -142,8 +142,3 @@ export const updateTodolistTitleTC = (todolistId: string, title: string): AppThu
       })
   }
 }
-
-export type AddTodolistACType = ReturnType<typeof addTodolistAC>
-export type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>
-export type SetTodoListsACType = ReturnType<typeof setTodolistsAC>
-export type ClearDataACType = ReturnType<typeof clearDataAC>
