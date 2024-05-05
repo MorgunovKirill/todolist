@@ -1,9 +1,8 @@
 import {
-  AddTodolistACType,
-  CLEAR_DATA_ACTION,
-  ClearDataACType,
-  RemoveTodolistACType,
-  SetTodoListsACType,
+  addTodolistAC,
+  clearDataAC,
+  removeTodolistAC,
+  setTodolistsAC,
 } from "./todolist-reducer"
 import {
   TaskPriorities,
@@ -17,11 +16,8 @@ import { AppRootStateType, AppThunk } from "./store"
 import { setAppStatusAC } from "./app-reducer"
 import { handleServerAppError, handleServerNetworkError } from "../utils/handleErrorUtils"
 
-const SET_TODOLISTS_ACTION = "SET-TODOLISTS"
 const UPDATE_TASK_ACTION = "UPDATE_TASK"
 const REMOVE_TASK_ACTION = "REMOVE-TASK"
-const REMOVE_TODOLIST_ACTION = "REMOVE-TODOLIST"
-const ADD_TODOLIST_ACTION = "ADD-TODOLIST"
 const SET_TASK_ACTION = "SET-TASK"
 const SET_TASKS_ACTION = "SET-TASKS"
 
@@ -29,7 +25,7 @@ const initialState = {}
 
 export const tasksReducer = (
   state: TasksStateType = initialState,
-  { type, payload }: TasksReducerActionType,
+  { type, payload }: any,
 ): TasksStateType => {
   switch (type) {
     case SET_TASK_ACTION: {
@@ -44,10 +40,10 @@ export const tasksReducer = (
         [payload.todolistId]: payload.tasks,
       }
     }
-    case SET_TODOLISTS_ACTION: {
+    case setTodolistsAC.type: {
       const copyState = { ...state }
 
-      payload.todolists.forEach((tl) => {
+      payload.todolists.forEach((tl: any) => {
         copyState[tl.id] = []
       })
 
@@ -70,14 +66,14 @@ export const tasksReducer = (
           (task) => task.id !== payload.taskId,
         ),
       }
-    case REMOVE_TODOLIST_ACTION:
+    case removeTodolistAC.type:
       delete state[payload.todoListId]
       return {
         ...state,
       }
-    case ADD_TODOLIST_ACTION:
+    case addTodolistAC.type:
       return { ...state, [payload.todolist.id]: [] }
-    case CLEAR_DATA_ACTION: {
+    case clearDataAC.type: {
       return {}
     }
     default:
@@ -213,18 +209,3 @@ export const updateTaskTC = (
       })
   }
 }
-
-type ChangeStatusACType = ReturnType<typeof updateTaskAC>
-type RemoveTaskACType = ReturnType<typeof removeTaskAC>
-type SetTasksType = ReturnType<typeof setTasksAC>
-type SetTaskType = ReturnType<typeof setTaskAC>
-
-export type TasksReducerActionType =
-  | ChangeStatusACType
-  | RemoveTaskACType
-  | RemoveTodolistACType
-  | AddTodolistACType
-  | SetTodoListsACType
-  | SetTasksType
-  | SetTaskType
-  | ClearDataACType

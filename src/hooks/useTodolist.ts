@@ -14,15 +14,15 @@ export const useTodolist = (todolistId: string) => {
   }, [dispatch, todolistId])
 
   const onAllClickHandler = useCallback(() => {
-    dispatch(changeTodolistFilterAC(todolistId, "all"))
+    dispatch(changeTodolistFilterAC({ todolistId, filter: "all" }))
   }, [dispatch, todolistId])
 
   const onActiveClickHandler = useCallback(() => {
-    dispatch(changeTodolistFilterAC(todolistId, "active"))
+    dispatch(changeTodolistFilterAC({ todolistId, filter: "active" }))
   }, [dispatch, todolistId])
 
   const onCompletedClickHandler = useCallback(() => {
-    dispatch(changeTodolistFilterAC(todolistId, "completed"))
+    dispatch(changeTodolistFilterAC({ todolistId, filter: "completed" }))
   }, [dispatch, todolistId])
 
   const todolistTitleChangeHandler = useCallback(

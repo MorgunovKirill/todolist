@@ -206,10 +206,12 @@ test('Second Task of 2 todolist title should be changed to false"', () => {
 })
 
 test("empty arrays should be added when we set todolists", () => {
-  const action = setTodolistsAC([
-    { id: todoListId1, title: "What to learn", addedDate: "", order: 0 },
-    { id: todoListId2, title: "What to buy", addedDate: "", order: 0 },
-  ])
+  const action = setTodolistsAC({
+    todolists: [
+      { id: todoListId1, title: "What to learn", addedDate: "", order: 0 },
+      { id: todoListId2, title: "What to buy", addedDate: "", order: 0 },
+    ],
+  })
 
   const endState = tasksReducer({}, action)
 
