@@ -51,9 +51,9 @@ const slice = createSlice({
     ) => {
       state[action.payload.todolistId] = action.payload.tasks
     },
-    createTaskAC: (state, action: PayloadAction<{ task: TaskType }>) => {
-      const tasks = state[action.payload.task.todoListId]
-      tasks.unshift(action.payload.task)
+    createTaskAC: (state, action: PayloadAction<TaskType>) => {
+      const tasks = state[action.payload.todoListId]
+      tasks.unshift(action.payload)
     },
   },
   extraReducers: (builder) => {
@@ -97,7 +97,7 @@ export const createTaskTC = (todolistId: string, title: string): AppThunk => {
       .createTask(todolistId, title)
       .then((res) => {
         if (res.data.resultCode === 0) {
-          dispatch(createTaskAC({ task: res.data.data.item }))
+          dispatch(createTaskAC(res.data.data.item))
           dispatch(setAppStatusAC({ status: "succeeded" }))
         } else {
           handleServerAppError(res.data, dispatch)

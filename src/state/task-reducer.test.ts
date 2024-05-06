@@ -157,7 +157,7 @@ test("2 todolist should be incremented by 1 new Task", () => {
   }
 
   //action
-  const newState = tasksReducer(state, createTaskAC({ task: newTask }))
+  const newState = tasksReducer(state, createTaskAC(newTask))
 
   //expectation
 

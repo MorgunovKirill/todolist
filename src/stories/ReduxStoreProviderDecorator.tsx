@@ -1,19 +1,20 @@
 import React from "react"
-import { AppRootStateType } from "../state/store"
+import { AppRootStateType, RootReducerType } from "state/store"
 import { Provider } from "react-redux"
-import { todolistsReducer } from "../state/todolist-reducer"
+import { todolistsReducer } from "state/todolist-reducer"
 import { v1 } from "uuid"
-import { applyMiddleware, combineReducers, legacy_createStore } from "redux"
-import { tasksReducer } from "../state/tasks-reducer"
-import { TaskPriorities, TaskStatuses } from "../types"
-import { appReducer } from "../state/app-reducer"
-import { thunk } from "redux-thunk"
-import { authReducer } from "../state/auth-reducer"
+import { combineReducers } from "redux"
+import { tasksReducer } from "state/tasks-reducer"
+import { TaskPriorities, TaskStatuses } from "types"
+import { appReducer } from "state/app-reducer"
+import { authReducer } from "state/auth-reducer"
+import { configureStore } from "@reduxjs/toolkit"
+import { HashRouter } from "react-router-dom"
 
 export const todoListId1 = v1()
 export const todoListId2 = v1()
 
-const rootReducer = combineReducers({
+const rootReducer: RootReducerType = combineReducers({
   tasks: tasksReducer,
   todolists: todolistsReducer,
   app: appReducer,
@@ -151,12 +152,21 @@ const initialGlobalState: AppRootStateType = {
   },
 }
 
-export const storyBookStore = legacy_createStore(
-  rootReducer,
-  initialGlobalState as AppRootStateType & undefined,
-  applyMiddleware(thunk),
-)
+// export const storyBookStore = legacy_createStore(
+//   rootReducer,
+//   initialGlobalState as AppRootStateType & undefined,
+//   applyMiddleware(thunk),
+// )
+
+export const storyBookStore = configureStore({
+  reducer: rootReducer,
+  preloadedState: initialGlobalState,
+})
 
 export const ReduxStoreProviderDecorator = (storyFn: () => React.ReactNode) => {
-  return <Provider store={storyBookStore}>{storyFn()}</Provider>
+  return (
+    <HashRouter>
+      <Provider store={storyBookStore}>{storyFn()}</Provider>
+    </HashRouter>
+  )
 }
