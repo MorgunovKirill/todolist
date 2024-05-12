@@ -1,10 +1,10 @@
 import { v1 } from "uuid"
 import {
-  removeTaskAC,
+  removeTask,
   createTaskAC,
-  setTasksAC,
   tasksReducer,
   updateTaskAC,
+  fetchTasks,
 } from "./tasks-reducer"
 import { TaskPriorities, TasksStateType, TaskStatuses } from "../types"
 import { setTodolistsAC } from "./todolist-reducer"
@@ -166,12 +166,12 @@ test("2 todolist should be incremented by 1 new Task", () => {
 
 test("1 todolist 1 task should be removed", () => {
   const taskIdToChange = "1"
-
   //action
-  const newState = tasksReducer(
-    state,
-    removeTaskAC({ todolistId: todoListId1, taskId: taskIdToChange }),
-  )
+  const param = { todolistId: todoListId1, taskId: taskIdToChange }
+
+  const action = removeTask.fulfilled(param, "", param)
+
+  const newState = tasksReducer(state, action)
 
   //expectation
 
@@ -233,8 +233,15 @@ test("empty arrays should be added when we set todolists", () => {
   expect(endState[todoListId2]).toStrictEqual([])
 })
 
-test("tasks should be for todolist", () => {
-  const action = setTasksAC({ todolistId: todoListId1, tasks: state[todoListId1] })
+test("tasks should be added for todolist", () => {
+  const action = fetchTasks.fulfilled(
+    {
+      todolistId: todoListId1,
+      tasks: state[todoListId1],
+    },
+    "",
+    todoListId1,
+  )
 
   const endState = tasksReducer(
     {

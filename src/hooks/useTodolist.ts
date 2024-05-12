@@ -3,8 +3,8 @@ import {
   changeTodolistFilterAC,
   deleteTodolistTC,
   updateTodolistTitleTC,
-} from "../state/todolist-reducer"
-import { useAppDispatch } from "../state/store"
+} from "state/todolist-reducer"
+import { useAppDispatch } from "state/store"
 
 export const useTodolist = (todolistId: string) => {
   const dispatch = useAppDispatch()

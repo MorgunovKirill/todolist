@@ -1,10 +1,13 @@
 import axios, { AxiosResponse } from "axios"
-import { TodolistType, TaskType, UpdateTaskModelType } from "../types"
-import { LoginType } from "../features/Login/Login"
+import { TodolistType, TaskType, UpdateTaskModelType } from "types"
+import { LoginType } from "features/Login/Login"
 
 const instance = axios.create({
   baseURL: "https://social-network.samuraijs.com/api/1.1/",
   withCredentials: true,
+  headers: {
+    "API-KEY": "97103ee0-8697-48f6-acf9-551ee6a7a329",
+  },
 })
 
 export const authAPI = {

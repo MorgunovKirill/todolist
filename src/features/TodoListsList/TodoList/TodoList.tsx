@@ -1,15 +1,13 @@
-import React, { FC, useEffect } from "react"
+import React, { FC } from "react"
 import Task from "./Task/Task"
-import { AddItemForm } from "../../../components/AddItemForm/AddItemForm"
+import { AddItemForm } from "components/AddItemForm/AddItemForm"
 import { Delete } from "@mui/icons-material"
 import IconButton from "@mui/material/IconButton"
 import Button from "@mui/material/Button"
-import { TodolistDomainType } from "../../../types"
-import { getTasksTC } from "../../../state/tasks-reducer"
-import { useAppDispatch } from "../../../state/store"
-import { useTodolist } from "../../../hooks/useTodolist"
-import { useTasks } from "../../../hooks/useTasks"
-import { EditableSpan } from "../../../components/EditableSpan/EditableSpan"
+import { TodolistDomainType } from "types"
+import { useTodolist } from "hooks/useTodolist"
+import { useTasks } from "hooks/useTasks"
+import { EditableSpan } from "components/EditableSpan/EditableSpan"
 
 type TodolistPropsType = {
   todolist: TodolistDomainType
@@ -17,7 +15,6 @@ type TodolistPropsType = {
 }
 
 const TodoList: FC<TodolistPropsType> = React.memo(({ todolist, demo = false }) => {
-  const dispatch = useAppDispatch()
   const {
     onAllClickHandler,
     onActiveClickHandler,

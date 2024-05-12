@@ -1,8 +1,8 @@
-import { tasksSelector } from "../state/selectors"
+import { tasksSelector } from "state/selectors"
 import { useCallback, useMemo } from "react"
-import { FilterValuesType, TaskStatuses, TaskType } from "../types"
-import { createTaskTC } from "../state/tasks-reducer"
-import { useAppDispatch, useAppSelector } from "../state/store"
+import { FilterValuesType, TaskStatuses, TaskType } from "types"
+import { createTaskTC } from "state/tasks-reducer"
+import { useAppDispatch, useAppSelector } from "state/store"
 
 export const useTasks = (todolistId: string, activeFilter: FilterValuesType = "all") => {
   const dispatch = useAppDispatch()
