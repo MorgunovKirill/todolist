@@ -9,7 +9,7 @@ import { Navigate, Route, Routes } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "state/store"
 import CircularProgress from "@mui/material/CircularProgress"
 import { isInitializedSelector } from "state/selectors/isInitializedSelector"
-import { meTC } from "state/app-reducer"
+import { me } from "state/app-reducer"
 
 type AppPropsType = {
   demo?: boolean
@@ -20,7 +20,7 @@ const App: FC<AppPropsType> = React.memo(({ demo = false }) => {
   const isInitialized = useAppSelector(isInitializedSelector)
 
   useEffect(() => {
-    dispatch(meTC())
+    dispatch(me())
   }, [])
 
   if (!isInitialized) {
