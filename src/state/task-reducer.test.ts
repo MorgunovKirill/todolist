@@ -1,13 +1,13 @@
 import { v1 } from "uuid";
 import {
+  createTask,
+  fetchTasks,
   removeTask,
   tasksReducer,
   updateTask,
-  fetchTasks,
-  createTask,
 } from "./tasks-reducer";
 import { TaskPriorities, TasksStateType, TaskStatuses } from "../types";
-import { setTodolistsAC } from "./todolist-reducer";
+import { fetchTodolists } from "./todolist-reducer";
 
 let state: TasksStateType;
 let todoListId1: string;
@@ -240,12 +240,13 @@ test('Second Task of 2 todolist title should be changed to false"', () => {
 });
 
 test("empty arrays should be added when we set todolists", () => {
-  const action = setTodolistsAC({
+  const payload = {
     todolists: [
       { id: todoListId1, title: "What to learn", addedDate: "", order: 0 },
       { id: todoListId2, title: "What to buy", addedDate: "", order: 0 },
     ],
-  });
+  };
+  const action = fetchTodolists.fulfilled(payload, "");
 
   const endState = tasksReducer({}, action);
 
