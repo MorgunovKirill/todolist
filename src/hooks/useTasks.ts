@@ -1,7 +1,7 @@
 import { tasksSelector } from "state/selectors"
 import { useCallback, useMemo } from "react"
 import { FilterValuesType, TaskStatuses, TaskType } from "types"
-import { createTaskTC } from "state/tasks-reducer"
+import {createTask} from "state/tasks-reducer"
 import { useAppDispatch, useAppSelector } from "state/store"
 
 export const useTasks = (todolistId: string, activeFilter: FilterValuesType = "all") => {
@@ -28,7 +28,7 @@ export const useTasks = (todolistId: string, activeFilter: FilterValuesType = "a
 
   const addTaskHandler = useCallback(
     (title: string) => {
-      dispatch(createTaskTC(todolistId, title))
+      dispatch(createTask({todolistId, title}))
     },
     [dispatch, todolistId],
   )
