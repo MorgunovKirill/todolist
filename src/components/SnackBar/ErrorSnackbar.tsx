@@ -1,19 +1,22 @@
-import React from "react"
-import Snackbar from "@mui/material/Snackbar"
-import Alert from "@mui/material/Alert"
-import { useAppDispatch, useAppSelector } from "../../state/store"
-import { setAppErrorAC } from "../../state/app-reducer"
+import React from "react";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+import { useAppDispatch, useAppSelector } from "../../state/store";
+import { appActions } from "../../state/app-reducer";
 
 export default function CustomizedSnackbars() {
-  const dispatch = useAppDispatch()
-  const error = useAppSelector<string | null>((state) => state.app.error)
+  const dispatch = useAppDispatch();
+  const error = useAppSelector<string | null>((state) => state.app.error);
 
-  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string,
+  ) => {
     if (reason === "clickaway") {
-      return
+      return;
     }
-    dispatch(setAppErrorAC({ error: null }))
-  }
+    dispatch(appActions.setAppError({ error: null }));
+  };
 
   return (
     <div>
@@ -28,5 +31,5 @@ export default function CustomizedSnackbars() {
         </Alert>
       </Snackbar>
     </div>
-  )
+  );
 }

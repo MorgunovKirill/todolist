@@ -1,23 +1,23 @@
-import { Dispatch } from "redux"
-import { authAPI } from "api/api"
-import { handleServerNetworkError } from "utils/handleErrorUtils"
-import { setIsLoggedInAC } from "state/auth-reducer"
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { authAPI } from "api/api";
+import { handleServerNetworkError } from "utils/handleServerNetworkError";
+import { setIsLoggedInAC } from "state/auth-reducer";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAppAsyncThunk } from "../utils/createAppAsyncThunk";
 
-export const me = createAsyncThunk("app/me", async (_, thunkAPI) => {
-  thunkAPI.dispatch(setAppStatusAC({ status: "loading" }))
+export const me = createAppAsyncThunk("app/me", async (_, thunkAPI) => {
+  thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
   try {
-    const res = await authAPI.me()
+    const res = await authAPI.me();
     if (res.data.resultCode === 0) {
-      thunkAPI.dispatch(setAppStatusAC({ status: "succeeded" }))
-      thunkAPI.dispatch(setIsLoggedInAC({ isLoggedIn: true }))
+      thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
+      thunkAPI.dispatch(setIsLoggedInAC({ isLoggedIn: true }));
     } else {
-      thunkAPI.dispatch(setAppStatusAC({ status: "failed" }))
+      thunkAPI.dispatch(appActions.setAppStatus({ status: "failed" }));
     }
   } catch (e) {
-    handleServerNetworkError(e as Error, thunkAPI.dispatch)
+    handleServerNetworkError(e as Error, thunkAPI.dispatch);
   }
-})
+});
 
 const slice = createSlice({
   name: "app",
@@ -27,25 +27,25 @@ const slice = createSlice({
     isInitialized: false,
   },
   reducers: {
-    setAppStatusAC: (state, action: PayloadAction<{ status: RequestStatusType }>) => {
-      state.status = action.payload.status
+    setAppStatus: (
+      state,
+      action: PayloadAction<{ status: RequestStatusType }>,
+    ) => {
+      state.status = action.payload.status;
     },
-    setAppErrorAC: (state, action: PayloadAction<{ error: null | string }>) => {
-      state.error = action.payload.error
+    setAppError: (state, action: PayloadAction<{ error: null | string }>) => {
+      state.error = action.payload.error;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(me.fulfilled, (state) => {
-      state.isInitialized = true
-    })
+      state.isInitialized = true;
+    });
   },
-})
+});
 
-export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed"
-export type InitialStateType = ReturnType<typeof slice.getInitialState>
+export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed";
+export type InitialStateType = ReturnType<typeof slice.getInitialState>;
 
-export const appReducer = slice.reducer
-export const { setAppStatusAC, setAppErrorAC } = slice.actions
-
-export type SetAppStatusACType = ReturnType<typeof setAppStatusAC>
-export type SetAppErrorACType = ReturnType<typeof setAppErrorAC>
+export const appReducer = slice.reducer;
+export const appActions = slice.actions;
