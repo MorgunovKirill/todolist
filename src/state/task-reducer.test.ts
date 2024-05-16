@@ -190,7 +190,7 @@ test('First Task of 3 todolist title should be changed to "Bar"', () => {
       {
         todolistId: todoListId3,
         taskId: taskIdToChange,
-        model: { title: "Bar" },
+        domainModel: { title: "Bar" },
       },
       "",
       {
@@ -218,7 +218,7 @@ test('Second Task of 2 todolist title should be changed to false"', () => {
       {
         todolistId: todoListId2,
         taskId: taskIdToChange,
-        model: { status: TaskStatuses.New },
+        domainModel: { status: TaskStatuses.New },
       },
       "",
       {

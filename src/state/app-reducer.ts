@@ -1,6 +1,6 @@
 import { authAPI } from "api/api";
 import { handleServerNetworkError } from "utils/handleServerNetworkError";
-import { setIsLoggedInAC } from "state/auth-reducer";
+import { authActions } from "state/auth-reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createAppAsyncThunk } from "../utils/createAppAsyncThunk";
 
@@ -10,7 +10,7 @@ export const me = createAppAsyncThunk("app/me", async (_, thunkAPI) => {
     const res = await authAPI.me();
     if (res.data.resultCode === 0) {
       thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
-      thunkAPI.dispatch(setIsLoggedInAC({ isLoggedIn: true }));
+      thunkAPI.dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
     } else {
       thunkAPI.dispatch(appActions.setAppStatus({ status: "failed" }));
     }

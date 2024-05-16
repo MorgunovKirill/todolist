@@ -10,7 +10,7 @@ const slice = createSlice({
   name: "todolists",
   initialState: [] as TodolistDomainType[],
   reducers: {
-    changeTodolistFilterAC: (
+    changeTodolistFilter: (
       state,
       action: PayloadAction<{ todolistId: string; filter: FilterValuesType }>,
     ) => {
@@ -21,7 +21,7 @@ const slice = createSlice({
         state[index].filter = action.payload.filter;
       }
     },
-    changeTodolistEntityStatusAC: (
+    changeTodolistEntityStatus: (
       state,
       action: PayloadAction<{ todolistId: string; status: RequestStatusType }>,
     ) => {
@@ -32,7 +32,7 @@ const slice = createSlice({
         state[index].entityStatus = action.payload.status;
       }
     },
-    clearDataAC: (state, action: PayloadAction<{}>) => {
+    clearData: (state, action: PayloadAction<{}>) => {
       return [];
     },
   },
@@ -72,11 +72,7 @@ const slice = createSlice({
 });
 
 export const todolistsReducer = slice.reducer;
-export const {
-  changeTodolistFilterAC,
-  changeTodolistEntityStatusAC,
-  clearDataAC,
-} = slice.actions;
+export const todolistsActions = slice.actions;
 
 export const fetchTodolists = createAppAsyncThunk(
   `${slice.name}/fetchTodolists`,
@@ -118,7 +114,10 @@ export const deleteTodolist = createAppAsyncThunk(
   async (todolistId: string, thunkAPI) => {
     thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
     thunkAPI.dispatch(
-      changeTodolistEntityStatusAC({ todolistId, status: "loading" }),
+      todolistsActions.changeTodolistEntityStatus({
+        todolistId,
+        status: "loading",
+      }),
     );
     const res = await todolistAPI.deleteTodolist(todolistId);
     try {
@@ -132,7 +131,10 @@ export const deleteTodolist = createAppAsyncThunk(
     } catch (e) {
       handleServerNetworkError(e as Error, thunkAPI.dispatch);
       thunkAPI.dispatch(
-        changeTodolistEntityStatusAC({ todolistId, status: "idle" }),
+        todolistsActions.changeTodolistEntityStatus({
+          todolistId,
+          status: "idle",
+        }),
       );
       return thunkAPI.rejectWithValue(null);
     }

@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import {
-  changeTodolistFilterAC,
   deleteTodolist,
+  todolistsActions,
   updateTodolistTitle,
 } from "state/todolist-reducer";
 import { useAppDispatch } from "state/store";
@@ -14,15 +14,24 @@ export const useTodolist = (todolistId: string) => {
   }, [dispatch, todolistId]);
 
   const onAllClickHandler = useCallback(() => {
-    dispatch(changeTodolistFilterAC({ todolistId, filter: "all" }));
+    dispatch(
+      todolistsActions.changeTodolistFilter({ todolistId, filter: "all" }),
+    );
   }, [dispatch, todolistId]);
 
   const onActiveClickHandler = useCallback(() => {
-    dispatch(changeTodolistFilterAC({ todolistId, filter: "active" }));
+    dispatch(
+      todolistsActions.changeTodolistFilter({ todolistId, filter: "active" }),
+    );
   }, [dispatch, todolistId]);
 
   const onCompletedClickHandler = useCallback(() => {
-    dispatch(changeTodolistFilterAC({ todolistId, filter: "completed" }));
+    dispatch(
+      todolistsActions.changeTodolistFilter({
+        todolistId,
+        filter: "completed",
+      }),
+    );
   }, [dispatch, todolistId]);
 
   const todolistTitleChangeHandler = useCallback(

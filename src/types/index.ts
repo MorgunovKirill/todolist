@@ -42,24 +42,6 @@ export type TaskType = {
   addedDate: string;
 };
 
-export type UpdateTaskModelType = {
-  description: string;
-  title: string;
-  status: number;
-  priority: number;
-  startDate: string;
-  deadline: string;
-};
-
-export type UpdateDomainTaskModelType = {
-  description?: string;
-  title?: string;
-  status?: number;
-  priority?: number;
-  startDate?: string;
-  deadline?: string;
-};
-
 export type TasksStateType = {
   [key: string]: TaskType[];
 };

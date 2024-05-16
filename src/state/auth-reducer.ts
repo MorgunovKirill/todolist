@@ -2,10 +2,31 @@ import { appActions } from "./app-reducer";
 import { LoginType } from "features/Login/Login";
 import { authAPI, FieldErrorType } from "api/api";
 import { handleServerNetworkError } from "utils/handleServerNetworkError";
-import { clearDataAC } from "./todolist-reducer";
+import { todolistsActions } from "./todolist-reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createAppAsyncThunk } from "../utils/createAppAsyncThunk";
 import { handleServerAppError } from "../utils/handleServerAppError";
+
+const slice = createSlice({
+  name: "auth",
+  initialState: {
+    isLoggedIn: false,
+  },
+  reducers: {
+    setIsLoggedIn: (state, action: PayloadAction<{ isLoggedIn: boolean }>) => {
+      state.isLoggedIn = action.payload.isLoggedIn;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(login.fulfilled, (state) => {
+        state.isLoggedIn = true;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.isLoggedIn = false;
+      });
+  },
+});
 
 export const login = createAppAsyncThunk<
   undefined,
@@ -46,7 +67,7 @@ export const logout = createAppAsyncThunk(
     try {
       const res = await authAPI.logout();
       if (res.data.resultCode === 0) {
-        thunkAPI.dispatch(clearDataAC({}));
+        thunkAPI.dispatch(todolistsActions.clearData({}));
         thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
         return;
       } else {
@@ -59,29 +80,5 @@ export const logout = createAppAsyncThunk(
     }
   },
 );
-
-const slice = createSlice({
-  name: "auth",
-  initialState: {
-    isLoggedIn: false,
-  },
-  reducers: {
-    setIsLoggedInAC: (
-      state,
-      action: PayloadAction<{ isLoggedIn: boolean }>,
-    ) => {
-      state.isLoggedIn = action.payload.isLoggedIn;
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(login.fulfilled, (state) => {
-        state.isLoggedIn = true;
-      })
-      .addCase(logout.fulfilled, (state) => {
-        state.isLoggedIn = false;
-      });
-  },
-});
 export const authReducer = slice.reducer;
-export const { setIsLoggedInAC } = slice.actions;
+export const authActions = slice.actions;
