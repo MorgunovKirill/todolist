@@ -49,3 +49,4 @@ export type InitialStateType = ReturnType<typeof slice.getInitialState>;
 
 export const appReducer = slice.reducer;
 export const appActions = slice.actions;
+export const appThunks = { me };

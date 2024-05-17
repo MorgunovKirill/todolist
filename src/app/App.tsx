@@ -1,34 +1,41 @@
-import React, { FC, useEffect } from "react"
-import "./App.css"
-import ButtonAppBar from "../components/ButtonAppBar"
-import Container from "@mui/material/Container"
-import { TodolistsList } from "features/TodoListsList/TodoLists"
-import CustomizedSnackbars from "../components/SnackBar/ErrorSnackbar"
-import { Login } from "features/Login/Login"
-import { Navigate, Route, Routes } from "react-router-dom"
-import { useAppDispatch, useAppSelector } from "state/store"
-import CircularProgress from "@mui/material/CircularProgress"
-import { isInitializedSelector } from "state/selectors/isInitializedSelector"
-import { me } from "state/app-reducer"
+import React, { FC, useEffect } from "react";
+import "./App.css";
+import ButtonAppBar from "../components/ButtonAppBar";
+import Container from "@mui/material/Container";
+import { TodolistsList } from "features/TodoListsList/TodoLists";
+import CustomizedSnackbars from "../components/SnackBar/ErrorSnackbar";
+import { Login } from "features/Login/Login";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "state/store";
+import CircularProgress from "@mui/material/CircularProgress";
+import { isInitializedSelector } from "state/selectors/isInitializedSelector";
+import { appThunks } from "state/app-reducer";
 
 type AppPropsType = {
-  demo?: boolean
-}
+  demo?: boolean;
+};
 
 const App: FC<AppPropsType> = React.memo(({ demo = false }) => {
-  const dispatch = useAppDispatch()
-  const isInitialized = useAppSelector(isInitializedSelector)
+  const dispatch = useAppDispatch();
+  const isInitialized = useAppSelector(isInitializedSelector);
 
   useEffect(() => {
-    dispatch(me())
-  }, [])
+    dispatch(appThunks.me());
+  }, []);
 
   if (!isInitialized) {
     return (
-      <div style={{ position: "fixed", top: "30%", textAlign: "center", width: "100%" }}>
+      <div
+        style={{
+          position: "fixed",
+          top: "30%",
+          textAlign: "center",
+          width: "100%",
+        }}
+      >
         <CircularProgress />
       </div>
-    )
+    );
   }
 
   return (
@@ -44,7 +51,7 @@ const App: FC<AppPropsType> = React.memo(({ demo = false }) => {
       </Container>
       <CustomizedSnackbars />
     </div>
-  )
-})
+  );
+});
 
-export default App
+export default App;

@@ -81,7 +81,7 @@ export const createTask = createAppAsyncThunk<TaskType, CreateTaskArgs>(
   `${slice.name}/createTask`,
   async (param, thunkAPI) => {
     thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
-    const res = await todolistAPI.createTask(param.todolistId, param.title);
+    const res = await todolistAPI.createTask(param);
     try {
       if (res.data.resultCode === 0) {
         thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
@@ -102,7 +102,7 @@ export const removeTask = createAppAsyncThunk<RemoveTaskArgs, RemoveTaskArgs>(
   async (param, thunkAPI) => {
     thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
     try {
-      const res = await todolistAPI.deleteTask(param.todolistId, param.taskId);
+      const res = await todolistAPI.deleteTask(param);
       if (res.data.resultCode === 0) {
         thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
         return { todolistId: param.todolistId, taskId: param.taskId };
@@ -141,12 +141,14 @@ export const updateTask = createAppAsyncThunk<UpdateTaskArgs, UpdateTaskArgs>(
       ...param.domainModel,
     };
 
+    const arg: UpdateTaskArgs = {
+      todolistId: param.todolistId,
+      taskId: param.taskId,
+      domainModel: apiModel,
+    };
+
     thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
-    const res = await todolistAPI.updateTask(
-      param.todolistId,
-      param.taskId,
-      apiModel,
-    );
+    const res = await todolistAPI.updateTask(arg);
     try {
       if (res.data.resultCode === 0) {
         thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
