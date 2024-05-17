@@ -1,33 +1,33 @@
-import React from "react"
-import Grid from "@mui/material/Grid"
-import Checkbox from "@mui/material/Checkbox"
-import FormControl from "@mui/material/FormControl"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import FormGroup from "@mui/material/FormGroup"
-import FormLabel from "@mui/material/FormLabel"
-import TextField from "@mui/material/TextField"
-import Button from "@mui/material/Button"
-import { FormikHelpers, useFormik } from "formik"
-import { useAppDispatch, useAppSelector } from "state/store"
-import { login } from "state/auth-reducer"
-import { Navigate } from "react-router-dom"
-import { isLoggedSelector } from "state/selectors/isLoggedSelector"
+import React from "react";
+import Grid from "@mui/material/Grid";
+import Checkbox from "@mui/material/Checkbox";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
+import FormLabel from "@mui/material/FormLabel";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { FormikHelpers, useFormik } from "formik";
+import { useAppDispatch, useAppSelector } from "state/store";
+import { authThunks } from "state/auth-reducer";
+import { Navigate } from "react-router-dom";
+import { isLoggedSelector } from "state/selectors/isLoggedSelector";
 
 type FormikErrorType = {
-  email?: string
-  password?: string
-  rememberMe?: boolean
-}
+  email?: string;
+  password?: string;
+  rememberMe?: boolean;
+};
 
 export type LoginType = {
-  email: string
-  password: string
-  rememberMe: boolean
-}
+  email: string;
+  password: string;
+  rememberMe: boolean;
+};
 
 export const Login = () => {
-  const dispatch = useAppDispatch()
-  const isLoggedIn = useAppSelector(isLoggedSelector)
+  const dispatch = useAppDispatch();
+  const isLoggedIn = useAppSelector(isLoggedSelector);
 
   const formik = useFormik({
     initialValues: {
@@ -36,33 +36,35 @@ export const Login = () => {
       rememberMe: false,
     },
     validate: (values) => {
-      const errors: FormikErrorType = {}
+      const errors: FormikErrorType = {};
       if (!values.email) {
-        errors.email = "Required"
-      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = "Invalid email address"
+        errors.email = "Required";
+      } else if (
+        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+      ) {
+        errors.email = "Invalid email address";
       }
       if (!values.password) {
-        errors.password = "Required"
+        errors.password = "Required";
       }
-      return errors
+      return errors;
     },
     onSubmit: async (values, formikHelpers: FormikHelpers<LoginType>) => {
-      const action = await dispatch(login(values))
+      const action = await dispatch(authThunks.login(values));
 
-      if (login.rejected.match(action)) {
+      if (authThunks.login.rejected.match(action)) {
         if (action.payload?.fieldsErrors?.length) {
-          const error = action.payload?.fieldsErrors[0]
-          formikHelpers.setFieldError(error?.field, error?.error)
+          const error = action.payload?.fieldsErrors[0];
+          formikHelpers.setFieldError(error?.field, error?.error);
         } else {
         }
       }
       // formik.resetForm()
     },
-  })
+  });
 
   if (isLoggedIn) {
-    return <Navigate to={"/"} />
+    return <Navigate to={"/"} />;
   }
 
   return (
@@ -73,7 +75,10 @@ export const Login = () => {
             <FormLabel>
               <p>
                 To log in get registered
-                <a href={"https://social-network.samuraijs.com/"} target={"_blank"}>
+                <a
+                  href={"https://social-network.samuraijs.com/"}
+                  target={"_blank"}
+                >
                   here
                 </a>
               </p>
@@ -116,5 +121,5 @@ export const Login = () => {
         </form>
       </Grid>
     </Grid>
-  )
-}
+  );
+};

@@ -51,3 +51,8 @@ export type BaseResponseType<D = {}> = {
   messages: Array<string>;
   data: D;
 };
+
+export type BaseAction<T extends (...args: any) => any> = Omit<
+  ReturnType<T>,
+  "meta"
+>;

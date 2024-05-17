@@ -4,21 +4,6 @@ import { authActions } from "state/auth-reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createAppAsyncThunk } from "../utils/createAppAsyncThunk";
 
-export const me = createAppAsyncThunk("app/me", async (_, thunkAPI) => {
-  thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
-  try {
-    const res = await authAPI.me();
-    if (res.data.resultCode === 0) {
-      thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
-      thunkAPI.dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
-    } else {
-      thunkAPI.dispatch(appActions.setAppStatus({ status: "failed" }));
-    }
-  } catch (e) {
-    handleServerNetworkError(e as Error, thunkAPI.dispatch);
-  }
-});
-
 const slice = createSlice({
   name: "app",
   initialState: {
@@ -42,6 +27,21 @@ const slice = createSlice({
       state.isInitialized = true;
     });
   },
+});
+
+export const me = createAppAsyncThunk("app/me", async (_, thunkAPI) => {
+  thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
+  try {
+    const res = await authAPI.me();
+    if (res.data.resultCode === 0) {
+      thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
+      thunkAPI.dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
+    } else {
+      thunkAPI.dispatch(appActions.setAppStatus({ status: "failed" }));
+    }
+  } catch (e) {
+    handleServerNetworkError(e as Error, thunkAPI.dispatch);
+  }
 });
 
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed";

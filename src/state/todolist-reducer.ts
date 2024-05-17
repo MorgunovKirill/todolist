@@ -71,9 +71,6 @@ const slice = createSlice({
   },
 });
 
-export const todolistsReducer = slice.reducer;
-export const todolistsActions = slice.actions;
-
 export const fetchTodolists = createAppAsyncThunk(
   `${slice.name}/fetchTodolists`,
   async (_, thunkAPI) => {
@@ -163,3 +160,12 @@ export const updateTodolistTitle = createAppAsyncThunk(
     }
   },
 );
+
+export const todolistsReducer = slice.reducer;
+export const todolistsActions = slice.actions;
+export const todolistsThunks = {
+  fetchTodolists,
+  createTodolist,
+  deleteTodolist,
+  updateTodolistTitle,
+};

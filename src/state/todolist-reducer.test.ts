@@ -1,13 +1,10 @@
 import {
-  createTodolist,
-  deleteTodolist,
-  fetchTodolists,
   todolistsActions,
   todolistsReducer,
-  updateTodolistTitle,
+  todolistsThunks,
 } from "./todolist-reducer";
 import { v1 } from "uuid";
-import { FilterValuesType, TodolistDomainType } from "../types";
+import { BaseAction, FilterValuesType, TodolistDomainType } from "../types";
 import { RequestStatusType } from "./app-reducer";
 
 let startState: Array<TodolistDomainType>;
@@ -38,11 +35,12 @@ beforeEach(() => {
 });
 
 test("correct todolist should be removed", () => {
-  const action = deleteTodolist.fulfilled(
-    { todolistId: todoListId1 },
-    "",
-    todoListId1,
-  );
+  type Action = BaseAction<typeof todolistsThunks.deleteTodolist.fulfilled>;
+
+  const action: Action = {
+    type: todolistsThunks.deleteTodolist.fulfilled.type,
+    payload: { todolistId: todoListId1 },
+  };
 
   const endState = todolistsReducer(startState, action);
 
@@ -58,11 +56,12 @@ test("correct todolist should be added", () => {
     title: "New Todolist",
   };
 
-  const action = createTodolist.fulfilled(
-    { todolist: newTodolist },
-    "",
-    newTodolist.title,
-  );
+  type Action = BaseAction<typeof todolistsThunks.createTodolist.fulfilled>;
+
+  const action: Action = {
+    type: todolistsThunks.createTodolist.fulfilled.type,
+    payload: { todolist: newTodolist },
+  };
 
   const endState = todolistsReducer(startState, action);
 
@@ -73,7 +72,15 @@ test("correct todolist should be added", () => {
 test("correct todolist should change its name", () => {
   const newTodolistTitle = "New Todolist";
   const payload = { todolistId: todoListId2, title: newTodolistTitle };
-  const action = updateTodolistTitle.fulfilled(payload, "", payload);
+
+  type Action = BaseAction<
+    typeof todolistsThunks.updateTodolistTitle.fulfilled
+  >;
+
+  const action: Action = {
+    type: todolistsThunks.updateTodolistTitle.fulfilled.type,
+    payload,
+  };
 
   const endState = todolistsReducer(startState, action);
 
@@ -101,7 +108,12 @@ test("todolists should be set to the state", () => {
       { id: todoListId2, title: "What to buy", addedDate: "", order: 0 },
     ],
   };
-  const action = fetchTodolists.fulfilled(payload, "");
+  type Action = BaseAction<typeof todolistsThunks.fetchTodolists.fulfilled>;
+
+  const action: Action = {
+    type: todolistsThunks.fetchTodolists.fulfilled.type,
+    payload,
+  };
 
   const endState = todolistsReducer([], action);
 
@@ -125,8 +137,12 @@ test("todolists should be added", () => {
   const payload = {
     todolists: startState,
   };
+  type Action = BaseAction<typeof todolistsThunks.fetchTodolists.fulfilled>;
 
-  const action = fetchTodolists.fulfilled(payload, "");
+  const action: Action = {
+    type: todolistsThunks.fetchTodolists.fulfilled.type,
+    payload,
+  };
 
   const endState = todolistsReducer([], action);
 

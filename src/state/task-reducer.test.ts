@@ -1,12 +1,11 @@
 import { v1 } from "uuid";
+import { tasksReducer, taskThunks } from "./tasks-reducer";
 import {
-  createTask,
-  fetchTasks,
-  removeTask,
-  tasksReducer,
-  updateTask,
-} from "./tasks-reducer";
-import { TaskPriorities, TasksStateType, TaskStatuses } from "../types";
+  BaseAction,
+  TaskPriorities,
+  TasksStateType,
+  TaskStatuses,
+} from "../types";
 import { fetchTodolists } from "./todolist-reducer";
 
 let state: TasksStateType;
@@ -151,10 +150,12 @@ test("2 todolist should be incremented by 1 new Task", () => {
   };
 
   //action
-  const action = createTask.fulfilled(newTask, "", {
-    title: newTask.title,
-    todolistId: newTask.todoListId,
-  });
+  type Action = BaseAction<typeof taskThunks.createTask.fulfilled>;
+
+  const action: Action = {
+    type: taskThunks.createTask.fulfilled.type,
+    payload: newTask,
+  };
 
   const newState = tasksReducer(state, action);
 
@@ -168,7 +169,12 @@ test("1 todolist 1 task should be removed", () => {
   //action
   const param = { todolistId: todoListId1, taskId: taskIdToChange };
 
-  const action = removeTask.fulfilled(param, "", param);
+  type Action = BaseAction<typeof taskThunks.removeTask.fulfilled>;
+
+  const action: Action = {
+    type: taskThunks.removeTask.fulfilled.type,
+    payload: param,
+  };
 
   const newState = tasksReducer(state, action);
 
@@ -182,24 +188,18 @@ test("1 todolist 1 task should be removed", () => {
 
 test('First Task of 3 todolist title should be changed to "Bar"', () => {
   const taskIdToChange = "1";
+  type Action = BaseAction<typeof taskThunks.updateTask.fulfilled>;
+  const action: Action = {
+    type: taskThunks.updateTask.fulfilled.type,
+    payload: {
+      todolistId: todoListId3,
+      taskId: taskIdToChange,
+      domainModel: { title: "Bar" },
+    },
+  };
 
   //action
-  const newState = tasksReducer(
-    state,
-    updateTask.fulfilled(
-      {
-        todolistId: todoListId3,
-        taskId: taskIdToChange,
-        domainModel: { title: "Bar" },
-      },
-      "",
-      {
-        todolistId: todoListId3,
-        taskId: taskIdToChange,
-        domainModel: { title: "Bar" },
-      },
-    ),
-  );
+  const newState = tasksReducer(state, action);
 
   //expectation
 
@@ -210,24 +210,18 @@ test('First Task of 3 todolist title should be changed to "Bar"', () => {
 
 test('Second Task of 2 todolist title should be changed to false"', () => {
   const taskIdToChange = "2";
+  type Action = BaseAction<typeof taskThunks.updateTask.fulfilled>;
+  const action: Action = {
+    type: taskThunks.updateTask.fulfilled.type,
+    payload: {
+      todolistId: todoListId2,
+      taskId: taskIdToChange,
+      domainModel: { status: TaskStatuses.New },
+    },
+  };
 
   //action
-  const newState = tasksReducer(
-    state,
-    updateTask.fulfilled(
-      {
-        todolistId: todoListId2,
-        taskId: taskIdToChange,
-        domainModel: { status: TaskStatuses.New },
-      },
-      "",
-      {
-        todolistId: todoListId2,
-        taskId: taskIdToChange,
-        domainModel: { status: TaskStatuses.New },
-      },
-    ),
-  );
+  const newState = tasksReducer(state, action);
 
   //expectation
 
@@ -258,7 +252,7 @@ test("empty arrays should be added when we set todolists", () => {
 });
 
 test("tasks should be added for todolist", () => {
-  const action = fetchTasks.fulfilled(
+  const action = taskThunks.fetchTasks.fulfilled(
     {
       todolistId: todoListId1,
       tasks: state[todoListId1],

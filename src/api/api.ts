@@ -48,7 +48,7 @@ export const todolistAPI = {
     return instance.put<ResponseType>(`todo-lists/${todoId}`, { title });
   },
   getTasks(todolistId: string) {
-    return instance.get<GetTaskResponse>(`todo-lists/${todolistId}/tasks`);
+    return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`);
   },
   createTask(todolistId: string, title: string) {
     return instance.post<ResponseType<{ item: TaskType }>>(
@@ -83,8 +83,8 @@ export type ResponseType<T = {}> = {
   data: T;
 };
 
-export type GetTaskResponse = {
-  error: string;
+type GetTasksResponse = {
+  error: string | null;
   totalCount: number;
   items: TaskType[];
 };
@@ -97,6 +97,16 @@ type UserDataType = {
 
 type LoginTypeRequestType = LoginType & {
   captcha?: boolean;
+};
+
+export type CreateTaskArgs = {
+  todolistId: string;
+  title: string;
+};
+
+export type RemoveTaskArgs = {
+  todolistId: string;
+  taskId: string;
 };
 
 export type UpdateTaskArgs = {

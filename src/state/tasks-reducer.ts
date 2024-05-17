@@ -4,20 +4,18 @@ import {
   fetchTodolists,
   todolistsActions,
 } from "./todolist-reducer";
+import { TaskPriorities, TasksStateType, TaskType, TodolistType } from "types";
 import {
-  TaskPriorities,
-  TasksStateType,
-  TaskStatuses,
-  TaskType,
-  TodolistType,
-} from "types";
-import { todolistAPI, UpdateTaskArgs } from "api/api";
+  CreateTaskArgs,
+  RemoveTaskArgs,
+  todolistAPI,
+  UpdateTaskArgs,
+} from "api/api";
 import { appActions } from "./app-reducer";
 import { handleServerNetworkError } from "utils/handleServerNetworkError";
 import { createSlice } from "@reduxjs/toolkit";
 import { createAppAsyncThunk } from "../utils/createAppAsyncThunk";
 import { handleServerAppError } from "../utils/handleServerAppError";
-import Task from "../features/TodoListsList/TodoList/Task/Task";
 
 const slice = createSlice({
   name: "tasks",
@@ -79,45 +77,45 @@ export const fetchTasks = createAppAsyncThunk<
   }
 });
 
-export const createTask = createAppAsyncThunk<
-  TaskType,
-  { todolistId: string; title: string }
->(`${slice.name}/createTask`, async (param, thunkAPI) => {
-  thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
-  const res = await todolistAPI.createTask(param.todolistId, param.title);
-  try {
-    if (res.data.resultCode === 0) {
-      thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
-      return res.data.data.item;
-    } else {
-      handleServerAppError(res.data, thunkAPI.dispatch);
+export const createTask = createAppAsyncThunk<TaskType, CreateTaskArgs>(
+  `${slice.name}/createTask`,
+  async (param, thunkAPI) => {
+    thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
+    const res = await todolistAPI.createTask(param.todolistId, param.title);
+    try {
+      if (res.data.resultCode === 0) {
+        thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
+        return res.data.data.item;
+      } else {
+        handleServerAppError(res.data, thunkAPI.dispatch);
+        return thunkAPI.rejectWithValue(null);
+      }
+    } catch (err) {
+      handleServerNetworkError(err, thunkAPI.dispatch);
       return thunkAPI.rejectWithValue(null);
     }
-  } catch (err) {
-    handleServerNetworkError(err, thunkAPI.dispatch);
-    return thunkAPI.rejectWithValue(null);
-  }
-});
+  },
+);
 
-export const removeTask = createAppAsyncThunk<
-  { todolistId: string; taskId: string },
-  { todolistId: string; taskId: string }
->(`${slice.name}/removeTask`, async (param, thunkAPI) => {
-  thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
-  try {
-    const res = await todolistAPI.deleteTask(param.todolistId, param.taskId);
-    if (res.data.resultCode === 0) {
-      thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
-      return { todolistId: param.todolistId, taskId: param.taskId };
-    } else {
-      handleServerAppError(res.data, thunkAPI.dispatch);
+export const removeTask = createAppAsyncThunk<RemoveTaskArgs, RemoveTaskArgs>(
+  `${slice.name}/removeTask`,
+  async (param, thunkAPI) => {
+    thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
+    try {
+      const res = await todolistAPI.deleteTask(param.todolistId, param.taskId);
+      if (res.data.resultCode === 0) {
+        thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
+        return { todolistId: param.todolistId, taskId: param.taskId };
+      } else {
+        handleServerAppError(res.data, thunkAPI.dispatch);
+        return thunkAPI.rejectWithValue(null);
+      }
+    } catch (err) {
+      handleServerNetworkError(err, thunkAPI.dispatch);
       return thunkAPI.rejectWithValue(null);
     }
-  } catch (err) {
-    handleServerNetworkError(err, thunkAPI.dispatch);
-    return thunkAPI.rejectWithValue(null);
-  }
-});
+  },
+);
 
 export const updateTask = createAppAsyncThunk<UpdateTaskArgs, UpdateTaskArgs>(
   `${slice.name}/updateTask`,

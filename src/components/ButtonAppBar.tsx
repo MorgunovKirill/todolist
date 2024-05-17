@@ -1,16 +1,16 @@
-import * as React from "react"
-import AppBar from "@mui/material/AppBar"
-import Box from "@mui/material/Box"
-import Toolbar from "@mui/material/Toolbar"
-import Typography from "@mui/material/Typography"
-import Button from "@mui/material/Button"
-import IconButton from "@mui/material/IconButton"
-import MenuIcon from "@mui/icons-material/Menu"
-import LinearProgress from "@mui/material/LinearProgress"
-import { useAppDispatch, useAppSelector } from "../state/store"
-import { appStatusSelector } from "../state/selectors/appStatusSelector"
-import { isLoggedSelector } from "../state/selectors/isLoggedSelector"
-import { logout } from "../state/auth-reducer"
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import LinearProgress from "@mui/material/LinearProgress";
+import { useAppDispatch, useAppSelector } from "../state/store";
+import { appStatusSelector } from "../state/selectors/appStatusSelector";
+import { isLoggedSelector } from "../state/selectors/isLoggedSelector";
+import { authThunks } from "../state/auth-reducer";
 
 export default function ButtonAppBar() {
   const dispatch = useAppDispatch()
@@ -18,7 +18,7 @@ export default function ButtonAppBar() {
   const isLoggedIn = useAppSelector(isLoggedSelector)
 
   const onLogout = () => {
-    dispatch(logout())
+    dispatch(authThunks.logout())
   }
 
   return (
