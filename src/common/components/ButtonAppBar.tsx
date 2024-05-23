@@ -7,19 +7,19 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import LinearProgress from "@mui/material/LinearProgress";
-import { useAppDispatch, useAppSelector } from "../../state/store";
-import { appStatusSelector } from "../../state/selectors/appStatusSelector";
-import { isLoggedSelector } from "../../state/selectors/isLoggedSelector";
-import { authThunks } from "../../state/auth-reducer";
+import { useAppDispatch, useAppSelector } from "state/store";
+import { appStatusSelector } from "state/selectors/appStatusSelector";
+import { isLoggedSelector } from "state/selectors/isLoggedSelector";
+import { authThunks } from "features/Login/model/auth-reducer";
 
-export default function ButtonAppBar() {
-  const dispatch = useAppDispatch()
-  const status = useAppSelector(appStatusSelector)
-  const isLoggedIn = useAppSelector(isLoggedSelector)
+export function ButtonAppBar() {
+  const dispatch = useAppDispatch();
+  const status = useAppSelector(appStatusSelector);
+  const isLoggedIn = useAppSelector(isLoggedSelector);
 
   const onLogout = () => {
-    dispatch(authThunks.logout())
-  }
+    dispatch(authThunks.logout());
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -48,5 +48,5 @@ export default function ButtonAppBar() {
         {status === "loading" && <LinearProgress />}
       </AppBar>
     </Box>
-  )
+  );
 }

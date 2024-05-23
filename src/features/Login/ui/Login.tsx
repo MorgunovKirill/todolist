@@ -9,21 +9,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { FormikHelpers, useFormik } from "formik";
 import { useAppDispatch, useAppSelector } from "state/store";
-import { authThunks } from "state/auth-reducer";
+import { authThunks } from "features/Login/model/auth-reducer";
 import { Navigate } from "react-router-dom";
 import { isLoggedSelector } from "state/selectors/isLoggedSelector";
-
-type FormikErrorType = {
-  email?: string;
-  password?: string;
-  rememberMe?: boolean;
-};
-
-export type LoginType = {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-};
+import { LoginType } from "features/Login/api/loginApi.types";
 
 export const Login = () => {
   const dispatch = useAppDispatch();
@@ -122,4 +111,10 @@ export const Login = () => {
       </Grid>
     </Grid>
   );
+};
+
+type FormikErrorType = {
+  email?: string;
+  password?: string;
+  rememberMe?: boolean;
 };

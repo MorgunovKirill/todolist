@@ -1,37 +1,44 @@
-import { tasksSelector } from "state/selectors"
-import { useCallback, useMemo } from "react"
-import { FilterValuesType, TaskStatuses, TaskType } from "common/types"
-import {createTask} from "state/tasks-reducer"
-import { useAppDispatch, useAppSelector } from "state/store"
+import { tasksSelector } from "state/selectors";
+import { useCallback, useMemo } from "react";
+import { createTask } from "state/tasks-reducer";
+import { useAppDispatch, useAppSelector } from "state/store";
+import { TaskStatuses } from "common/enums";
+import { FilterValuesType } from "features/TodoListsList/TodoList/TodoList";
+import { TaskType } from "features/TodoListsList/TodoList/Task/Task";
 
-export const useTasks = (todolistId: string, activeFilter: FilterValuesType = "all") => {
-  const dispatch = useAppDispatch()
-  const tasks = useAppSelector(tasksSelector)[todolistId]
+export const useTasks = (
+  todolistId: string,
+  activeFilter: FilterValuesType = "all",
+) => {
+  const dispatch = useAppDispatch();
+  const tasks = useAppSelector(tasksSelector)[todolistId];
   const getFilteredTasks = (
     tasks: Array<TaskType>,
     filter: FilterValuesType,
   ): Array<TaskType> => {
-    let filteredTasks = tasks
+    let filteredTasks = tasks;
     if (filter === "completed") {
-      filteredTasks = tasks.filter((task) => task.status === TaskStatuses.Completed)
+      filteredTasks = tasks.filter(
+        (task) => task.status === TaskStatuses.Completed,
+      );
     }
     if (filter === "active") {
-      filteredTasks = tasks.filter((task) => task.status === TaskStatuses.New)
+      filteredTasks = tasks.filter((task) => task.status === TaskStatuses.New);
     }
-    return filteredTasks
-  }
+    return filteredTasks;
+  };
 
   const filteredTasksForTodoList = useMemo(
     () => getFilteredTasks(tasks, activeFilter),
     [tasks, activeFilter],
-  )
+  );
 
   const addTaskHandler = useCallback(
     (title: string) => {
-      dispatch(createTask({todolistId, title}))
+      dispatch(createTask({ todolistId, title }));
     },
     [dispatch, todolistId],
-  )
+  );
 
   return useMemo(
     () => ({
@@ -39,5 +46,5 @@ export const useTasks = (todolistId: string, activeFilter: FilterValuesType = "a
       addTaskHandler,
     }),
     [filteredTasksForTodoList, addTaskHandler],
-  )
-}
+  );
+};

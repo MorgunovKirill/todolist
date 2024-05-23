@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from "@storybook/react"
-import Task from "./Task"
+import type { Meta, StoryObj } from "@storybook/react";
+import Task from "./Task";
 import {
   ReduxStoreProviderDecorator,
   todoListId1,
-} from "../../../../stories/ReduxStoreProviderDecorator"
-import { useAppSelector } from "../../../../state/store"
-import { TaskPriorities, TaskStatuses } from "../../../../common/types"
-import { v1 } from "uuid"
+} from "stories/ReduxStoreProviderDecorator";
+import { useAppSelector } from "../../../../state/store";
+import { v1 } from "uuid";
+import { TaskPriorities, TaskStatuses } from "common/enums";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta: Meta<typeof Task> = {
@@ -20,13 +20,13 @@ const meta: Meta<typeof Task> = {
   tags: ["autodocs"],
   // More on argTypes: https://storybook.js.org/docs/api/argtypes
   decorators: [ReduxStoreProviderDecorator],
-}
+};
 
-export default meta
-type Story = StoryObj<typeof Task>
+export default meta;
+type Story = StoryObj<typeof Task>;
 
 const TaskForStory = () => {
-  let task = useAppSelector((state) => state.tasks[todoListId1][0])
+  let task = useAppSelector((state) => state.tasks[todoListId1][0]);
 
   if (!task)
     task = {
@@ -40,11 +40,11 @@ const TaskForStory = () => {
       addedDate: "",
       order: 0,
       priority: TaskPriorities.Low,
-    }
+    };
 
-  return <Task task={task} todoListId={todoListId1} />
-}
+  return <Task task={task} todoListId={todoListId1} />;
+};
 
 export const TaskWithReduxStory: Story = {
   render: () => <TaskForStory />,
-}
+};

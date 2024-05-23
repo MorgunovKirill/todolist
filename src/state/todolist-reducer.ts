@@ -1,10 +1,14 @@
-import {FilterValuesType, ResultCode, TodolistDomainType} from "common/types";
 import { todolistAPI } from "api/api";
 import { appActions, RequestStatusType } from "./app-reducer";
 import { handleServerNetworkError } from "common/utils/handleServerNetworkError";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createAppAsyncThunk } from "../common/utils/createAppAsyncThunk";
-import { handleServerAppError } from "../common/utils/handleServerAppError";
+import { createAppAsyncThunk } from "common/utils";
+import { handleServerAppError } from "common/utils";
+import { ResultCode } from "common/enums/enums";
+import {
+  FilterValuesType,
+  TodolistDomainType,
+} from "features/TodoListsList/TodoList/TodoList";
 
 const slice = createSlice({
   name: "todolists",

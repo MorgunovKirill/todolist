@@ -1,10 +1,10 @@
 import React from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import { useAppDispatch, useAppSelector } from "../../../state/store";
-import { appActions } from "../../../state/app-reducer";
+import { useAppDispatch, useAppSelector } from "state/store";
+import { appActions } from "state/app-reducer";
 
-export default function CustomizedSnackbars() {
+export function CustomizedSnackbars() {
   const dispatch = useAppDispatch();
   const error = useAppSelector<string | null>((state) => state.app.error);
 

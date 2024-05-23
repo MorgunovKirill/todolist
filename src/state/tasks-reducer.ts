@@ -4,7 +4,6 @@ import {
   fetchTodolists,
   todolistsActions,
 } from "./todolist-reducer";
-import {ResultCode, TaskPriorities, TasksStateType, TaskType, TodolistType} from "common/types";
 import {
   CreateTaskArgs,
   RemoveTaskArgs,
@@ -13,7 +12,14 @@ import {
 } from "api/api";
 import { appActions } from "./app-reducer";
 import { createSlice } from "@reduxjs/toolkit";
-import {createAppAsyncThunk, handleServerAppError, handleServerNetworkError} from "common/utils";
+import {
+  createAppAsyncThunk,
+  handleServerAppError,
+  handleServerNetworkError,
+} from "common/utils";
+import { ResultCode, TaskPriorities } from "common/enums";
+import { TodolistType } from "features/TodoListsList/TodoList/TodoList";
+import { TaskType } from "features/TodoListsList/TodoList/Task/Task";
 
 const slice = createSlice({
   name: "tasks",
@@ -181,4 +187,8 @@ export type UpdateDomainTaskModelType = {
   priority?: number;
   startDate?: string;
   deadline?: string;
+};
+
+export type TasksStateType = {
+  [key: string]: TaskType[];
 };

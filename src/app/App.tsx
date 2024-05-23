@@ -1,21 +1,20 @@
-import React, { FC, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./App.css";
-import ButtonAppBar from "../common/components/ButtonAppBar";
 import Container from "@mui/material/Container";
 import { TodolistsList } from "features/TodoListsList/TodoLists";
-import CustomizedSnackbars from "../common/components/SnackBar/ErrorSnackbar";
-import { Login } from "features/Login/Login";
+import { Login } from "features/Login/ui/Login";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "state/store";
 import CircularProgress from "@mui/material/CircularProgress";
 import { isInitializedSelector } from "state/selectors/isInitializedSelector";
 import { appThunks } from "state/app-reducer";
+import { ButtonAppBar, CustomizedSnackbars } from "common/components";
 
 type AppPropsType = {
   demo?: boolean;
 };
 
-const App: FC<AppPropsType> = React.memo(({ demo = false }) => {
+const App = React.memo(({ demo = false }: AppPropsType) => {
   const dispatch = useAppDispatch();
   const isInitialized = useAppSelector(isInitializedSelector);
 

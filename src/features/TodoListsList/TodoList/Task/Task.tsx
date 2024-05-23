@@ -3,13 +3,26 @@ import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import { Delete } from "@mui/icons-material";
 import { Checkbox } from "common/components/Checkbox";
-import { TaskStatuses, TaskType } from "common/types";
 import { removeTask, updateTask } from "state/tasks-reducer";
 import { useAppDispatch } from "state/store";
+import { TaskPriorities, TaskStatuses } from "common/enums";
 
 type TaskComponentPropsType = {
   todoListId: string;
   task: TaskType;
+};
+
+export type TaskType = {
+  description: string;
+  title: string;
+  status: TaskStatuses;
+  priority: TaskPriorities;
+  startDate: string;
+  deadline: string;
+  id: string;
+  todoListId: string;
+  order: number;
+  addedDate: string;
 };
 
 const Task: FC<TaskComponentPropsType> = React.memo(({ task, todoListId }) => {

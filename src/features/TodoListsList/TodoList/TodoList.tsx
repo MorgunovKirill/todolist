@@ -4,16 +4,30 @@ import { AddItemForm } from "common/components/AddItemForm/AddItemForm";
 import { Delete } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
-import { TodolistDomainType } from "common/types";
 import { useTodolist } from "common/hooks/useTodolist";
 import { useTasks } from "common/hooks/useTasks";
 import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
-import { useAppDispatch } from "../../../state/store";
-import { fetchTasks } from "../../../state/tasks-reducer";
+import { useAppDispatch } from "state/store";
+import { fetchTasks } from "state/tasks-reducer";
+import { RequestStatusType } from "state/app-reducer";
 
 type TodolistPropsType = {
   todolist: TodolistDomainType;
   demo?: boolean;
+};
+
+export type TodolistType = {
+  id: string;
+  addedDate: string;
+  order: number;
+  title: string;
+};
+
+export type FilterValuesType = "all" | "active" | "completed";
+
+export type TodolistDomainType = TodolistType & {
+  filter: FilterValuesType;
+  entityStatus: RequestStatusType;
 };
 
 const TodoList: FC<TodolistPropsType> = React.memo(

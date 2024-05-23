@@ -4,8 +4,12 @@ import {
   todolistsThunks,
 } from "./todolist-reducer";
 import { v1 } from "uuid";
-import { BaseAction, FilterValuesType, TodolistDomainType } from "../common/types";
+import { BaseAction } from "common/types";
 import { RequestStatusType } from "./app-reducer";
+import {
+  FilterValuesType,
+  TodolistDomainType,
+} from "features/TodoListsList/TodoList/TodoList";
 
 let startState: Array<TodolistDomainType>;
 let todoListId1: string;

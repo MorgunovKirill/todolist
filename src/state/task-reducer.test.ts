@@ -1,12 +1,8 @@
 import { v1 } from "uuid";
-import { tasksReducer, taskThunks } from "./tasks-reducer";
-import {
-  BaseAction,
-  TaskPriorities,
-  TasksStateType,
-  TaskStatuses,
-} from "../common/types";
+import { tasksReducer, TasksStateType, taskThunks } from "./tasks-reducer";
+import { BaseAction } from "common/types";
 import { fetchTodolists } from "./todolist-reducer";
+import { TaskPriorities, TaskStatuses } from "common/enums";
 
 let state: TasksStateType;
 let todoListId1: string;

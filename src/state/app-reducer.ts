@@ -1,8 +1,8 @@
-import { authAPI } from "api/api";
-import { authActions } from "state/auth-reducer";
+import { authActions } from "features/Login/model/auth-reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {ResultCode} from "../common/types";
-import {createAppAsyncThunk, handleServerNetworkError} from "common/utils";
+import { createAppAsyncThunk, handleServerNetworkError } from "common/utils";
+import { authAPI } from "features/Login/api/loginApi";
+import { ResultCode } from "common/enums";
 
 const slice = createSlice({
   name: "app",

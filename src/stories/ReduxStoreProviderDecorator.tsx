@@ -1,25 +1,25 @@
-import React from "react"
-import { AppRootStateType, RootReducerType } from "state/store"
-import { Provider } from "react-redux"
-import { todolistsReducer } from "state/todolist-reducer"
-import { v1 } from "uuid"
-import { combineReducers } from "redux"
-import { tasksReducer } from "state/tasks-reducer"
-import { TaskPriorities, TaskStatuses } from "common/types"
-import { appReducer } from "state/app-reducer"
-import { authReducer } from "state/auth-reducer"
-import { configureStore } from "@reduxjs/toolkit"
-import { HashRouter } from "react-router-dom"
+import React from "react";
+import { AppRootStateType, RootReducerType } from "state/store";
+import { Provider } from "react-redux";
+import { todolistsReducer } from "state/todolist-reducer";
+import { v1 } from "uuid";
+import { combineReducers } from "redux";
+import { tasksReducer } from "state/tasks-reducer";
+import { appReducer } from "state/app-reducer";
+import { authReducer } from "features/Login/model/auth-reducer";
+import { configureStore } from "@reduxjs/toolkit";
+import { HashRouter } from "react-router-dom";
+import { TaskPriorities, TaskStatuses } from "common/enums";
 
-export const todoListId1 = v1()
-export const todoListId2 = v1()
+export const todoListId1 = v1();
+export const todoListId2 = v1();
 
 const rootReducer: RootReducerType = combineReducers({
   tasks: tasksReducer,
   todolists: todolistsReducer,
   app: appReducer,
   auth: authReducer,
-})
+});
 
 const initialGlobalState: AppRootStateType = {
   todolists: [
@@ -150,7 +150,7 @@ const initialGlobalState: AppRootStateType = {
   auth: {
     isLoggedIn: false,
   },
-}
+};
 
 // export const storyBookStore = legacy_createStore(
 //   rootReducer,
@@ -161,12 +161,12 @@ const initialGlobalState: AppRootStateType = {
 export const storyBookStore = configureStore({
   reducer: rootReducer,
   preloadedState: initialGlobalState,
-})
+});
 
 export const ReduxStoreProviderDecorator = (storyFn: () => React.ReactNode) => {
   return (
     <HashRouter>
       <Provider store={storyBookStore}>{storyFn()}</Provider>
     </HashRouter>
-  )
-}
+  );
+};
