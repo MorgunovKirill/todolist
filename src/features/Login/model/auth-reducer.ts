@@ -1,12 +1,12 @@
 import { appActions } from "state/app-reducer";
 import { handleServerNetworkError } from "common/utils/handleServerNetworkError";
-import { todolistsActions } from "state/todolist-reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createAppAsyncThunk, handleServerAppError } from "common/utils";
 import { authAPI } from "features/Login/api/loginApi";
 import { ResultCode } from "common/enums";
 import { FieldErrorType } from "common/types";
 import { LoginType } from "features/Login/api/loginApi.types";
+import { clearData } from "common/actions/common.actions";
 
 const slice = createSlice({
   name: "auth",
@@ -68,7 +68,7 @@ export const logout = createAppAsyncThunk(
     try {
       const res = await authAPI.logout();
       if (res.data.resultCode === ResultCode.success) {
-        thunkAPI.dispatch(todolistsActions.clearData({}));
+        thunkAPI.dispatch(clearData());
         thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
         return;
       } else {

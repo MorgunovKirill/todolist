@@ -2,7 +2,6 @@ import {
   createTodolist,
   deleteTodolist,
   fetchTodolists,
-  todolistsActions,
 } from "./todolist-reducer";
 import {
   CreateTaskArgs,
@@ -20,6 +19,7 @@ import {
 import { ResultCode, TaskPriorities } from "common/enums";
 import { TodolistType } from "features/TodoListsList/TodoList/TodoList";
 import { TaskType } from "features/TodoListsList/TodoList/Task/Task";
+import { clearData } from "common/actions/common.actions";
 
 const slice = createSlice({
   name: "tasks",
@@ -38,7 +38,6 @@ const slice = createSlice({
           state[tl.id] = [];
         });
       })
-      .addCase(todolistsActions.clearData, () => {})
       .addCase(fetchTasks.fulfilled, (state, action) => {
         state[action.payload.todolistId] = action.payload.tasks;
       })
@@ -61,6 +60,9 @@ const slice = createSlice({
         if (index > -1) {
           tasks[index] = { ...tasks[index], ...action.payload.domainModel };
         }
+      })
+      .addCase(clearData.type, () => {
+        return {};
       });
   },
 });

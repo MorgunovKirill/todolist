@@ -9,6 +9,7 @@ import {
   FilterValuesType,
   TodolistDomainType,
 } from "features/TodoListsList/TodoList/TodoList";
+import { clearData } from "common/actions/common.actions";
 
 const slice = createSlice({
   name: "todolists",
@@ -35,9 +36,6 @@ const slice = createSlice({
       if (index > -1) {
         state[index].entityStatus = action.payload.status;
       }
-    },
-    clearData: (state, action: PayloadAction<{}>) => {
-      return [];
     },
   },
   extraReducers: (builder) => {
@@ -71,6 +69,9 @@ const slice = createSlice({
         if (index > -1) {
           state[index].title = action.payload.title;
         }
+      })
+      .addCase(clearData.type, () => {
+        return [];
       });
   },
 });
