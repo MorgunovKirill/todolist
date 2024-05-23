@@ -1,8 +1,8 @@
 import React from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import { useAppDispatch, useAppSelector } from "../../state/store";
-import { appActions } from "../../state/app-reducer";
+import { useAppDispatch, useAppSelector } from "../../../state/store";
+import { appActions } from "../../../state/app-reducer";
 
 export default function CustomizedSnackbars() {
   const dispatch = useAppDispatch();

@@ -5,7 +5,7 @@ import {
   todoListId1,
 } from "../../../../stories/ReduxStoreProviderDecorator"
 import { useAppSelector } from "../../../../state/store"
-import { TaskPriorities, TaskStatuses } from "../../../../types"
+import { TaskPriorities, TaskStatuses } from "../../../../common/types"
 import { v1 } from "uuid"
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export

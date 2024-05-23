@@ -4,7 +4,7 @@ import {
   fetchTodolists,
   todolistsActions,
 } from "./todolist-reducer";
-import { TaskPriorities, TasksStateType, TaskType, TodolistType } from "types";
+import {ResultCode, TaskPriorities, TasksStateType, TaskType, TodolistType} from "common/types";
 import {
   CreateTaskArgs,
   RemoveTaskArgs,
@@ -12,10 +12,8 @@ import {
   UpdateTaskArgs,
 } from "api/api";
 import { appActions } from "./app-reducer";
-import { handleServerNetworkError } from "utils/handleServerNetworkError";
 import { createSlice } from "@reduxjs/toolkit";
-import { createAppAsyncThunk } from "../utils/createAppAsyncThunk";
-import { handleServerAppError } from "../utils/handleServerAppError";
+import {createAppAsyncThunk, handleServerAppError, handleServerNetworkError} from "common/utils";
 
 const slice = createSlice({
   name: "tasks",
@@ -83,7 +81,7 @@ export const createTask = createAppAsyncThunk<TaskType, CreateTaskArgs>(
     thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
     const res = await todolistAPI.createTask(param);
     try {
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.success) {
         thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
         return res.data.data.item;
       } else {
@@ -103,7 +101,7 @@ export const removeTask = createAppAsyncThunk<RemoveTaskArgs, RemoveTaskArgs>(
     thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
     try {
       const res = await todolistAPI.deleteTask(param);
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.success) {
         thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
         return { todolistId: param.todolistId, taskId: param.taskId };
       } else {
@@ -150,7 +148,7 @@ export const updateTask = createAppAsyncThunk<UpdateTaskArgs, UpdateTaskArgs>(
     thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
     const res = await todolistAPI.updateTask(arg);
     try {
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.success) {
         thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
         return param;
       } else {

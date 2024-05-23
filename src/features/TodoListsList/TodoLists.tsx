@@ -1,9 +1,9 @@
 import { useAppDispatch, useAppSelector } from "state/store";
 import React, { FC, useEffect } from "react";
 import { fetchTodolists } from "state/todolist-reducer";
-import { useApp } from "hooks/useApp";
+import { useApp } from "common/hooks/useApp";
 import Grid from "@mui/material/Grid";
-import { AddItemForm } from "components/AddItemForm/AddItemForm";
+import { AddItemForm } from "common/components/AddItemForm/AddItemForm";
 import Paper from "@mui/material/Paper";
 import TodoList from "./TodoList/TodoList";
 import { isLoggedSelector } from "state/selectors/isLoggedSelector";

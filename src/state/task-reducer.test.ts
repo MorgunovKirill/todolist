@@ -5,7 +5,7 @@ import {
   TaskPriorities,
   TasksStateType,
   TaskStatuses,
-} from "../types";
+} from "../common/types";
 import { fetchTodolists } from "./todolist-reducer";
 
 let state: TasksStateType;

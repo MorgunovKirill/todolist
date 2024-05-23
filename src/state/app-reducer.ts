@@ -1,8 +1,8 @@
 import { authAPI } from "api/api";
-import { handleServerNetworkError } from "utils/handleServerNetworkError";
 import { authActions } from "state/auth-reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createAppAsyncThunk } from "../utils/createAppAsyncThunk";
+import {ResultCode} from "../common/types";
+import {createAppAsyncThunk, handleServerNetworkError} from "common/utils";
 
 const slice = createSlice({
   name: "app",
@@ -33,7 +33,7 @@ export const me = createAppAsyncThunk("app/me", async (_, thunkAPI) => {
   thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
   try {
     const res = await authAPI.me();
-    if (res.data.resultCode === 0) {
+    if (res.data.resultCode === ResultCode.success) {
       thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
       thunkAPI.dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
     } else {

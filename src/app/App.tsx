@@ -1,9 +1,9 @@
 import React, { FC, useEffect } from "react";
 import "./App.css";
-import ButtonAppBar from "../components/ButtonAppBar";
+import ButtonAppBar from "../common/components/ButtonAppBar";
 import Container from "@mui/material/Container";
 import { TodolistsList } from "features/TodoListsList/TodoLists";
-import CustomizedSnackbars from "../components/SnackBar/ErrorSnackbar";
+import CustomizedSnackbars from "../common/components/SnackBar/ErrorSnackbar";
 import { Login } from "features/Login/Login";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "state/store";

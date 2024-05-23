@@ -1,10 +1,10 @@
-import { FilterValuesType, TodolistDomainType } from "types";
+import {FilterValuesType, ResultCode, TodolistDomainType} from "common/types";
 import { todolistAPI } from "api/api";
 import { appActions, RequestStatusType } from "./app-reducer";
-import { handleServerNetworkError } from "utils/handleServerNetworkError";
+import { handleServerNetworkError } from "common/utils/handleServerNetworkError";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createAppAsyncThunk } from "../utils/createAppAsyncThunk";
-import { handleServerAppError } from "../utils/handleServerAppError";
+import { createAppAsyncThunk } from "../common/utils/createAppAsyncThunk";
+import { handleServerAppError } from "../common/utils/handleServerAppError";
 
 const slice = createSlice({
   name: "todolists",
@@ -92,7 +92,7 @@ export const createTodolist = createAppAsyncThunk(
     thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
     const res = await todolistAPI.createTodolist(title);
     try {
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.success) {
         thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
         return { todolist: res.data.data.item };
       } else {
@@ -118,7 +118,7 @@ export const deleteTodolist = createAppAsyncThunk(
     );
     const res = await todolistAPI.deleteTodolist(todolistId);
     try {
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.success) {
         thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
         return { todolistId };
       } else {
@@ -144,7 +144,7 @@ export const updateTodolistTitle = createAppAsyncThunk(
     thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
     const res = await todolistAPI.updateTodolist(param.todolistId, param.title);
     try {
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.success) {
         thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
         return {
           todolistId: param.todolistId,

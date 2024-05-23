@@ -1,7 +1,7 @@
-import { todolistSelector } from "../state/selectors";
+import { todolistSelector } from "../../state/selectors";
 import { useCallback, useMemo } from "react";
-import { createTodolist } from "../state/todolist-reducer";
-import { useAppDispatch, useAppSelector } from "../state/store";
+import { createTodolist } from "../../state/todolist-reducer";
+import { useAppDispatch, useAppSelector } from "../../state/store";
 
 export const useApp = () => {
   const dispatch = useAppDispatch();

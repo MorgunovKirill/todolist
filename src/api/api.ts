@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { TaskType, TodolistType } from "types";
+import { TaskType, TodolistType } from "common/types";
 import { LoginType } from "features/Login/Login";
 import { UpdateDomainTaskModelType } from "../state/tasks-reducer";
 

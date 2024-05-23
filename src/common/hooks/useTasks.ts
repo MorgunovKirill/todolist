@@ -1,6 +1,6 @@
 import { tasksSelector } from "state/selectors"
 import { useCallback, useMemo } from "react"
-import { FilterValuesType, TaskStatuses, TaskType } from "types"
+import { FilterValuesType, TaskStatuses, TaskType } from "common/types"
 import {createTask} from "state/tasks-reducer"
 import { useAppDispatch, useAppSelector } from "state/store"
 

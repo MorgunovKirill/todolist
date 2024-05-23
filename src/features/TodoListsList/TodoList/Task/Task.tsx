@@ -1,9 +1,9 @@
 import React, { FC, useCallback } from "react";
-import { EditableSpan } from "components/EditableSpan/EditableSpan";
+import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import { Delete } from "@mui/icons-material";
-import { Checkbox } from "components/Checkbox";
-import { TaskStatuses, TaskType } from "types";
+import { Checkbox } from "common/components/Checkbox";
+import { TaskStatuses, TaskType } from "common/types";
 import { removeTask, updateTask } from "state/tasks-reducer";
 import { useAppDispatch } from "state/store";
 

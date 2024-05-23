@@ -42,6 +42,14 @@ export type TaskType = {
   addedDate: string;
 };
 
+export const ResultCode = {
+  success: 0,
+  error: 1,
+  captcha: 10
+} as const
+
+type ResultCodeType = (typeof ResultCode)[keyof typeof ResultCode]
+
 export type TasksStateType = {
   [key: string]: TaskType[];
 };
