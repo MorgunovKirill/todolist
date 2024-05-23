@@ -9,7 +9,7 @@ import {
   RemoveTaskArgs,
   todolistAPI,
   UpdateTaskArgs,
-} from "api/api";
+} from "features/TodoListsList/api";
 import { appActions } from "./app-reducer";
 import { createSlice } from "@reduxjs/toolkit";
 import {
