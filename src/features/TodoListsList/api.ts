@@ -1,4 +1,4 @@
-import { UpdateDomainTaskModelType } from "state/tasks-reducer";
+import { UpdateDomainTaskModelType } from "features/TodoListsList/tasks-reducer";
 import { instance } from "common/instance";
 import { TodolistType } from "features/TodoListsList/TodoList/TodoList";
 import { TaskType } from "features/TodoListsList/TodoList/Task/Task";

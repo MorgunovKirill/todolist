@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import { tasksReducer } from "./tasks-reducer";
-import { todolistsReducer } from "./todolist-reducer";
+import { tasksReducer } from "../features/TodoListsList/tasks-reducer";
+import { todolistsReducer } from "../features/TodoListsList/todolist-reducer";
 import { appReducer } from "../app/app-reducer";
 import { authReducer } from "../features/Login/model/auth-reducer";
 import { configureStore } from "@reduxjs/toolkit";

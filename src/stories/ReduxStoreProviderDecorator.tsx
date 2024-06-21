@@ -1,10 +1,10 @@
 import React from "react";
 import { AppRootStateType, RootReducerType } from "state/store";
 import { Provider } from "react-redux";
-import { todolistsReducer } from "state/todolist-reducer";
+import { todolistsReducer } from "features/TodoListsList/todolist-reducer";
 import { v1 } from "uuid";
 import { combineReducers } from "redux";
-import { tasksReducer } from "state/tasks-reducer";
+import { tasksReducer } from "features/TodoListsList/tasks-reducer";
 import { appReducer } from "app/app-reducer";
 import { authReducer } from "features/Login/model/auth-reducer";
 import { configureStore } from "@reduxjs/toolkit";

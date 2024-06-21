@@ -13,6 +13,7 @@ import { Navigate } from "react-router-dom";
 import { isLoggedSelector } from "features/Login/model/isLoggedSelector";
 import { LoginType } from "features/Login/api/loginApi.types";
 import { useAppDispatch, useAppSelector } from "../../../common/utils";
+import { rejectedValueOrSerializedError } from "../../../common/types/types";
 
 export const Login = () => {
   const dispatch = useAppDispatch();
@@ -39,17 +40,16 @@ export const Login = () => {
       return errors;
     },
     onSubmit: async (values, formikHelpers: FormikHelpers<LoginType>) => {
-      const action = await dispatch(authThunks.login(values));
-
-      if (authThunks.login.rejected.match(action)) {
-        if (action.payload?.fieldsErrors?.length) {
-          const error = action.payload?.fieldsErrors[0];
-          formikHelpers.setFieldError(error?.field, error?.error);
-        } else {
-        }
+      try {
+        await dispatch(authThunks.login(values)).unwrap();
+      } catch (err) {
+        const errors = (err as rejectedValueOrSerializedError).fieldsErrors;
+        errors.forEach((el) => {
+          formikHelpers.setFieldError(el.field, el.error);
+        });
       }
-      // formik.resetForm()
     },
+    // formik.resetForm()
   });
 
   if (isLoggedIn) {

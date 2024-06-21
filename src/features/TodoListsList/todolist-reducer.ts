@@ -1,5 +1,5 @@
 import { todolistAPI } from "features/TodoListsList/api";
-import { appActions, RequestStatusType } from "../app/app-reducer";
+import { appActions, RequestStatusType } from "../../app/app-reducer";
 import { handleServerNetworkError } from "common/utils/handleServerNetworkError";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createAppAsyncThunk } from "common/utils";

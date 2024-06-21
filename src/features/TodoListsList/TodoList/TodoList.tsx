@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import { useTodolist } from "common/hooks/useTodolist";
 import { useTasks } from "common/hooks/useTasks";
 import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
-import { fetchTasks } from "state/tasks-reducer";
+import { fetchTasks } from "features/TodoListsList/tasks-reducer";
 import { RequestStatusType } from "app/app-reducer";
 import { useAppDispatch } from "../../../common/utils";
 

@@ -46,7 +46,7 @@ export const login = createAppAsyncThunk<
       thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
       return { isLoggedIn: true };
     } else {
-      handleServerAppError(res.data, thunkAPI.dispatch);
+      handleServerAppError(res.data, thunkAPI.dispatch, false);
       return thunkAPI.rejectWithValue({
         errors: res.data.messages,
         fieldsErrors: res.data.fieldsErrors,

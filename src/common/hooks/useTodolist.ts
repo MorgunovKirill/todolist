@@ -3,7 +3,7 @@ import {
   deleteTodolist,
   todolistsActions,
   updateTodolistTitle,
-} from "state/todolist-reducer";
+} from "features/TodoListsList/todolist-reducer";
 import { useAppDispatch } from "../utils";
 
 export const useTodolist = (todolistId: string) => {
