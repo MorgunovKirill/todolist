@@ -1,8 +1,9 @@
 import { authActions } from "features/Login/model/auth-reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createAppAsyncThunk, handleServerNetworkError } from "common/utils";
+import { createAppAsyncThunk, handleServerAppError } from "common/utils";
 import { authAPI } from "features/Login/api/loginApi";
 import { ResultCode } from "common/enums";
+import { thunkTryCatch } from "../common/utils/thunkTryCatch";
 
 const slice = createSlice({
   name: "app",
@@ -32,18 +33,14 @@ const slice = createSlice({
 export const me = createAppAsyncThunk(
   `${slice.name}/me`,
   async (_, thunkAPI) => {
-    thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
-    try {
+    return thunkTryCatch(thunkAPI, async () => {
       const res = await authAPI.me();
       if (res.data.resultCode === ResultCode.success) {
-        thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
         thunkAPI.dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
       } else {
-        thunkAPI.dispatch(appActions.setAppStatus({ status: "failed" }));
+        handleServerAppError(res.data, thunkAPI.dispatch, false);
       }
-    } catch (e) {
-      handleServerNetworkError(e as Error, thunkAPI.dispatch);
-    }
+    });
   },
 );
 

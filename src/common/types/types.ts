@@ -16,6 +16,6 @@ export type BaseAction<T extends (...args: any) => any> = Omit<
 >;
 
 export type rejectedValueOrSerializedError = {
-  messages: Array<string>;
-  fieldsErrors: FieldErrorType[];
+  errors: Array<string>;
+  fieldsErrors?: FieldErrorType[];
 };

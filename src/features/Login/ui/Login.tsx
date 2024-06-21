@@ -44,9 +44,10 @@ export const Login = () => {
         await dispatch(authThunks.login(values)).unwrap();
       } catch (err) {
         const errors = (err as rejectedValueOrSerializedError).fieldsErrors;
-        errors.forEach((el) => {
-          formikHelpers.setFieldError(el.field, el.error);
-        });
+        errors &&
+          errors.forEach((el) => {
+            formikHelpers.setFieldError(el.field, el.error);
+          });
       }
     },
     // formik.resetForm()
