@@ -4,7 +4,7 @@ import {
   todolistsActions,
   updateTodolistTitle,
 } from "state/todolist-reducer";
-import { useAppDispatch } from "state/store";
+import { useAppDispatch } from "../utils";
 
 export const useTodolist = (todolistId: string) => {
   const dispatch = useAppDispatch();

@@ -29,20 +29,23 @@ const slice = createSlice({
   },
 });
 
-export const me = createAppAsyncThunk("app/me", async (_, thunkAPI) => {
-  thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
-  try {
-    const res = await authAPI.me();
-    if (res.data.resultCode === ResultCode.success) {
-      thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
-      thunkAPI.dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
-    } else {
-      thunkAPI.dispatch(appActions.setAppStatus({ status: "failed" }));
+export const me = createAppAsyncThunk(
+  `${slice.name}/me`,
+  async (_, thunkAPI) => {
+    thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
+    try {
+      const res = await authAPI.me();
+      if (res.data.resultCode === ResultCode.success) {
+        thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
+        thunkAPI.dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
+      } else {
+        thunkAPI.dispatch(appActions.setAppStatus({ status: "failed" }));
+      }
+    } catch (e) {
+      handleServerNetworkError(e as Error, thunkAPI.dispatch);
     }
-  } catch (e) {
-    handleServerNetworkError(e as Error, thunkAPI.dispatch);
-  }
-});
+  },
+);
 
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed";
 export type InitialStateType = ReturnType<typeof slice.getInitialState>;

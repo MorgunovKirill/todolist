@@ -1,10 +1,10 @@
 import { tasksSelector } from "state/selectors";
 import { useCallback, useMemo } from "react";
 import { createTask } from "state/tasks-reducer";
-import { useAppDispatch, useAppSelector } from "state/store";
 import { TaskStatuses } from "common/enums";
 import { FilterValuesType } from "features/TodoListsList/TodoList/TodoList";
 import { TaskType } from "features/TodoListsList/TodoList/Task/Task";
+import { useAppDispatch, useAppSelector } from "../utils";
 
 export const useTasks = (
   todolistId: string,

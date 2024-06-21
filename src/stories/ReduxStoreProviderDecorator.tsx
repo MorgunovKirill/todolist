@@ -5,7 +5,7 @@ import { todolistsReducer } from "state/todolist-reducer";
 import { v1 } from "uuid";
 import { combineReducers } from "redux";
 import { tasksReducer } from "state/tasks-reducer";
-import { appReducer } from "state/app-reducer";
+import { appReducer } from "app/app-reducer";
 import { authReducer } from "features/Login/model/auth-reducer";
 import { configureStore } from "@reduxjs/toolkit";
 import { HashRouter } from "react-router-dom";

@@ -1,6 +1,6 @@
-import { appActions } from "state/app-reducer";
-import { AppDispatchType } from "../../state/store";
+import { appActions } from "app/app-reducer";
 import axios from "axios";
+import { AppDispatchType } from "./useAppDispatch";
 
 export const handleServerNetworkError = (
   err: unknown,

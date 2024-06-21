@@ -9,7 +9,7 @@ import {
   todolistAPI,
   UpdateTaskArgs,
 } from "features/TodoListsList/api";
-import { appActions } from "./app-reducer";
+import { appActions } from "../app/app-reducer";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   createAppAsyncThunk,
@@ -90,8 +90,9 @@ export const createTask = createAppAsyncThunk<TaskType, CreateTaskArgs>(
     const res = await todolistAPI.createTask(param);
     try {
       if (res.data.resultCode === ResultCode.success) {
+        const task = res.data.data.item;
         thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
-        return res.data.data.item;
+        return task;
       } else {
         handleServerAppError(res.data, thunkAPI.dispatch);
         return thunkAPI.rejectWithValue(null);

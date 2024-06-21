@@ -1,4 +1,3 @@
-import { useAppDispatch, useAppSelector } from "state/store";
 import React, { FC, useEffect } from "react";
 import { fetchTodolists } from "state/todolist-reducer";
 import { useApp } from "common/hooks/useApp";
@@ -6,8 +5,9 @@ import Grid from "@mui/material/Grid";
 import { AddItemForm } from "common/components/AddItemForm/AddItemForm";
 import Paper from "@mui/material/Paper";
 import TodoList from "./TodoList/TodoList";
-import { isLoggedSelector } from "state/selectors/isLoggedSelector";
+import { isLoggedSelector } from "features/Login/model/isLoggedSelector";
 import { Navigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../common/utils";
 
 type TodolistsListPropsType = {
   demo?: boolean;

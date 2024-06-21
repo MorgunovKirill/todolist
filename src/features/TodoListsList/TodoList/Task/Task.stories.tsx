@@ -4,9 +4,9 @@ import {
   ReduxStoreProviderDecorator,
   todoListId1,
 } from "stories/ReduxStoreProviderDecorator";
-import { useAppSelector } from "../../../../state/store";
 import { v1 } from "uuid";
 import { TaskPriorities, TaskStatuses } from "common/enums";
+import { useAppSelector } from "../../../../common/utils";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta: Meta<typeof Task> = {

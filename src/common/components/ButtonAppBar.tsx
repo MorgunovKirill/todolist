@@ -7,10 +7,10 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import LinearProgress from "@mui/material/LinearProgress";
-import { useAppDispatch, useAppSelector } from "state/store";
-import { appStatusSelector } from "state/selectors/appStatusSelector";
-import { isLoggedSelector } from "state/selectors/isLoggedSelector";
+import { isLoggedSelector } from "features/Login/model/isLoggedSelector";
 import { authThunks } from "features/Login/model/auth-reducer";
+import { appStatusSelector } from "../../app/app.selectors";
+import { useAppDispatch, useAppSelector } from "../utils";
 
 export function ButtonAppBar() {
   const dispatch = useAppDispatch();

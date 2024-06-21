@@ -4,11 +4,11 @@ import Container from "@mui/material/Container";
 import { TodolistsList } from "features/TodoListsList/TodoLists";
 import { Login } from "features/Login/ui/Login";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "state/store";
 import CircularProgress from "@mui/material/CircularProgress";
-import { isInitializedSelector } from "state/selectors/isInitializedSelector";
-import { appThunks } from "state/app-reducer";
+import { appThunks } from "app/app-reducer";
 import { ButtonAppBar, CustomizedSnackbars } from "common/components";
+import { isInitializedSelector } from "./app.selectors";
+import { useAppDispatch, useAppSelector } from "../common/utils";
 
 type AppPropsType = {
   demo?: boolean;

@@ -8,11 +8,11 @@ import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { FormikHelpers, useFormik } from "formik";
-import { useAppDispatch, useAppSelector } from "state/store";
 import { authThunks } from "features/Login/model/auth-reducer";
 import { Navigate } from "react-router-dom";
-import { isLoggedSelector } from "state/selectors/isLoggedSelector";
+import { isLoggedSelector } from "features/Login/model/isLoggedSelector";
 import { LoginType } from "features/Login/api/loginApi.types";
+import { useAppDispatch, useAppSelector } from "../../../common/utils";
 
 export const Login = () => {
   const dispatch = useAppDispatch();

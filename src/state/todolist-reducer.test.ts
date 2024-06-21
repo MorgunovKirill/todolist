@@ -5,7 +5,7 @@ import {
 } from "./todolist-reducer";
 import { v1 } from "uuid";
 import { BaseAction } from "common/types";
-import { RequestStatusType } from "./app-reducer";
+import { RequestStatusType } from "../app/app-reducer";
 import {
   FilterValuesType,
   TodolistDomainType,

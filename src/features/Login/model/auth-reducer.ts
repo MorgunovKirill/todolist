@@ -1,4 +1,4 @@
-import { appActions } from "state/app-reducer";
+import { appActions } from "app/app-reducer";
 import { handleServerNetworkError } from "common/utils/handleServerNetworkError";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createAppAsyncThunk, handleServerAppError } from "common/utils";
@@ -20,17 +20,17 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(login.fulfilled, (state) => {
-        state.isLoggedIn = true;
+      .addCase(login.fulfilled, (state, action) => {
+        state.isLoggedIn = action.payload.isLoggedIn;
       })
-      .addCase(logout.fulfilled, (state) => {
-        state.isLoggedIn = false;
+      .addCase(logout.fulfilled, (state, action) => {
+        state.isLoggedIn = action.payload.isLoggedIn;
       });
   },
 });
 
 export const login = createAppAsyncThunk<
-  undefined,
+  { isLoggedIn: boolean },
   LoginType,
   {
     rejectValue: {
@@ -38,13 +38,13 @@ export const login = createAppAsyncThunk<
       fieldsErrors?: Array<FieldErrorType>;
     };
   }
->("auth/login", async (param, thunkAPI) => {
+>(`${slice.name}/login`, async (param, thunkAPI) => {
   thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
   try {
     const res = await authAPI.login(param);
     if (res.data.resultCode === ResultCode.success) {
       thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
-      return;
+      return { isLoggedIn: true };
     } else {
       handleServerAppError(res.data, thunkAPI.dispatch);
       return thunkAPI.rejectWithValue({
@@ -61,8 +61,8 @@ export const login = createAppAsyncThunk<
   }
 });
 
-export const logout = createAppAsyncThunk(
-  "auth/logout",
+export const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, undefined>(
+  `${slice.name}/logout`,
   async (_, thunkAPI) => {
     thunkAPI.dispatch(appActions.setAppStatus({ status: "loading" }));
     try {
@@ -70,7 +70,7 @@ export const logout = createAppAsyncThunk(
       if (res.data.resultCode === ResultCode.success) {
         thunkAPI.dispatch(clearData());
         thunkAPI.dispatch(appActions.setAppStatus({ status: "succeeded" }));
-        return;
+        return { isLoggedIn: false };
       } else {
         handleServerAppError(res.data, thunkAPI.dispatch);
         return thunkAPI.rejectWithValue(null);
