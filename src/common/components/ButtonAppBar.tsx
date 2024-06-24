@@ -8,17 +8,17 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import LinearProgress from "@mui/material/LinearProgress";
 import { isLoggedSelector } from "features/Login/model/isLoggedSelector";
-import { authThunks } from "features/Login/model/auth-reducer";
 import { appStatusSelector } from "../../app/app.selectors";
-import { useAppDispatch, useAppSelector } from "../utils";
+import { useAppSelector } from "../utils";
+import { useActions } from "../hooks/useActions";
 
 export function ButtonAppBar() {
-  const dispatch = useAppDispatch();
+  const { logout } = useActions();
   const status = useAppSelector(appStatusSelector);
   const isLoggedIn = useAppSelector(isLoggedSelector);
 
   const onLogout = () => {
-    dispatch(authThunks.logout());
+    logout();
   };
 
   return (

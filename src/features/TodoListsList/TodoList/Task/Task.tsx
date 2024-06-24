@@ -3,9 +3,8 @@ import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import { Delete } from "@mui/icons-material";
 import { Checkbox } from "common/components/Checkbox";
-import { removeTask, updateTask } from "features/TodoListsList/tasks-reducer";
 import { TaskPriorities, TaskStatuses } from "common/enums";
-import { useAppDispatch } from "../../../../common/utils";
+import { useActions } from "../../../../common/hooks/useActions";
 
 type TaskComponentPropsType = {
   todoListId: string;
@@ -26,38 +25,33 @@ export type TaskType = {
 };
 
 const Task: FC<TaskComponentPropsType> = React.memo(({ task, todoListId }) => {
-  const dispatch = useAppDispatch();
-
+  const { removeTask, updateTask } = useActions();
   const removeTaskHandler = useCallback(() => {
-    dispatch(removeTask({ todolistId: todoListId, taskId: task.id }));
-  }, [dispatch, todoListId, task.id]);
+    removeTask({ todolistId: todoListId, taskId: task.id });
+  }, [todoListId, task.id]);
 
   const statusChangeHandler = useCallback(
     (checked: boolean) => {
-      dispatch(
-        updateTask({
-          todolistId: todoListId,
-          taskId: task.id,
-          domainModel: {
-            status: checked ? TaskStatuses.Completed : TaskStatuses.New,
-          },
-        }),
-      );
+      updateTask({
+        todolistId: todoListId,
+        taskId: task.id,
+        domainModel: {
+          status: checked ? TaskStatuses.Completed : TaskStatuses.New,
+        },
+      });
     },
-    [dispatch, todoListId, task.id],
+    [todoListId, task.id],
   );
 
   const titleChangeHandler = useCallback(
     (newTitle: string) => {
-      dispatch(
-        updateTask({
-          todolistId: todoListId,
-          taskId: task.id,
-          domainModel: { title: newTitle },
-        }),
-      );
+      updateTask({
+        todolistId: todoListId,
+        taskId: task.id,
+        domainModel: { title: newTitle },
+      });
     },
-    [dispatch, todoListId, task.id],
+    [todoListId, task.id],
   );
 
   return (

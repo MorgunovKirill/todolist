@@ -8,15 +8,15 @@ import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { FormikHelpers, useFormik } from "formik";
-import { authThunks } from "features/Login/model/auth-reducer";
 import { Navigate } from "react-router-dom";
 import { isLoggedSelector } from "features/Login/model/isLoggedSelector";
 import { LoginType } from "features/Login/api/loginApi.types";
-import { useAppDispatch, useAppSelector } from "../../../common/utils";
+import { useAppSelector } from "../../../common/utils";
 import { rejectedValueOrSerializedError } from "../../../common/types/types";
+import { useActions } from "../../../common/hooks/useActions";
 
 export const Login = () => {
-  const dispatch = useAppDispatch();
+  const { login } = useActions();
   const isLoggedIn = useAppSelector(isLoggedSelector);
 
   const formik = useFormik({
@@ -41,7 +41,7 @@ export const Login = () => {
     },
     onSubmit: async (values, formikHelpers: FormikHelpers<LoginType>) => {
       try {
-        await dispatch(authThunks.login(values)).unwrap();
+        await login(values).unwrap();
       } catch (err) {
         const errors = (err as rejectedValueOrSerializedError).fieldsErrors;
         errors &&

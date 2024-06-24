@@ -5,21 +5,21 @@ import { TodolistsList } from "features/TodoListsList/TodoLists";
 import { Login } from "features/Login/ui/Login";
 import { Navigate, Route, Routes } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
-import { appThunks } from "app/app-reducer";
 import { ButtonAppBar, CustomizedSnackbars } from "common/components";
 import { isInitializedSelector } from "./app.selectors";
-import { useAppDispatch, useAppSelector } from "../common/utils";
+import { useAppSelector } from "../common/utils";
+import { useActions } from "../common/hooks/useActions";
 
 type AppPropsType = {
   demo?: boolean;
 };
 
 const App = React.memo(({ demo = false }: AppPropsType) => {
-  const dispatch = useAppDispatch();
   const isInitialized = useAppSelector(isInitializedSelector);
+  const { me } = useActions();
 
   useEffect(() => {
-    dispatch(appThunks.me());
+    me();
   }, []);
 
   if (!isInitialized) {

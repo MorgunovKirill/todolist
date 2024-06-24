@@ -1,17 +1,14 @@
 import { useCallback, useMemo } from "react";
-import { createTodolist } from "../../features/TodoListsList/todolist-reducer";
-import { useAppDispatch, useAppSelector } from "../utils";
+import { useAppSelector } from "../utils";
 import { todolistSelector } from "../../features/TodoListsList/todolist.selectors";
+import { useActions } from "./useActions";
 
 export const useApp = () => {
-  const dispatch = useAppDispatch();
+  const { createTodolist } = useActions();
   const todoLists = useAppSelector(todolistSelector);
-  const addTodolistHandler = useCallback(
-    (title: string) => {
-      dispatch(createTodolist(title));
-    },
-    [dispatch],
-  );
+  const addTodolistHandler = useCallback((title: string) => {
+    createTodolist(title);
+  }, []);
 
   return useMemo(
     () => ({

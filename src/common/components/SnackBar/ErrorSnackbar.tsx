@@ -1,11 +1,11 @@
 import React from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import { appActions } from "app/app-reducer";
-import { useAppDispatch, useAppSelector } from "../../utils";
+import { useAppSelector } from "../../utils";
+import { useActions } from "../../hooks/useActions";
 
 export function CustomizedSnackbars() {
-  const dispatch = useAppDispatch();
+  const { setAppError } = useActions();
   const error = useAppSelector<string | null>((state) => state.app.error);
 
   const handleClose = (
@@ -15,7 +15,7 @@ export function CustomizedSnackbars() {
     if (reason === "clickaway") {
       return;
     }
-    dispatch(appActions.setAppError({ error: null }));
+    setAppError({ error: null });
   };
 
   return (

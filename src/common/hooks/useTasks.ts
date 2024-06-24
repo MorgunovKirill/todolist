@@ -1,16 +1,16 @@
 import { useCallback, useMemo } from "react";
-import { createTask } from "features/TodoListsList/tasks-reducer";
 import { TaskStatuses } from "common/enums";
 import { FilterValuesType } from "features/TodoListsList/TodoList/TodoList";
 import { TaskType } from "features/TodoListsList/TodoList/Task/Task";
-import { useAppDispatch, useAppSelector } from "../utils";
+import { useAppSelector } from "../utils";
 import { tasksSelector } from "../../features/TodoListsList/tasks.selectors";
+import { useActions } from "./useActions";
 
 export const useTasks = (
   todolistId: string,
   activeFilter: FilterValuesType = "all",
 ) => {
-  const dispatch = useAppDispatch();
+  const { createTask } = useActions();
   const tasks = useAppSelector(tasksSelector)[todolistId];
   const getFilteredTasks = (
     tasks: Array<TaskType>,
@@ -35,9 +35,9 @@ export const useTasks = (
 
   const addTaskHandler = useCallback(
     (title: string) => {
-      dispatch(createTask({ todolistId, title }));
+      createTask({ todolistId, title });
     },
-    [dispatch, todolistId],
+    [todolistId],
   );
 
   return useMemo(

@@ -1,45 +1,33 @@
 import { useCallback, useMemo } from "react";
-import {
-  deleteTodolist,
-  todolistsActions,
-  updateTodolistTitle,
-} from "features/TodoListsList/todolist-reducer";
-import { useAppDispatch } from "../utils";
+import { todolistsActions } from "features/TodoListsList/todolist-reducer";
+import { useActions } from "./useActions";
 
 export const useTodolist = (todolistId: string) => {
-  const dispatch = useAppDispatch();
+  const { deleteTodolist, changeTodolistFilter, updateTodolistTitle } =
+    useActions();
 
   const removeTodolist = useCallback(() => {
-    dispatch(deleteTodolist(todolistId));
-  }, [dispatch, todolistId]);
+    deleteTodolist(todolistId);
+  }, [todolistId]);
 
   const onAllClickHandler = useCallback(() => {
-    dispatch(
-      todolistsActions.changeTodolistFilter({ todolistId, filter: "all" }),
-    );
-  }, [dispatch, todolistId]);
+    changeTodolistFilter({ todolistId, filter: "all" });
+  }, [todolistId]);
 
   const onActiveClickHandler = useCallback(() => {
-    dispatch(
-      todolistsActions.changeTodolistFilter({ todolistId, filter: "active" }),
-    );
-  }, [dispatch, todolistId]);
+    changeTodolistFilter({ todolistId, filter: "active" });
+  }, [todolistId]);
 
   const onCompletedClickHandler = useCallback(() => {
-    dispatch(
-      todolistsActions.changeTodolistFilter({
-        todolistId,
-        filter: "completed",
-      }),
-    );
-  }, [dispatch, todolistId]);
+    todolistsActions.changeTodolistFilter({
+      todolistId,
+      filter: "completed",
+    });
+  }, [todolistId]);
 
-  const todolistTitleChangeHandler = useCallback(
-    (title: string) => {
-      dispatch(updateTodolistTitle({ todolistId, title }));
-    },
-    [dispatch],
-  );
+  const todolistTitleChangeHandler = useCallback((title: string) => {
+    updateTodolistTitle({ todolistId, title });
+  }, []);
 
   return useMemo(
     () => ({
