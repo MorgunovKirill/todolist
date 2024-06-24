@@ -1,14 +1,17 @@
-import { todolistAPI } from "features/TodoListsList/api";
-import { appActions, RequestStatusType } from "../../app/app-reducer";
+import { todolistAPI } from "features/TodoListsList/TodoList/api/todolist/todolistsApi";
+import {
+  appActions,
+  RequestStatusType,
+} from "../../../../../app/model/app-reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createAppAsyncThunk, handleServerAppError } from "common/utils";
 import { ResultCode } from "common/enums/enums";
 import {
   FilterValuesType,
   TodolistDomainType,
-} from "features/TodoListsList/TodoList/TodoList";
+} from "features/TodoListsList/TodoList/ui/todolist/TodoList";
 import { clearData } from "common/actions/common.actions";
-import { thunkTryCatch } from "../../common/utils/thunkTryCatch";
+import { thunkTryCatch } from "../../../../../common/utils/thunkTryCatch";
 
 const slice = createSlice({
   name: "todolists",
@@ -23,6 +26,7 @@ const slice = createSlice({
       );
       if (index > -1) {
         state[index].filter = action.payload.filter;
+        console.log(action.payload.filter);
       }
     },
     changeTodolistEntityStatus: (

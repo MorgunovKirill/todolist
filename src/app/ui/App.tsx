@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import Container from "@mui/material/Container";
-import { TodolistsList } from "features/TodoListsList/TodoLists";
+import { TodolistsList } from "features/TodoListsList/TodoList/ui/TodoLists";
 import { Login } from "features/Login/ui/Login";
 import { Navigate, Route, Routes } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { ButtonAppBar, CustomizedSnackbars } from "common/components";
-import { isInitializedSelector } from "./app.selectors";
-import { useAppSelector } from "../common/utils";
-import { useActions } from "../common/hooks/useActions";
+import { isInitializedSelector } from "../model/app.selectors";
+import { useAppSelector } from "../../common/utils";
+import { useActions } from "../../common/hooks/useActions";
 
 type AppPropsType = {
   demo?: boolean;

@@ -1,4 +1,4 @@
-import { appActions } from "app/app-reducer";
+import { appActions } from "app/model/app-reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createAppAsyncThunk, handleServerAppError } from "common/utils";
 import { authAPI } from "features/Login/api/loginApi";

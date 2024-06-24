@@ -1,29 +1,9 @@
-import { UpdateDomainTaskModelType } from "features/TodoListsList/tasks-reducer";
+import { UpdateDomainTaskModelType } from "features/TodoListsList/TodoList/model/tasks/tasks-reducer";
 import { instance } from "common/instance";
-import { TodolistType } from "features/TodoListsList/TodoList/TodoList";
-import { TaskType } from "features/TodoListsList/TodoList/Task/Task";
+import { TaskType } from "features/TodoListsList/TodoList/ui/tasks/Task";
 import { BaseResponseType } from "common/types";
 
-export const todolistAPI = {
-  getTodolists() {
-    return instance.get<TodolistType[]>("todo-lists").then((res) => {
-      return res.data;
-    });
-  },
-  createTodolist(title: string) {
-    return instance.post<BaseResponseType<{ item: TodolistType }>>(
-      "todo-lists",
-      {
-        title,
-      },
-    );
-  },
-  deleteTodolist(todoId: string) {
-    return instance.delete<BaseResponseType>(`todo-lists/${todoId}`);
-  },
-  updateTodolist(todoId: string, title: string) {
-    return instance.put<BaseResponseType>(`todo-lists/${todoId}`, { title });
-  },
+export const tasksAPI = {
   getTasks(todolistId: string) {
     return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`);
   },

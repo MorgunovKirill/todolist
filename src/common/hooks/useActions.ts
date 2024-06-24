@@ -1,16 +1,16 @@
 import { useMemo } from "react";
 import { bindActionCreators } from "redux";
 import { useAppDispatch } from "../utils";
-import { taskThunks } from "../../features/TodoListsList/tasks-reducer";
+import { taskThunks } from "../../features/TodoListsList/TodoList/model/tasks/tasks-reducer";
 import {
   todolistsActions,
   todolistsThunks,
-} from "../../features/TodoListsList/todolist-reducer";
+} from "../../features/TodoListsList/TodoList/model/todolist/todolist-reducer";
 import {
   authActions,
   authThunks,
 } from "../../features/Login/model/auth-reducer";
-import { appActions, appThunks } from "../../app/app-reducer";
+import { appActions, appThunks } from "../../app/model/app-reducer";
 
 // ❗ упаковываем actions и соответсвенно при вызове хука не нужно
 // будет передавать actions

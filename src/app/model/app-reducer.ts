@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createAppAsyncThunk, handleServerAppError } from "common/utils";
 import { authAPI } from "features/Login/api/loginApi";
 import { ResultCode } from "common/enums";
-import { thunkTryCatch } from "../common/utils/thunkTryCatch";
+import { thunkTryCatch } from "../../common/utils/thunkTryCatch";
 
 const slice = createSlice({
   name: "app",

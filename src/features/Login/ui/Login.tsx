@@ -7,51 +7,11 @@ import FormGroup from "@mui/material/FormGroup";
 import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { FormikHelpers, useFormik } from "formik";
 import { Navigate } from "react-router-dom";
-import { isLoggedSelector } from "features/Login/model/isLoggedSelector";
-import { LoginType } from "features/Login/api/loginApi.types";
-import { useAppSelector } from "../../../common/utils";
-import { rejectedValueOrSerializedError } from "../../../common/types/types";
-import { useActions } from "../../../common/hooks/useActions";
+import { useLogin } from "../lib/useLogin";
 
 export const Login = () => {
-  const { login } = useActions();
-  const isLoggedIn = useAppSelector(isLoggedSelector);
-
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-      rememberMe: false,
-    },
-    validate: (values) => {
-      const errors: FormikErrorType = {};
-      if (!values.email) {
-        errors.email = "Required";
-      } else if (
-        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-      ) {
-        errors.email = "Invalid email address";
-      }
-      if (!values.password) {
-        errors.password = "Required";
-      }
-      return errors;
-    },
-    onSubmit: async (values, formikHelpers: FormikHelpers<LoginType>) => {
-      try {
-        await login(values).unwrap();
-      } catch (err) {
-        const errors = (err as rejectedValueOrSerializedError).fieldsErrors;
-        errors &&
-          errors.forEach((el) => {
-            formikHelpers.setFieldError(el.field, el.error);
-          });
-      }
-    },
-    // formik.resetForm()
-  });
+  const { formik, isLoggedIn } = useLogin();
 
   if (isLoggedIn) {
     return <Navigate to={"/"} />;
@@ -112,10 +72,4 @@ export const Login = () => {
       </Grid>
     </Grid>
   );
-};
-
-type FormikErrorType = {
-  email?: string;
-  password?: string;
-  rememberMe?: boolean;
 };

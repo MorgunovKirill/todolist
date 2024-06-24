@@ -1,10 +1,10 @@
 import { useCallback, useMemo } from "react";
 import { TaskStatuses } from "common/enums";
-import { FilterValuesType } from "features/TodoListsList/TodoList/TodoList";
-import { TaskType } from "features/TodoListsList/TodoList/Task/Task";
-import { useAppSelector } from "../utils";
-import { tasksSelector } from "../../features/TodoListsList/tasks.selectors";
-import { useActions } from "./useActions";
+import { FilterValuesType } from "features/TodoListsList/TodoList/ui/todolist/TodoList";
+import { TaskType } from "features/TodoListsList/TodoList/ui/tasks/Task";
+import { useAppSelector } from "../../../../../common/utils";
+import { tasksSelector } from "../../model/tasks/tasks.selectors";
+import { useActions } from "../../../../../common/hooks/useActions";
 
 export const useTasks = (
   todolistId: string,

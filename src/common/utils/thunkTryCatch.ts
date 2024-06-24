@@ -1,4 +1,4 @@
-import { appActions } from "../../app/app-reducer";
+import { appActions } from "../../app/model/app-reducer";
 import { handleServerNetworkError } from "./handleServerNetworkError";
 import { AppDispatchType } from "./useAppDispatch";
 import { BaseResponseType } from "../types";

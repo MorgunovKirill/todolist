@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import { Delete } from "@mui/icons-material";
 import { Checkbox } from "common/components/Checkbox";
 import { TaskPriorities, TaskStatuses } from "common/enums";
-import { useActions } from "../../../../common/hooks/useActions";
+import { useActions } from "../../../../../common/hooks/useActions";
 
 type TaskComponentPropsType = {
   todoListId: string;

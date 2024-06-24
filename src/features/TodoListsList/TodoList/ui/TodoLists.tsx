@@ -1,13 +1,13 @@
 import React, { FC, useEffect } from "react";
-import { fetchTodolists } from "features/TodoListsList/todolist-reducer";
-import { useApp } from "common/hooks/useApp";
+import { fetchTodolists } from "features/TodoListsList/TodoList/model/todolist/todolist-reducer";
 import Grid from "@mui/material/Grid";
 import { AddItemForm } from "common/components/AddItemForm/AddItemForm";
 import Paper from "@mui/material/Paper";
-import TodoList from "./TodoList/TodoList";
+import TodoList from "./todolist/TodoList";
 import { isLoggedSelector } from "features/Login/model/isLoggedSelector";
 import { Navigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../common/utils";
+import { useAppDispatch, useAppSelector } from "../../../../common/utils";
+import { useTodolist } from "../lib/todolist/useTodolist";
 
 type TodolistsListPropsType = {
   demo?: boolean;
@@ -22,7 +22,7 @@ export const TodolistsList: FC<TodolistsListPropsType> = ({ demo = false }) => {
     dispatch(fetchTodolists());
   }, [dispatch]);
 
-  const { todoLists, addTodolistHandler } = useApp();
+  const { todoLists, addTodolistHandler } = useTodolist();
 
   if (!isLoggedIn) {
     return <Navigate to={"/login"} />;

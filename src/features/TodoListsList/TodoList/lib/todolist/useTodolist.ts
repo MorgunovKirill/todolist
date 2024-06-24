@@ -1,10 +1,20 @@
 import { useCallback, useMemo } from "react";
-import { todolistsActions } from "features/TodoListsList/todolist-reducer";
-import { useActions } from "./useActions";
+import { useActions } from "../../../../../common/hooks/useActions";
+import { useAppSelector } from "../../../../../common/utils";
+import { todolistSelector } from "../../model/todolist/todolist.selectors";
 
-export const useTodolist = (todolistId: string) => {
-  const { deleteTodolist, changeTodolistFilter, updateTodolistTitle } =
-    useActions();
+export const useTodolist = (todolistId: string = "") => {
+  const {
+    createTodolist,
+    deleteTodolist,
+    changeTodolistFilter,
+    updateTodolistTitle,
+  } = useActions();
+
+  const todoLists = useAppSelector(todolistSelector);
+  const addTodolistHandler = useCallback((title: string) => {
+    createTodolist(title);
+  }, []);
 
   const removeTodolist = useCallback(() => {
     deleteTodolist(todolistId);
@@ -19,7 +29,7 @@ export const useTodolist = (todolistId: string) => {
   }, [todolistId]);
 
   const onCompletedClickHandler = useCallback(() => {
-    todolistsActions.changeTodolistFilter({
+    changeTodolistFilter({
       todolistId,
       filter: "completed",
     });
@@ -31,6 +41,8 @@ export const useTodolist = (todolistId: string) => {
 
   return useMemo(
     () => ({
+      todoLists,
+      addTodolistHandler,
       onAllClickHandler,
       onActiveClickHandler,
       onCompletedClickHandler,
@@ -38,6 +50,8 @@ export const useTodolist = (todolistId: string) => {
       todolistTitleChangeHandler,
     }),
     [
+      todoLists,
+      addTodolistHandler,
       onAllClickHandler,
       onActiveClickHandler,
       onCompletedClickHandler,

@@ -2,14 +2,14 @@ import {
   todolistsActions,
   todolistsReducer,
   todolistsThunks,
-} from "./todolist-reducer";
+} from "../todolist/todolist-reducer";
 import { v1 } from "uuid";
 import { BaseAction } from "common/types";
-import { RequestStatusType } from "../../app/app-reducer";
+import { RequestStatusType } from "../../../../../app/model/app-reducer";
 import {
   FilterValuesType,
   TodolistDomainType,
-} from "features/TodoListsList/TodoList/TodoList";
+} from "features/TodoListsList/TodoList/ui/todolist/TodoList";
 
 let startState: Array<TodolistDomainType>;
 let todoListId1: string;

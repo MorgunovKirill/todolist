@@ -1,14 +1,14 @@
 import React, { FC, useEffect } from "react";
-import Task from "./Task/Task";
+import Task from "../tasks/Task";
 import { AddItemForm } from "common/components/AddItemForm/AddItemForm";
 import { Delete } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
-import { useTodolist } from "common/hooks/useTodolist";
-import { useTasks } from "common/hooks/useTasks";
+import { useTodolist } from "features/TodoListsList/TodoList/lib/todolist/useTodolist";
+import { useTasks } from "features/TodoListsList/TodoList/lib/tasks/useTasks";
 import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
-import { RequestStatusType } from "app/app-reducer";
-import { useActions } from "../../../common/hooks/useActions";
+import { RequestStatusType } from "app/model/app-reducer";
+import { useActions } from "../../../../../common/hooks/useActions";
 
 type TodolistPropsType = {
   todolist: TodolistDomainType;

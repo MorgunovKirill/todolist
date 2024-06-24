@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import LinearProgress from "@mui/material/LinearProgress";
 import { isLoggedSelector } from "features/Login/model/isLoggedSelector";
-import { appStatusSelector } from "../../app/app.selectors";
+import { appStatusSelector } from "../../app/model/app.selectors";
 import { useAppSelector } from "../utils";
 import { useActions } from "../hooks/useActions";
 

@@ -1,4 +1,4 @@
-import { appActions } from "app/app-reducer";
+import { appActions } from "app/model/app-reducer";
 import axios from "axios";
 import { AppDispatchType } from "./useAppDispatch";
 
