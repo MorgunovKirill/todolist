@@ -135,7 +135,7 @@ beforeEach(() => {
   };
 });
 
-test("2 todolist should be incremented by 1 new Task", () => {
+test("2 Todolist should be incremented by 1 new Task", () => {
   const newTask = {
     id: "3",
     title: "books",
@@ -164,7 +164,7 @@ test("2 todolist should be incremented by 1 new Task", () => {
   expect(newState[todoListId2].length).toBe(4);
 });
 
-test("1 todolist 1 task should be removed", () => {
+test("1 Todolist 1 task should be removed", () => {
   const taskIdToChange = "1";
   //action
   const param = { todolistId: todoListId1, taskId: taskIdToChange };
@@ -186,7 +186,7 @@ test("1 todolist 1 task should be removed", () => {
   ).toBeTruthy();
 });
 
-test('First Task of 3 todolist title should be changed to "Bar"', () => {
+test('First Task of 3 Todolist title should be changed to "Bar"', () => {
   const taskIdToChange = "1";
   type Action = BaseAction<typeof taskThunks.updateTask.fulfilled>;
   const action: Action = {
@@ -208,7 +208,7 @@ test('First Task of 3 todolist title should be changed to "Bar"', () => {
   ).toBe("Bar");
 });
 
-test('Second Task of 2 todolist title should be changed to false"', () => {
+test('Second Task of 2 Todolist title should be changed to false"', () => {
   const taskIdToChange = "2";
   type Action = BaseAction<typeof taskThunks.updateTask.fulfilled>;
   const action: Action = {
@@ -251,7 +251,7 @@ test("empty arrays should be added when we set todolists", () => {
   expect(endState[todoListId2]).toStrictEqual([]);
 });
 
-test("tasks should be added for todolist", () => {
+test("Task should be added for Todolist", () => {
   const action = taskThunks.fetchTasks.fulfilled(
     {
       todolistId: todoListId1,

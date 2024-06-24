@@ -1,12 +1,13 @@
-import React, { FC, useCallback } from "react";
+import React from "react";
 import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import { Delete } from "@mui/icons-material";
 import { Checkbox } from "common/components/Checkbox";
 import { TaskPriorities, TaskStatuses } from "common/enums";
 import { useActions } from "../../../../../common/hooks/useActions";
+import s from "./Task.module.css";
 
-type TaskComponentPropsType = {
+type Props = {
   todoListId: string;
   task: TaskType;
 };
@@ -24,39 +25,33 @@ export type TaskType = {
   addedDate: string;
 };
 
-const Task: FC<TaskComponentPropsType> = React.memo(({ task, todoListId }) => {
+const Task = ({ task, todoListId }: Props) => {
   const { removeTask, updateTask } = useActions();
-  const removeTaskHandler = useCallback(() => {
+  const removeTaskHandler = () => {
     removeTask({ todolistId: todoListId, taskId: task.id });
-  }, [todoListId, task.id]);
+  };
 
-  const statusChangeHandler = useCallback(
-    (checked: boolean) => {
-      updateTask({
-        todolistId: todoListId,
-        taskId: task.id,
-        domainModel: {
-          status: checked ? TaskStatuses.Completed : TaskStatuses.New,
-        },
-      });
-    },
-    [todoListId, task.id],
-  );
+  const statusChangeHandler = (checked: boolean) => {
+    updateTask({
+      todolistId: todoListId,
+      taskId: task.id,
+      domainModel: {
+        status: checked ? TaskStatuses.Completed : TaskStatuses.New,
+      },
+    });
+  };
 
-  const titleChangeHandler = useCallback(
-    (newTitle: string) => {
-      updateTask({
-        todolistId: todoListId,
-        taskId: task.id,
-        domainModel: { title: newTitle },
-      });
-    },
-    [todoListId, task.id],
-  );
+  const titleChangeHandler = (newTitle: string) => {
+    updateTask({
+      todolistId: todoListId,
+      taskId: task.id,
+      domainModel: { title: newTitle },
+    });
+  };
 
   return (
     <li
-      className={task.status === TaskStatuses.Completed ? "is-done" : ""}
+      className={task.status === TaskStatuses.Completed ? s.isDone : ""}
       key={task.id}
     >
       <Checkbox
@@ -69,6 +64,6 @@ const Task: FC<TaskComponentPropsType> = React.memo(({ task, todoListId }) => {
       </IconButton>
     </li>
   );
-});
+};
 
 export default Task;

@@ -7,8 +7,8 @@ import { appActions } from "../../../../../app/model/app-reducer";
 import { createSlice } from "@reduxjs/toolkit";
 import { createAppAsyncThunk, handleServerAppError } from "common/utils";
 import { ResultCode, TaskPriorities } from "common/enums";
-import { TodolistType } from "features/TodoListsList/TodoList/ui/todolist/TodoList";
-import { TaskType } from "features/TodoListsList/TodoList/ui/tasks/Task";
+import { TodolistType } from "features/TodoListsList/TodoList/ui/Todolist/TodoList";
+import { TaskType } from "features/TodoListsList/TodoList/ui/Task/Task";
 import { clearData } from "common/actions/common.actions";
 import { thunkTryCatch } from "../../../../../common/utils/thunkTryCatch";
 import {

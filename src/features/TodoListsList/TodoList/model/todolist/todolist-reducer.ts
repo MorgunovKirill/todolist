@@ -9,7 +9,7 @@ import { ResultCode } from "common/enums/enums";
 import {
   FilterValuesType,
   TodolistDomainType,
-} from "features/TodoListsList/TodoList/ui/todolist/TodoList";
+} from "features/TodoListsList/TodoList/ui/Todolist/TodoList";
 import { clearData } from "common/actions/common.actions";
 import { thunkTryCatch } from "../../../../../common/utils/thunkTryCatch";
 
@@ -26,7 +26,6 @@ const slice = createSlice({
       );
       if (index > -1) {
         state[index].filter = action.payload.filter;
-        console.log(action.payload.filter);
       }
     },
     changeTodolistEntityStatus: (

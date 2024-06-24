@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import "./App.css";
 import Container from "@mui/material/Container";
 import { TodolistsList } from "features/TodoListsList/TodoList/ui/TodoLists";
 import { Login } from "features/Login/ui/Login";
@@ -10,11 +9,11 @@ import { isInitializedSelector } from "../model/app.selectors";
 import { useAppSelector } from "../../common/utils";
 import { useActions } from "../../common/hooks/useActions";
 
-type AppPropsType = {
+type Props = {
   demo?: boolean;
 };
 
-const App = React.memo(({ demo = false }: AppPropsType) => {
+const App = ({ demo = false }: Props) => {
   const isInitialized = useAppSelector(isInitializedSelector);
   const { me } = useActions();
 
@@ -51,6 +50,6 @@ const App = React.memo(({ demo = false }: AppPropsType) => {
       <CustomizedSnackbars />
     </div>
   );
-});
+};
 
 export default App;

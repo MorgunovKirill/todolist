@@ -1,7 +1,8 @@
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { useActions } from "../../../../../common/hooks/useActions";
 import { useAppSelector } from "../../../../../common/utils";
 import { todolistSelector } from "../../model/todolist/todolist.selectors";
+import { FilterValuesType } from "../../ui/Todolist/TodoList";
 
 export const useTodolist = (todolistId: string = "") => {
   const {
@@ -12,49 +13,34 @@ export const useTodolist = (todolistId: string = "") => {
   } = useActions();
 
   const todoLists = useAppSelector(todolistSelector);
-  const addTodolistHandler = useCallback((title: string) => {
+  const addTodolistHandler = (title: string) => {
     createTodolist(title);
-  }, []);
+  };
 
-  const removeTodolist = useCallback(() => {
+  const removeTodolist = () => {
     deleteTodolist(todolistId);
-  }, [todolistId]);
+  };
 
-  const onAllClickHandler = useCallback(() => {
-    changeTodolistFilter({ todolistId, filter: "all" });
-  }, [todolistId]);
+  const changeTodolistFilterHandler = (filter: FilterValuesType) => {
+    changeTodolistFilter({ todolistId, filter });
+  };
 
-  const onActiveClickHandler = useCallback(() => {
-    changeTodolistFilter({ todolistId, filter: "active" });
-  }, [todolistId]);
-
-  const onCompletedClickHandler = useCallback(() => {
-    changeTodolistFilter({
-      todolistId,
-      filter: "completed",
-    });
-  }, [todolistId]);
-
-  const todolistTitleChangeHandler = useCallback((title: string) => {
+  const todolistTitleChangeHandler = (title: string) => {
     updateTodolistTitle({ todolistId, title });
-  }, []);
+  };
 
   return useMemo(
     () => ({
       todoLists,
       addTodolistHandler,
-      onAllClickHandler,
-      onActiveClickHandler,
-      onCompletedClickHandler,
+      changeTodolistFilterHandler,
       removeTodolist,
       todolistTitleChangeHandler,
     }),
     [
       todoLists,
       addTodolistHandler,
-      onAllClickHandler,
-      onActiveClickHandler,
-      onCompletedClickHandler,
+      changeTodolistFilterHandler,
       removeTodolist,
       todolistTitleChangeHandler,
     ],
