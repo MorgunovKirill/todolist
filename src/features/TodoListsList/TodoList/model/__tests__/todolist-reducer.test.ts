@@ -2,7 +2,7 @@ import {
   todolistsActions,
   todolistsReducer,
   todolistsThunks,
-} from "../todolist/todolist-reducer";
+} from "../todolist/todolistsSlice";
 import { v1 } from "uuid";
 import { BaseAction } from "common/types";
 import { RequestStatusType } from "../../../../../app/model/app-reducer";

@@ -14,7 +14,7 @@ export const useTodolist = (todolistId: string = "") => {
 
   const todoLists = useAppSelector(todolistSelector);
   const addTodolistHandler = (title: string) => {
-    createTodolist(title);
+    return createTodolist(title);
   };
 
   const removeTodolist = () => {

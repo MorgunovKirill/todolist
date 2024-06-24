@@ -2,7 +2,7 @@ import {
   createTodolist,
   deleteTodolist,
   fetchTodolists,
-} from "../todolist/todolist-reducer";
+} from "../todolist/todolistsSlice";
 import { appActions } from "../../../../../app/model/app-reducer";
 import { createSlice } from "@reduxjs/toolkit";
 import { createAppAsyncThunk, handleServerAppError } from "common/utils";
@@ -84,8 +84,8 @@ export const createTask = createAppAsyncThunk<TaskType, CreateTaskArgs>(
       if (res.data.resultCode === ResultCode.success) {
         return res.data.data.item;
       } else {
-        handleServerAppError(res.data, thunkAPI.dispatch);
-        return thunkAPI.rejectWithValue(null);
+        handleServerAppError(res.data, thunkAPI.dispatch, false);
+        return thunkAPI.rejectWithValue(res.data);
       }
     });
   },
@@ -151,7 +151,7 @@ export const updateTask = createAppAsyncThunk<UpdateTaskArgs, UpdateTaskArgs>(
   },
 );
 
-export const tasksReducer = slice.reducer;
+export const tasksSlice = slice.reducer;
 export const taskThunks = { fetchTasks, createTask, removeTask, updateTask };
 
 export type UpdateTaskModelType = {

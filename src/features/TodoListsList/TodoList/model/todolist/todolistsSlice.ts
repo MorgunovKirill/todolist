@@ -97,8 +97,8 @@ export const createTodolist = createAppAsyncThunk(
       if (res.data.resultCode === ResultCode.success) {
         return { todolist: res.data.data.item };
       } else {
-        handleServerAppError(res.data, thunkAPI.dispatch);
-        return thunkAPI.rejectWithValue(null);
+        handleServerAppError(res.data, thunkAPI.dispatch, false);
+        return thunkAPI.rejectWithValue(res.data);
       }
     });
   },

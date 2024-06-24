@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { fetchTodolists } from "features/TodoListsList/TodoList/model/todolist/todolist-reducer";
+import { fetchTodolists } from "features/TodoListsList/TodoList/model/todolist/todolistsSlice";
 import Grid from "@mui/material/Grid";
 import { AddItemForm } from "common/components/AddItemForm/AddItemForm";
 import Paper from "@mui/material/Paper";

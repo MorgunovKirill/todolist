@@ -1,9 +1,14 @@
 import React, { ChangeEvent, FC, KeyboardEvent, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { TaskType } from "../../../features/TodoListsList/TodoList/ui/Task/Task";
+import { TodolistType } from "../../../features/TodoListsList/TodoList/ui/Todolist/TodoList";
+import { BaseResponseType } from "../../types";
 
 type AddItemFormPropsType = {
-  addItem: (newTitle: string) => void;
+  addItem: (title: string) => {
+    unwrap: () => Promise<TaskType | { todolist: TodolistType }>;
+  };
   disabled?: boolean;
 };
 
@@ -28,8 +33,14 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({
   const addTaskHandler = () => {
     if (title.trim() !== "") {
       setTitleError("");
-      addItem(title);
-      setTitle("");
+      addItem(title)
+        .unwrap()
+        .then((res) => {
+          setTitle("");
+        })
+        .catch((err: BaseResponseType) => {
+          setTitleError(err.messages[0]);
+        });
     } else {
       setTitleError("Field required");
     }
@@ -51,7 +62,7 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({
         onKeyDown={onKeyPressHandler}
         className={titleError ? "error" : ""}
         id="outlined-basic"
-        label={titleError ? titleError : "Type something"}
+        label={titleError ? "Title" : "Type something"}
         variant="outlined"
         size="small"
         disabled={disabled}

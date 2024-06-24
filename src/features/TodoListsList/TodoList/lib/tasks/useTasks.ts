@@ -34,7 +34,7 @@ export const useTasks = (
   );
 
   const addTaskHandler = (title: string) => {
-    createTask({ todolistId, title });
+    return createTask({ todolistId, title });
   };
 
   return useMemo(

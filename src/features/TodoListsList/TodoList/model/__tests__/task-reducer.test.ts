@@ -1,11 +1,7 @@
 import { v1 } from "uuid";
-import {
-  tasksReducer,
-  TasksStateType,
-  taskThunks,
-} from "../tasks/tasks-reducer";
+import { tasksSlice, TasksStateType, taskThunks } from "../tasks/tasksSlice";
 import { BaseAction } from "common/types";
-import { fetchTodolists } from "../todolist/todolist-reducer";
+import { fetchTodolists } from "../todolist/todolistsSlice";
 import { TaskPriorities, TaskStatuses } from "common/enums";
 
 let state: TasksStateType;
@@ -157,7 +153,7 @@ test("2 Todolist should be incremented by 1 new Task", () => {
     payload: newTask,
   };
 
-  const newState = tasksReducer(state, action);
+  const newState = tasksSlice(state, action);
 
   //expectation
 
@@ -176,7 +172,7 @@ test("1 Todolist 1 task should be removed", () => {
     payload: param,
   };
 
-  const newState = tasksReducer(state, action);
+  const newState = tasksSlice(state, action);
 
   //expectation
 
@@ -199,7 +195,7 @@ test('First Task of 3 Todolist title should be changed to "Bar"', () => {
   };
 
   //action
-  const newState = tasksReducer(state, action);
+  const newState = tasksSlice(state, action);
 
   //expectation
 
@@ -221,7 +217,7 @@ test('Second Task of 2 Todolist title should be changed to false"', () => {
   };
 
   //action
-  const newState = tasksReducer(state, action);
+  const newState = tasksSlice(state, action);
 
   //expectation
 
@@ -242,7 +238,7 @@ test("empty arrays should be added when we set todolists", () => {
   };
   const action = fetchTodolists.fulfilled(payload, "");
 
-  const endState = tasksReducer({}, action);
+  const endState = tasksSlice({}, action);
 
   const keys = Object.keys(endState);
 
@@ -261,7 +257,7 @@ test("Task should be added for Todolist", () => {
     todoListId1,
   );
 
-  const endState = tasksReducer(
+  const endState = tasksSlice(
     {
       [todoListId2]: [],
       [todoListId1]: [],

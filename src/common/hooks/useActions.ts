@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import { bindActionCreators } from "redux";
 import { useAppDispatch } from "../utils";
-import { taskThunks } from "../../features/TodoListsList/TodoList/model/tasks/tasks-reducer";
+import { taskThunks } from "../../features/TodoListsList/TodoList/model/tasks/tasksSlice";
 import {
   todolistsActions,
   todolistsThunks,
-} from "../../features/TodoListsList/TodoList/model/todolist/todolist-reducer";
+} from "../../features/TodoListsList/TodoList/model/todolist/todolistsSlice";
 import {
   authActions,
   authThunks,

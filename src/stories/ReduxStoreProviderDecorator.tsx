@@ -1,10 +1,10 @@
 import React from "react";
 import { AppRootStateType, RootReducerType } from "state/store";
 import { Provider } from "react-redux";
-import { todolistsReducer } from "features/TodoListsList/TodoList/model/todolist/todolist-reducer";
+import { todolistsReducer } from "features/TodoListsList/TodoList/model/todolist/todolistsSlice";
 import { v1 } from "uuid";
 import { combineReducers } from "redux";
-import { tasksReducer } from "features/TodoListsList/TodoList/model/tasks/tasks-reducer";
+import { tasksSlice } from "features/TodoListsList/TodoList/model/tasks/tasksSlice";
 import { appReducer } from "app/model/app-reducer";
 import { authReducer } from "features/Login/model/auth-reducer";
 import { configureStore } from "@reduxjs/toolkit";
@@ -15,7 +15,7 @@ export const todoListId1 = v1();
 export const todoListId2 = v1();
 
 const rootReducer: RootReducerType = combineReducers({
-  tasks: tasksReducer,
+  tasks: tasksSlice,
   todolists: todolistsReducer,
   app: appReducer,
   auth: authReducer,
