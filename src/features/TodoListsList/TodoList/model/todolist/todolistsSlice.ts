@@ -100,12 +100,24 @@ export const createTodolist = createAppAsyncThunk(
 export const deleteTodolist = createAppAsyncThunk(
   `${slice.name}/deleteTodolist`,
   async (todolistId: string, thunkAPI) => {
-    const res = await todolistAPI.deleteTodolist(todolistId);
-
+    thunkAPI.dispatch(
+      todolistsActions.changeTodolistEntityStatus({
+        todolistId,
+        status: "loading",
+      }),
+    );
+    const res = await todolistAPI.deleteTodolist(todolistId).finally(() => {
+      thunkAPI.dispatch(
+        todolistsActions.changeTodolistEntityStatus({
+          todolistId,
+          status: "idle",
+        }),
+      );
+    });
     if (res.data.resultCode === ResultCode.success) {
       return { todolistId };
     } else {
-      return thunkAPI.rejectWithValue(null);
+      return thunkAPI.rejectWithValue(res.data);
     }
   },
 );
@@ -121,7 +133,7 @@ export const updateTodolistTitle = createAppAsyncThunk(
         title: param.title,
       };
     } else {
-      return thunkAPI.rejectWithValue(null);
+      return thunkAPI.rejectWithValue(res.data);
     }
   },
 );

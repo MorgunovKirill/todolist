@@ -90,7 +90,7 @@ export const removeTask = createAppAsyncThunk<RemoveTaskArgs, RemoveTaskArgs>(
     if (res.data.resultCode === ResultCode.success) {
       return { todolistId: param.todolistId, taskId: param.taskId };
     } else {
-      return thunkAPI.rejectWithValue(null);
+      return thunkAPI.rejectWithValue(res.data);
     }
   },
 );
@@ -129,7 +129,7 @@ export const updateTask = createAppAsyncThunk<UpdateTaskArgs, UpdateTaskArgs>(
     if (res.data.resultCode === ResultCode.success) {
       return param;
     } else {
-      return thunkAPI.rejectWithValue(null);
+      return thunkAPI.rejectWithValue(res.data);
     }
   },
 );

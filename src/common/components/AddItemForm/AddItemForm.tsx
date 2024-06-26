@@ -39,7 +39,9 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({
           setTitle("");
         })
         .catch((err: BaseResponseType) => {
-          setTitleError(err.messages[0]);
+          if (err?.resultCode) {
+            setTitleError(err.messages[0]);
+          }
         });
     } else {
       setTitleError("Field required");

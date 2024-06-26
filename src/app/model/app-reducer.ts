@@ -1,6 +1,7 @@
 import { authActions } from "features/Login/model/auth-reducer";
 import {
   createSlice,
+  isAnyOf,
   isFulfilled,
   isPending,
   isRejected,
@@ -32,7 +33,7 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(me.fulfilled, (state) => {
+      .addMatcher(isAnyOf(me.fulfilled, me.rejected), (state) => {
         state.isInitialized = true;
       })
       .addMatcher(isPending, (state) => {
@@ -45,7 +46,7 @@ const slice = createSlice({
         state.status = "failed";
         if (
           action.type === todolistsThunks.createTodolist.rejected.type ||
-          taskThunks.createTask.rejected.type
+          action.type === taskThunks.createTask.rejected.type
         ) {
           return;
         }
@@ -61,15 +62,12 @@ const slice = createSlice({
   },
 });
 
-export const me = createAppAsyncThunk(
-  `${slice.name}/me`,
-  async (_, thunkAPI) => {
-    const res = await authAPI.me();
-    if (res.data.resultCode === ResultCode.success) {
-      thunkAPI.dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
-    }
-  },
-);
+const me = createAppAsyncThunk(`${slice.name}/me`, async (_, thunkAPI) => {
+  const res = await authAPI.me();
+  if (res.data.resultCode === ResultCode.success) {
+    thunkAPI.dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
+  }
+});
 
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed";
 export type InitialStateType = ReturnType<typeof slice.getInitialState>;
