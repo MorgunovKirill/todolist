@@ -1,9 +1,16 @@
 import { authActions } from "features/Login/model/auth-reducer";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createAppAsyncThunk, handleServerAppError } from "common/utils";
+import {
+  createSlice,
+  isFulfilled,
+  isPending,
+  isRejected,
+  PayloadAction,
+} from "@reduxjs/toolkit";
+import { createAppAsyncThunk } from "common/utils";
 import { authAPI } from "features/Login/api/loginApi";
 import { ResultCode } from "common/enums";
-import { thunkTryCatch } from "../../common/utils/thunkTryCatch";
+import { todolistsThunks } from "../../features/TodoListsList/TodoList/model/todolist/todolistsSlice";
+import { taskThunks } from "../../features/TodoListsList/TodoList/model/tasks/tasksSlice";
 
 const slice = createSlice({
   name: "app",
@@ -24,23 +31,43 @@ const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(me.fulfilled, (state) => {
-      state.isInitialized = true;
-    });
+    builder
+      .addCase(me.fulfilled, (state) => {
+        state.isInitialized = true;
+      })
+      .addMatcher(isPending, (state) => {
+        state.status = "loading";
+      })
+      .addMatcher(isFulfilled, (state) => {
+        state.status = "succeeded";
+      })
+      .addMatcher(isRejected, (state, action: any) => {
+        state.status = "failed";
+        if (
+          action.type === todolistsThunks.createTodolist.rejected.type ||
+          taskThunks.createTask.rejected.type
+        ) {
+          return;
+        }
+
+        if (action.payload) {
+          state.error = action.payload.messages[0];
+        } else {
+          state.error = action.error.message
+            ? action.error.message
+            : "Some error occurred";
+        }
+      });
   },
 });
 
 export const me = createAppAsyncThunk(
   `${slice.name}/me`,
   async (_, thunkAPI) => {
-    return thunkTryCatch(thunkAPI, async () => {
-      const res = await authAPI.me();
-      if (res.data.resultCode === ResultCode.success) {
-        thunkAPI.dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
-      } else {
-        handleServerAppError(res.data, thunkAPI.dispatch, false);
-      }
-    });
+    const res = await authAPI.me();
+    if (res.data.resultCode === ResultCode.success) {
+      thunkAPI.dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
+    }
   },
 );
 
