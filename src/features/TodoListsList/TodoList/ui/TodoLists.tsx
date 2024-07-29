@@ -6,7 +6,7 @@ import Paper from "@mui/material/Paper";
 import TodoList from "./Todolist/TodoList";
 import { isLoggedSelector } from "features/Login/model/isLoggedSelector";
 import { Navigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../../common/utils";
+import { useAppDispatch, useAppSelector } from "common/utils";
 import { useTodolist } from "../lib/todolist/useTodolist";
 
 type Props = {

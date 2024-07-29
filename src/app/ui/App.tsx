@@ -6,8 +6,8 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { ButtonAppBar, CustomizedSnackbars } from "common/components";
 import { isInitializedSelector } from "../model/app.selectors";
-import { useAppSelector } from "../../common/utils";
-import { useActions } from "../../common/hooks/useActions";
+import { useAppSelector } from "common/utils";
+import { useActions } from "common/hooks/useActions";
 
 type Props = {
   demo?: boolean;
